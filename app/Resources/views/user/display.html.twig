@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    
+ <article>
+        <b>Par {{ user.firstname}}, aka {{ user.username }}</b><br>
+        <div><i>{{ user.email }}</i></div>
+        <br>
+        <div>{{ user.password }}</div> {# Le filtre raw permet d'afficher le HTML #}
+    </article>
+{% endblock %}
+    
