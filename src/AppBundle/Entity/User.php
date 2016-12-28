@@ -191,15 +191,15 @@ class User
     }
     
     // Optionnels
-    public function addArticle(Post $post)
+    public function addPost(Post $post)
     {
         $this->posts[] = $post;
-        $article->setAuthor($this);
+        $post->setAuthor($this);
         
         return $this;
     }
     
-    public function removeArticle(Article $post)
+    public function removePost(Post $post)
     {
         $this->posts->removeElement($post);
     }

@@ -37,6 +37,7 @@ class Category
      *
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Post", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
      */
     private $posts;
     
