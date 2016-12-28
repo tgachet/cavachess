@@ -61,6 +61,13 @@ class GamesFinished
      */
     private $idloser;
     
+    /**
+     *
+     * @var Competition
+     * @ORM\ManyToOne(targetEntity="Competition", inversedBy="id")
+     * @ORM\JoinColumn(name="id_competition", referencedColumnName="id", nullable=false)
+     */
+    private $id_competition;
     
     /**
      * Get id

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ranking
@@ -32,10 +33,18 @@ class Ranking
     /**
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="rankings")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user_id;
+    
+    /**
+     *
+     * @var Competition
+     * @ORM\ManyToOne(targetEntity="Competition", inversedBy="id")
+     * @ORM\JoinColumn(name="competition_id", referencedColumnName="id", nullable=false)
+     */
+    private $competition_id;
 
     /**
      * Get id

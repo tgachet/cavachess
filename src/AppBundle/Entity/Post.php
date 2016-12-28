@@ -56,13 +56,16 @@ class Post
     
     /**
      *
-     * @var category
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+     * @var Category
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="posts")
+     * @ORM\JoinTable(name="posts_categories")
      * @Assert\NotBlank()
      */
-    private $category;
-
+    private $categories;
+    
+    public function __construct() {
+        $this->categories = new ArrayCollection();
+    }
 
     /**
      * Get id
