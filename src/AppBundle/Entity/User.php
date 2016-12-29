@@ -1,13 +1,10 @@
-<?php
 
 namespace AppBundle\Entity;
 
-use AppBundle\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * User
@@ -17,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields="email", message="Cet email n'est pas disponible")
  * @UniqueEntity(fields="username", message="Un utilisateur existe déja avec ce pseudo")
  */
-class User implements UserInterface, \Serializable
+class User
 {
     /**
      * @var int
@@ -25,7 +22,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
+     * 
      */
     private $id;
     
@@ -111,6 +108,27 @@ class User implements UserInterface, \Serializable
      *      )
      */
     private $myFriends;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
+     */
+    private $player;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idwinner")
+     */
+    private $competition_winner;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idlooser")
+     */
+    private $competition_looser;
     
     public function __construct()
     {
@@ -227,42 +245,14 @@ class User implements UserInterface, \Serializable
     {
         $this->posts->removeElement($post);
     }
-
-    public function eraseCredentials() {
-        
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
     }
-
-    public function getRoles() {
-        return [$this->role];
-    }
-
-    public function getSalt() {
-        return null;
-    }
-
-    public function serialize() {
-        return serialize([
-            $this->id,
-            $this->username,
-            $this->lastname,
-            $this->firstname,
-            $this->email,
-            $this->avatar,
-            $this->password,
-        ]);
-    }
-
-    public function unserialize($serialized) {
-        list(
-            $this->id,
-            $this->username,
-            $this->lastname,
-            $this->firstname,
-            $this->email,
-            $this->avatar,
-            $this->password,
-        ) = unserialize($serialized);
-    }
-
 }
 

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * GameMode
@@ -19,7 +20,7 @@ class GameMode
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Competition", mappedBy="game_mode_id")
+     * 
      */
     private $id;
     
@@ -30,6 +31,18 @@ class GameMode
      * @Assert\NotBlank()
      */
     private $name;
+   
+    /**
+     *
+     * @var arrayCollection 
+     * @ORM\OneToMany(targetEntity="Competition", mappedBy="game_mode_id")
+     */
+    private $gamemode;
+    
+    public function __construct()
+    {
+        $this->gamemode = new ArrayCollection();
+    }  
 
 
     /**
@@ -48,6 +61,15 @@ class GameMode
 
     public function setName($name) {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getGamemode() {
+        return $this->gamemode;
+    }
+
+    public function setGamemode(arrayCollection $gamemode) {
+        $this->gamemode = $gamemode;
         return $this;
     }
 
