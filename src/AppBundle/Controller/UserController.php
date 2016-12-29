@@ -22,7 +22,7 @@ class UserController extends Controller
         return $this->render(
             'user/display.html.twig',
             [
-                'user' => $user,               
+                'user' => $user,          
             ]
         );
     }

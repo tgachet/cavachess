@@ -3,10 +3,9 @@
 {% block content %}
     
  <article>
-        <b>Par {{ user.firstname}}, aka {{ user.username }}</b><br>
-        <div><i>{{ user.email }}</i></div>
+        <b>{{ user.firstname}} {{ user.lastname }}</b><br/><b>Pseudo: {{ user.username }}</b><br>
+        <div><b>Email: </b><i>{{ user.email }}</i></div>
         <br>
-        <div>{{ user.password }}</div> {# Le filtre raw permet d'afficher le HTML #}
+        <div><b>Avatar: </b><br> <img src="{{ asset('upload/' ~ user.avatar) }}" height="150px"/></div> {# Le filtre raw permet d'afficher le HTML #}
     </article>
 {% endblock %}
-    
