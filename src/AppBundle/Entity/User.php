@@ -23,6 +23,7 @@ class User
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
      */
     private $id;
     
@@ -92,12 +93,33 @@ class User
      * @ORM\OneToMany(targetEntity="Post", mappedBy="author") 
      */
     private $posts;
+
+    /**
+     * Many Users have Many Users.
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * Many Users have many Users.
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="id_user", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id_friend_user", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
     
     public function __construct()
     {
          $this->posts = new ArrayCollection();
+         $this->myFriends = new ArrayCollection();
+         $this->friendsWithMe = new ArrayCollection();
     }
 
+    /*
+     * Ne pas oublier de construire une fonction getAllFriends() qui permet de fusionner les deux ArrayCollections de myFriends et de friendsWithMe pour avoir l'ensemble de la liste d'amis
+     */
     
     /**
      * Get id
