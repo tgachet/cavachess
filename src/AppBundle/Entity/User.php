@@ -75,7 +75,7 @@ class User
     
     /**
      * @var string
-     *  @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\Image()
      */
     private $avatar;
