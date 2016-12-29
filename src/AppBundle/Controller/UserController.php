@@ -12,7 +12,7 @@ class UserController extends Controller
      * 
      * @param Request $request
      * @param int $id
-     * @Route("/user/{id}")
+     * @Route("/users/{id}")
      */
     public function displayInfo(Request $request, $id)
     {

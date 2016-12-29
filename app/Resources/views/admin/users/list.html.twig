@@ -1,0 +1,41 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}<h1>Gestion des utilisateurs</h1>{% endblock %}
+{% block content %}
+    <p><a href="{{ path('app_admin_users_edit') }}">Ajouter un utilisateur</a></p>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Pseudo</th>
+            <th>E-Mail</th>
+            <th>Accès</th>
+            <th>Avatar</th>
+            <th width="100px"></th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.avatar }}</td>
+                <td>
+                    <a href="{{ path('app_admin_users_edit', {"id": user.id}) }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Modifier"></span>
+                    </a>
+                    <a href="{{ path('app_admin_users_delete', {"id": user.id}) }}" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Supprimer"></span>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3" align="center">Aucun résultat</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
