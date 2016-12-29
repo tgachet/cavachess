@@ -48,23 +48,23 @@ class GamesFinished
     /**
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="competition_winner")
+     * @ORM\JoinColumn(name="id_winner", referencedColumnName="id", nullable=false)
      */
     private $idwinner;
     
     /**
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="competition_looser")
+     * @ORM\JoinColumn(name="id_looser", referencedColumnName="id", nullable=false)
      */
     private $idloser;
     
     /**
      *
      * @var Competition
-     * @ORM\ManyToOne(targetEntity="Competition", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Competition", inversedBy="gamefinished")
      * @ORM\JoinColumn(name="id_competition", referencedColumnName="id", nullable=false)
      */
     private $id_competition;

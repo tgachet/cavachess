@@ -23,7 +23,7 @@ class User
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
+     * 
      */
     private $id;
     
@@ -109,6 +109,27 @@ class User
      *      )
      */
     private $myFriends;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
+     */
+    private $player;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idwinner")
+     */
+    private $competition_winner;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idlooser")
+     */
+    private $competition_looser;
     
     public function __construct()
     {
