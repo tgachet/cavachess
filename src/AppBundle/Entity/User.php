@@ -1,11 +1,12 @@
-
+<?php
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use AppBundle\Repository\UserRepository;
 /**
  * User
  *
@@ -14,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(fields="email", message="Cet email n'est pas disponible")
  * @UniqueEntity(fields="username", message="Un utilisateur existe déja avec ce pseudo")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -246,6 +247,42 @@ class User
         $this->posts->removeElement($post);
     }
     
+    public function eraseCredentials() {
+        
+    }
+
+    public function getRoles() {
+        return [$this->role];
+    }
+
+    public function getSalt() {
+        return null;
+    }
+
+    public function serialize() {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->lastname,
+            $this->firstname,
+            $this->email,
+            $this->avatar,
+            $this->password,
+        ]);
+    }
+
+    public function unserialize($serialized) {
+        list(
+            $this->id,
+            $this->username,
+            $this->lastname,
+            $this->firstname,
+            $this->email,
+            $this->avatar,
+            $this->password,
+        ) = unserialize($serialized);
+    }
+    
     /**
      * 
      * @return string
@@ -255,4 +292,3 @@ class User
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
 }
-

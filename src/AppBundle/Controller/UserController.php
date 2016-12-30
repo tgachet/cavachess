@@ -12,7 +12,7 @@ class UserController extends Controller
      * 
      * @param Request $request
      * @param int $id
-     * @Route("/users/{id}")
+     * @Route("/user/{id}")
      */
     public function displayInfo(Request $request, $id)
     {
@@ -20,9 +20,9 @@ class UserController extends Controller
         $user = $em->find('AppBundle:User', $id);
         
         return $this->render(
-            'user/display.html.twig',
+            'user/profile.html.twig',
             [
-                'user' => $user,          
+                'user' => $user,
             ]
         );
     }
