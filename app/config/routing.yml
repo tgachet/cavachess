@@ -5,7 +5,7 @@ app:
 admin:
     resource: "@AppBundle/Controller/Admin"
     type:     annotation
-    prefix: /admin
-    
+    prefix :  /admin
+
 logout:
     path: /logout

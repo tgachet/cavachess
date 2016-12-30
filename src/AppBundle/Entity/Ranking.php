@@ -33,7 +33,7 @@ class Ranking
     /**
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="player")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user_id;
@@ -41,7 +41,7 @@ class Ranking
     /**
      *
      * @var Competition
-     * @ORM\ManyToOne(targetEntity="Competition", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Competition", inversedBy="ranking")
      * @ORM\JoinColumn(name="competition_id", referencedColumnName="id", nullable=false)
      */
     private $competition_id;

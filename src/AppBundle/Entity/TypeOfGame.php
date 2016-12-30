@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * TypeOfGame
@@ -19,7 +20,6 @@ class TypeOfGame
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Competition", mappedBy="type_of_game_id")
      */
     private $id;
 
@@ -29,6 +29,13 @@ class TypeOfGame
      * @Assert\NotBlank()
      */
     private $name;
+    
+    /**
+     * 
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="Competition", mappedBy="type_of_game_id")
+     */
+    private $competitions;
 
     /**
      * Get id
