@@ -72,28 +72,25 @@ class SecurityController extends Controller
     }
     
     /**
-     * 
      * @param Request $request
      * @Route("/login", name="login")
      */
     public function loginAction(Request $request)
     {
         $authenticationUtils = $this->get('security.authentication_utils');
-        
         $error = $authenticationUtils->getLastAuthenticationError();
         
-        if ($request->isMethod('POST') && is_null($error)) {
+        if($request->isMethod('POST') && is_null($error))
+        {
             return $this->redirectToRoute('homepage');
         }
         
         $lastUsername = $authenticationUtils->getLastUserName();
         
-        return $this->render(
-            'security/login.html.twig',
-            [
-                'last_username' => $lastUsername,
-                'error' => $error,
-            ]
-        );
+        return $this->render('security/login.html.twig', 
+        [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
     }
 }

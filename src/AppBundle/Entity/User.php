@@ -275,7 +275,7 @@ class User implements UserInterface, Serializable
     }
     
     
-    /***** SERIALIZE *****/
+    /***** IMPLEMENTS *****/
     public function eraseCredentials() {
         
     }
