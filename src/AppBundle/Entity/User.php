@@ -16,7 +16,7 @@ use Serializable;
  * @UniqueEntity(fields="email", message="Cet email n'est pas disponible")
  * @UniqueEntity(fields="username", message="Un utilisateur existe déja avec ce pseudo")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, Serializable
 {
     /***** PROPERTIES *****/
     /**

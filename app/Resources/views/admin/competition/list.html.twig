@@ -11,7 +11,7 @@
             <tr>
                 <td>{{competition.id}}</td>
                 <td>{{competition.name}}</td>
-                <td><a href="{{path('app_admin_competition_editcompetition', {'id': 1})}}" title="">Modifier</a></td>
+                <td><a href="{{path('app_admin_competition_editcompetition', {'id': competition.id})}}" title="">Modifier</a></td>
             </tr>
         {% else %}
             <tr>
