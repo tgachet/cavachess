@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Post
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Post
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
@@ -63,10 +65,12 @@ class Post
      */
     private $categories;
     
+    /***** CONSTRUCT *****/
     public function __construct() {
         $this->categories = new ArrayCollection();
     }
 
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -97,6 +101,11 @@ class Post
         return $this->category;
     }
 
+    public function getCategories() {
+        return $this->categories;
+    }    
+
+    /***** SETTERS *****/
     public function setTitle($title) {
         $this->title = $title;
         return $this;
@@ -117,11 +126,10 @@ class Post
         return $this;
     }
 
-    public function setCategory(category $category) {
+    public function setCategory(Category $category) {
         $this->category = $category;
         return $this;
     }
-
 
 }
 

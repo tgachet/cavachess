@@ -61,18 +61,13 @@ class GameMode
         return $this->name;
     }
 
-    public function setName($name) {
-        $this->name = $name;
-        return $this;
-    }
-
     public function getGamemode() {
         return $this->gamemode;
     }
 
     /***** SETTERS *****/
-    public function setGamemode(arrayCollection $gamemode) {
-        $this->gamemode = $gamemode;
+    public function setName($name) {
+        $this->name = $name;
         return $this;
     }
 

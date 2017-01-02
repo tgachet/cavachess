@@ -68,5 +68,6 @@ class TypeOfGame
         $this->name = $name;
         return $this;
     }
+    
 }
 

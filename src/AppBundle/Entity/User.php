@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class User
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
@@ -67,7 +68,7 @@ class User
     
     /**
      * @var string
-     *  @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20)
      * 
      */
     
@@ -131,11 +132,15 @@ class User
      */
     private $gamelooser;
     
+    /***** CONSTRUCT *****/
     public function __construct()
     {
          $this->posts = new ArrayCollection();
          $this->myFriends = new ArrayCollection();
          $this->friendsWithMe = new ArrayCollection();
+         $this->gamelooser = new ArrayCollection();
+         $this->gamewinner = new ArrayCollection();
+         $this->player = new ArrayCollection();
     }
 
     /*
@@ -189,6 +194,27 @@ class User
         return $this->posts;
     }   
     
+    public function getFriendsWithMe() {
+        return $this->friendsWithMe;
+    }
+
+    public function getMyFriends() {
+        return $this->myFriends;
+    }
+
+    public function getPlayer() {
+        return $this->player;
+    }
+
+    public function getGamewinner() {
+        return $this->gamewinner;
+    }
+
+    public function getGamelooser() {
+        return $this->gamelooser;
+    }
+
+        
     /***** SETTERS *****/
     
     public function setFirstname($firstname) {
@@ -231,12 +257,9 @@ class User
         return $this;
     }
     
-    public function setPosts(ArrayCollection $posts) {
-        $this->posts = $posts;
-        return $this;
-    }
+    /***** OTHERS *****/
     
-    /***** Optionnels *****/
+    /*** Depuis l'utilisateur prendre le post et l'attribuer à cet utilisateur au lieu de depuis Post ***/   
     public function addPost(Post $post)
     {
         $this->posts[] = $post;
@@ -258,5 +281,6 @@ class User
     {
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
+    
 }
 
