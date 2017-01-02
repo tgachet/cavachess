@@ -1,11 +1,12 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Serializable;
 
 /**
  * User
@@ -15,15 +16,16 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(fields="email", message="Cet email n'est pas disponible")
  * @UniqueEntity(fields="username", message="Un utilisateur existe déja avec ce pseudo")
  */
-class User
+class User implements UserInterface, \Serializable
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
+     * 
      */
     private $id;
     
@@ -67,7 +69,7 @@ class User
     
     /**
      * @var string
-     *  @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20)
      * 
      */
     
@@ -110,17 +112,43 @@ class User
      */
     private $myFriends;
     
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
+     */
+    private $player;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="idwinner")
+     */
+    private $gamewinner;
+    
+    /**
+     *
+     * @var ArrayCollection 
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="idlooser")
+     */
+    private $gamelooser;
+    
+    /***** CONSTRUCT *****/
     public function __construct()
     {
          $this->posts = new ArrayCollection();
          $this->myFriends = new ArrayCollection();
          $this->friendsWithMe = new ArrayCollection();
+         $this->gamelooser = new ArrayCollection();
+         $this->gamewinner = new ArrayCollection();
+         $this->player = new ArrayCollection();
     }
 
     /*
      * Ne pas oublier de construire une fonction getAllFriends() qui permet de fusionner les deux ArrayCollections de myFriends et de friendsWithMe pour avoir l'ensemble de la liste d'amis
      */
     
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -162,7 +190,34 @@ class User
     public function getPlainPassword() {
         return $this->plainPassword;
     }
+    
+     public function getPosts() {
+        return $this->posts;
+    }   
+    
+    public function getFriendsWithMe() {
+        return $this->friendsWithMe;
+    }
 
+    public function getMyFriends() {
+        return $this->myFriends;
+    }
+
+    public function getPlayer() {
+        return $this->player;
+    }
+
+    public function getGamewinner() {
+        return $this->gamewinner;
+    }
+
+    public function getGamelooser() {
+        return $this->gamelooser;
+    }
+
+        
+    /***** SETTERS *****/
+    
     public function setFirstname($firstname) {
         $this->firstname = $firstname;
         return $this;
@@ -203,16 +258,9 @@ class User
         return $this;
     }
     
-    public function getPosts() {
-        return $this->posts;
-    }
-
-    public function setPosts(ArrayCollection $posts) {
-        $this->posts = $posts;
-        return $this;
-    }
+    /***** OTHERS *****/
     
-    // Optionnels
+    /*** Depuis l'utilisateur prendre le post et l'attribuer à cet utilisateur au lieu de depuis Post ***/   
     public function addPost(Post $post)
     {
         $this->posts[] = $post;
@@ -226,6 +274,44 @@ class User
         $this->posts->removeElement($post);
     }
     
+    
+    /***** SERIALIZE *****/
+    public function eraseCredentials() {
+        
+    }
+
+    public function getRoles() {
+        return [$this->role];
+    }
+
+    public function getSalt() {
+        return null;
+    }
+
+    public function serialize() {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->lastname,
+            $this->firstname,
+            $this->email,
+            $this->avatar,
+            $this->password,
+        ]);
+    }
+
+    public function unserialize($serialized) {
+        list(
+            $this->id,
+            $this->username,
+            $this->lastname,
+            $this->firstname,
+            $this->email,
+            $this->avatar,
+            $this->password,
+        ) = unserialize($serialized);
+    }
+    
     /**
      * 
      * @return string
@@ -234,5 +320,5 @@ class User
     {
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
+    
 }
-
