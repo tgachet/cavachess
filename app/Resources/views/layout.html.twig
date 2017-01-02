@@ -9,7 +9,7 @@
 {% block body %}
     {% if is_granted('ROLE_ADMIN') %}{# si un utilisateur est connecté et qu'il a le rôle ROLE_ADMIN#}
         <nav class="navbar navbar-inverse navbar-admin">
-            <div class="container">
+{#            <div class="container">
                 <a class="navbar-brand">
                     Menu Admin
                 </a>
@@ -25,7 +25,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div>#}
             
         </nav>
     {% endif %}
@@ -80,6 +80,10 @@
     
 {% endblock %}
 {% block javascripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+    </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 {% endblock %}

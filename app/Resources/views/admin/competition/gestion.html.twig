@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}
+    <h1>
+        Gestion compétitions
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <hr>
+    <section>
+        <h2>Ajouter une compétition</h2>
+        <a href="{{path('app_admin_competition_gestioncompetitions')}}" title="">Ajouter</a>
+      
+    </section>
+    
+    <section>
+        <h2>Liste des compétitions</h2>    
+        {{render(controller('AppBundle:Admin\\Competition:listCompetitions'))}}
+    </section>    
+{% endblock %}

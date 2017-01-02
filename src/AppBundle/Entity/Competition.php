@@ -83,11 +83,11 @@ class Competition
         return $this->name;
     }
 
-    public function getType_of_game_id() {
+    public function getTypeOfGameId() {
         return $this->type_of_game_id;
     }
 
-    public function getGame_mode_id() {
+    public function getGameModeId() {
         return $this->game_mode_id;
     }
 
