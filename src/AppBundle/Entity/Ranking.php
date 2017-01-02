@@ -21,14 +21,13 @@ class Ranking
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-    
+        
     /**
      *
-     * @var string
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @var int
+     * @ORM\Column(type="integer")
      */
-    private $name;
+    private $points;
     
     /**
      *
@@ -46,6 +45,7 @@ class Ranking
      */
     private $competition_id;
 
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -56,18 +56,33 @@ class Ranking
         return $this->id;
     }
     
-    public function getName() {
-        return $this->name;
+    public function getPoints() {
+        return $this->points;
     }
 
-    public function setName($name) {
-        $this->name = $name;
+    public function getUser_id() {
+        return $this->user_id;
+    }
+
+    public function getCompetition_id() {
+        return $this->competition_id;
+    }
+
+    /***** SETTERS *****/
+    
+    public function setUser_id(User $user_id) {
+        $this->user_id = $user_id;
+        return $this;
+    }
+
+    public function setCompetition_id(Competition $competition_id) {
+        $this->competition_id = $competition_id;
         return $this;
     }
     
-
-
-
-
+    public function setPoints($points) {
+        $this->points = $points;
+        return $this;
+    }
 }
 

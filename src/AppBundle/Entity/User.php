@@ -120,16 +120,16 @@ class User
     /**
      *
      * @var ArrayCollection 
-     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idwinner")
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="idwinner")
      */
-    private $competition_winner;
+    private $gamewinner;
     
     /**
      *
      * @var ArrayCollection 
-     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idlooser")
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="idlooser")
      */
-    private $competition_looser;
+    private $gamelooser;
     
     public function __construct()
     {
@@ -142,6 +142,7 @@ class User
      * Ne pas oublier de construire une fonction getAllFriends() qui permet de fusionner les deux ArrayCollections de myFriends et de friendsWithMe pour avoir l'ensemble de la liste d'amis
      */
     
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -183,7 +184,13 @@ class User
     public function getPlainPassword() {
         return $this->plainPassword;
     }
-
+    
+     public function getPosts() {
+        return $this->posts;
+    }   
+    
+    /***** SETTERS *****/
+    
     public function setFirstname($firstname) {
         $this->firstname = $firstname;
         return $this;
@@ -224,16 +231,12 @@ class User
         return $this;
     }
     
-    public function getPosts() {
-        return $this->posts;
-    }
-
     public function setPosts(ArrayCollection $posts) {
         $this->posts = $posts;
         return $this;
     }
     
-    // Optionnels
+    /***** Optionnels *****/
     public function addPost(Post $post)
     {
         $this->posts[] = $post;

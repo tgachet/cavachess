@@ -14,13 +14,13 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class GameMode
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * 
      */
     private $id;
     
@@ -39,12 +39,14 @@ class GameMode
      */
     private $gamemode;
     
+    /***** CONSTRUCT *****/
     public function __construct()
     {
         $this->gamemode = new ArrayCollection();
     }  
 
 
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -68,6 +70,7 @@ class GameMode
         return $this->gamemode;
     }
 
+    /***** SETTERS *****/
     public function setGamemode(arrayCollection $gamemode) {
         $this->gamemode = $gamemode;
         return $this;
