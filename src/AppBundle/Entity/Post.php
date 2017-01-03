@@ -59,8 +59,11 @@ class Post
     /**
      *
      * @var Category
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="posts")
-     * @ORM\JoinTable(name="posts_categories")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="posts", cascade={"persist", "merge"})
+     * @ORM\JoinTable(name="posts_categories",
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
+     *      ))
      * @Assert\NotBlank()
      */
     private $categories;
@@ -97,13 +100,11 @@ class Post
         return $this->author;
     }
 
-    public function getCategory() {
-        return $this->category;
-    }
+    
 
     public function getCategories() {
         return $this->categories;
-    }    
+    }
 
     /***** SETTERS *****/
     public function setTitle($title) {
@@ -125,11 +126,24 @@ class Post
         $this->author = $author;
         return $this;
     }
-
-    public function setCategory(Category $category) {
-        $this->category = $category;
+    public function setCategories(Doctrine\Common\Collections\ArrayCollection $categories) {
+        $this->categories = $categories;
         return $this;
     }
-
+//    public function addCategory(Category $category)
+//    {
+//        $this->categories[] = $category;
+//        $category->addPost($this);
+//        return $this;
+//    }
+//    
+//    public function removeCategory(Category $category)
+//    {
+//        $this->categories->removeElement($category);
+//    }    
+//    
+     public function __toString()
+    {
+        return $this->name;
+    }
 }
-

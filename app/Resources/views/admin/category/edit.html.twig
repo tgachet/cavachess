@@ -1,0 +1,22 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}
+    <h1>
+    {% if new %}
+        Création de catégorie
+    {% else %}
+        Modification de catégorie
+    {% endif %}
+    </h1>
+{% endblock %}
+
+{% block content %}
+    {{form_start(form)}} 
+    {{form_row(form.name)}}
+    <div class="form-btn-group pull-right">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{path('app_admin_category_list')}}" class="btn btn-default" title="">Retour à la liste</a>
+    </div>
+    {{form_end(form)}} 
+
+{% endblock %}

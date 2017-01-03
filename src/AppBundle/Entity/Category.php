@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Category
@@ -36,7 +36,7 @@ class Category
     /**
      *
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Post", mappedBy="categories")
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="categories", cascade={"persist", "merge"})
      * 
      */
     private $posts;
@@ -71,6 +71,10 @@ class Category
         $this->name = $name;
         return $this;
     }
+    public function setPosts(ArrayCollection $posts) {
+        $this->posts = $posts;
+        return $this;
+    }
 
     /***** OTHERS *****/
     
@@ -84,17 +88,17 @@ class Category
     }
     
      /*** Depuis la catégorie prendre le post et l'attribuer à cette catégorie au lieu de depuis Post ***/
-    public function addPost(Post $post)
-    {
-        $this->posts[] = $post;
-        $post->setCategory($this);
-        return $this;
-    }
-    
-    public function removeArticle(Post $post)
-    {
-        $this->posts->removeElement($post);
-    }    
-    
+//    public function addPost(Post $post)
+//    {
+//        $this->posts[] = $post;
+//        $post->addCategories($this);
+//        return $this;
+//    }
+//    
+//    public function removePost(Post $post)
+//    {
+//        $this->posts->removeElement($post);
+//    }    
+//    
 }
 
