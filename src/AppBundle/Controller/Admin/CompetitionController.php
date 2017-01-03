@@ -38,12 +38,10 @@ class CompetitionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $competitions = $em->getRepository('AppBundle:Competition')->findAll();
-        $columns = $em->getClassMetadata('AppBundle:Competition')->getFieldNames();
         
         return $this->render('admin/competition/list.html.twig', 
         [
             'competitions' => $competitions,
-            'columns' => $columns,
         ]);
     }
     
