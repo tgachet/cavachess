@@ -14,6 +14,7 @@
 {#    {{dump(app.user)}}
     {{dump(app.request)}}
     {{dump(app.session)}}#}
+    <h3 id="adversaire"></h3>
     <section id="jeu">
         <div id="board" style="width: 400px"></div>
         <p>Status: <span id="status"></span></p>
@@ -27,6 +28,50 @@
     {{ parent() }}
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script src="{{ asset('js/chessboard-0.3.0.js')}}></script>		
-    <script src="{{ asset('js/functions.js')}}></script>    
+    <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>		
+    <script src="{{ asset('js/functions.js')}}"></script>
+    <script>
+        /* Initialisation */
+        var connected = false; // Non connecté
+        var username = makeid(); // Utilisateur => à remplacer par une $_SESSION['user']
+        var room = ''; // socket room
+        var player = ''; // Couleur du joueur
+        
+        /* Connexion au serveur */
+        // fire un événement 'connection' coté serveur et 'connect' coté client
+        var socket = io("http://localhost:3000");
+        
+        /* Envoi du pseudo au serveur */
+        socket.on('connect', function(data) {
+            connected = true; // Connecté
+            if (username) socket.emit('login', {'username' : username}); // Envoie de l'event 'login' qui contient mon username
+        });
+        
+        /* Réception de l'initialisation de la partie */
+        socket.on('gameStart', function(data) {
+            room = data.room;
+            show_game(data.name, data.room, data.color, 1); // some method which will show game window
+            player = data.color;
+        });
+        
+        
+        /* Réception event fin de la partie. */
+        socket.on('gameEnd', function(data) {
+            $('#testinfo').append($('<p>').text("Votre adversaire a quitté !"));
+            //socket.leave(room); // On quitte la room automatiquement (possibilité de le faire coté serveur). Exemple si l'autre user à quitté
+            show_game('rien', 'rien', 'rien', 2);
+            room = ''; 
+        });
+        
+        /* En cas de déconnexion */
+        socket.on('disconnect', function(data) { // handle server/connection falling
+            console.log('Navigateur fermé ou perte de connexion');
+        });		
+        
+        $("#jouer").on("click", function() {
+            board.position(game.fen());
+        });
+        
+    </script>    
+    <script src="{{ asset('js/board.js')}}"></script>    
 {% endblock %}
