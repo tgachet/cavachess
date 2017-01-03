@@ -28,6 +28,7 @@ class CompetitionType extends AbstractType
                             'class' => 'AppBundle:TypeOfGame',
                             'choice_label' => 'name',
                             'placeholder' => 'Choisissez un type de jeu',
+                            'attr' => array('class' => 'test'),
                         ])
                 ->add('game_mode_id',
                         EntityType::class,
