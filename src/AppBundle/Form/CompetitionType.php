@@ -21,22 +21,21 @@ class CompetitionType extends AbstractType
                         [
                             'label' => 'Nom de la compétition'
                         ])
-                ->add('type_of_game_id',
-                        EntityType::class,
-                        [
-                            'label' => 'Type de la compétition',
-                            'class' => 'AppBundle:TypeOfGame',
-                            'choice_label' => 'name',
-                            'placeholder' => 'Choisissez un type de jeu',
-                            'attr' => array('class' => 'test'),
-                        ])
-                ->add('game_mode_id',
+                ->add('gamemode',
                         EntityType::class,
                         [
                             'label' => 'Mode de jeu',
                             'class' => 'AppBundle:GameMode',
                             'choice_label' => 'name',
                             'placeholder' => 'Choisissez un mode de jeu',
+                        ])
+                ->add('typeofgame',
+                        EntityType::class,
+                        [
+                            'label' => 'Type de la compétition',
+                            'class' => 'AppBundle:TypeOfGame',
+                            'choice_label' => 'name',
+                            'placeholder' => 'Choisissez un type de jeu',
                         ]);
     }
     

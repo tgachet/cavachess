@@ -37,16 +37,18 @@ class Competition
      * @var TypeOfGame
      * @ORM\ManyToOne(targetEntity="TypeOfGame", inversedBy="competitions")
      * @ORM\JoinColumn(name="type_of_game_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotBlank()
      */
-    private $type_of_game_id;
+    private $typeofgame;
     
     /**
      *
      * @var GameMode
-     * @ORM\ManyToOne(targetEntity="GameMode", inversedBy="gamemode")
+     * @ORM\ManyToOne(targetEntity="GameMode", inversedBy="competitions")
      * @ORM\JoinColumn(name="game_mode_id", referencedColumnName="id", nullable=false)
+     * @Assert\NotBlank()
      */
-    private $game_mode_id;
+    private $gamemode;
     
     /**
      * @var ArrayCollection
@@ -83,14 +85,14 @@ class Competition
         return $this->name;
     }
 
-    public function getTypeOfGameId() {
-        return $this->type_of_game_id;
+    public function getTypeofgame() {
+        return $this->typeofgame;
     }
 
-    public function getGameModeId() {
-        return $this->game_mode_id;
+    public function getGamemode() {
+        return $this->gamemode;
     }
-
+    
     public function getGamefinished() {
         return $this->gamefinished;
     }
@@ -107,13 +109,13 @@ class Competition
         return $this;
     }
 
-    public function setType_of_game_id(TypeOfGame $type_of_game_id) {
-        $this->type_of_game_id = $type_of_game_id;
+    public function setTypeofgame(TypeOfGame $typeofgame) {
+        $this->typeofgame = $typeofgame;
         return $this;
     }
 
-    public function setGame_mode_id(GameMode $game_mode_id) {
-        $this->game_mode_id = $game_mode_id;
+    public function setGamemode(GameMode $gamemode) {
+        $this->gamemode = $gamemode;
         return $this;
     }
 

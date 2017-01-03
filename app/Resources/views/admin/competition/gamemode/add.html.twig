@@ -1,7 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}
+    <h1>
+        Ajout gamemode
+    </h1>
+{% endblock %}
+
+{% block content %}
 {{form_start(form)}} 
 {{form_row(form.name)}} {# name #}
-<div class="form-btn-group pull-right">
+{{form_row(form.save)}} {# name #}
+{#<div class="form-btn-group pull-right">
     <button type="submit" id="addgamemode" class="btn btn-primary">Enregistrer</button>
-    <a href="{{path('app_admin_competition_gestioncompetitions')}}" class="btn btn-default" title="">Annuler</a>
-</div>
+    <a href="{{path('app_admin_competition_listcompetitions')}}" class="btn btn-default" title="">Annuler</a>
+</div>#}
 {{form_end(form)}} {# ferme la balise form #} 
+{% endblock %}
