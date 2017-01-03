@@ -1,13 +1,4 @@
-{% extends 'layout.html.twig' %}
-
-{% block page_title %}
-    <h1>
-        Ajout compétitions
-    </h1>
-{% endblock %}
-
-{% block content %}
-{{form_start(form)}} 
+{{form_start(form, {'attr': {'method' : 'post', 'action' : path('app_admin_competition_editcompetition')}}) }} 
 {{form_row(form.name)}} {# name #}
 {{form_row(form.gamemode)}} {# game_mode_id #}
 {{form_row(form.typeofgame)}} {# type_of_game_id #}
@@ -16,4 +7,4 @@
     <a href="{{path('app_admin_competition_listcompetitions')}}" class="btn btn-default" title="">Annuler</a>
 </div>
 {{form_end(form)}} {# ferme la balise form #} 
-{% endblock %}
+

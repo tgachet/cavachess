@@ -18,27 +18,15 @@
         <h2>Opération compétition</h2>
         <div class="row">
             <div class="col-sm-4 col-md-4 col-lg-3">
-                {{render(controller('AppBundle:Admin\\Competition:addTypeOfGame'))}}
+                {{render(url('app_admin_competition_addtypeofgame'))}}
             </div>
             
             <div class="col-sm-4 col-md-4 col-lg-3">
-                {{render(controller('AppBundle:Admin\\Competition:addGameMode'))}}
+                {{render(url('app_admin_competition_addgamemode'))}}
             </div>
             
             <div class="col-sm-4 col-md-4 col-lg-3">
-                {% if app.request.get('_route') == 'app_admin_competition_gestioncompetitions' %}
-                    {{render(controller('AppBundle:Admin\\Competition:addCompetition'))}}
-                {% elseif app.request.get('_route') == 'app_admin_competition_editcompetition' %}
-                    {{form_start(form)}} 
-                    {{form_row(form.name)}}
-                    {{form_row(form.game_mode_id)}}
-                    {{form_row(form.type_of_game_id)}}
-                    <div class="form-btn-group pull-right">
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                        <a href="{{path('app_admin_competition_gestioncompetitions')}}" class="btn btn-default" title="">Annuler</a>
-                    </div>
-                    {{form_end(form)}}
-                {% endif %}
+                {{render(url('app_admin_competition_editcompetition'))}}
             </div>
         </div>
     </section>
@@ -47,6 +35,7 @@
     
     <section>
         <h2>Liste des compétitions</h2>    
-        {{render(controller('AppBundle:Admin\\Competition:listCompetitions'))}}
+        {#{{render(controller('AppBundle:Admin\\Competition:listCompetitions'))}}#}
+        {{render(url('app_admin_competition_listcompetitions'))}}
     </section>    
 {% endblock %}

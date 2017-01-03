@@ -22,6 +22,14 @@ use Symfony\Component\HttpFoundation\Request;
 class CompetitionController extends Controller
 {
 
+    /**
+     * 
+     * @Route()
+     */
+    public function gestionCompetitionsAction() 
+    {
+        return $this->render('admin/competition/gestion.html.twig');
+    }    
     
     /**
      * 
@@ -85,7 +93,7 @@ class CompetitionController extends Controller
                         : 'La compétition a bien été modifié'
                       ;
                 $this->addFlash('success', $msg);
-                return $this->redirectToRoute('app_admin_competition_listcompetitions');
+                return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
             }
             else
             {
@@ -134,7 +142,7 @@ class CompetitionController extends Controller
                 $em->flush(); // Execute()
 
                 $this->addFlash('success', 'Le type de jeu a bien été crée');
-                return $this->redirectToRoute('app_admin_competition_listcompetitions');
+                return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
             }
             else
             {
@@ -167,12 +175,6 @@ class CompetitionController extends Controller
                 TextType::class, // input type text
                 [
                     'label' => 'Nom du mode de jeu',
-                ])
-            ->add('save', 
-                SubmitType::class,
-                [
-                    'attr' => array('value' => 'Enregistrer'),
-                    'label' => 'Enregistrer',
                 ]);
 
         $form = $formBuilder->getForm();
@@ -195,7 +197,7 @@ class CompetitionController extends Controller
                 
 
                 $this->addFlash('success', 'Le mode de jeu a bien été crée');
-                return $this->redirectToRoute('app_admin_competition_listcompetitions');
+                return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
             }
             else
             {
