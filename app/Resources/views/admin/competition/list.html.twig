@@ -1,9 +1,10 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
-        <tr>
-            {% for column in columns %}               
-                <th>{{column}}</th>                
-            {% endfor %}
+        <tr>              
+            <th>Identifiant</th>                
+            <th>Nom</th>                
+            <th>Mode de jeu</th>                
+            <th>Type de jeu</th>                             
         </tr>
     </thead>
     <tbody>
@@ -11,7 +12,9 @@
             <tr>
                 <td>{{competition.id}}</td>
                 <td>{{competition.name}}</td>
-                <td><a href="{{path('app_admin_competition_editcompetition', {'id': 1})}}" title="">Modifier</a></td>
+                <td>{{competition.gamemode}}</td>
+                <td>{{competition.typeofgame}}</td>
+                <td><a href="{{path('app_admin_competition_editcompetition', {'id': competition.id})}}" title="">Modifier</a></td>
             </tr>
         {% else %}
             <tr>
@@ -20,4 +23,3 @@
         {% endfor %}
     </tbody>
 </table>
-

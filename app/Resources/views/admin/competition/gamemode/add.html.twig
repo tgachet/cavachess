@@ -1,0 +1,8 @@
+{{form_start(form, {'attr': {'method' : 'post', 'action' : path('app_admin_competition_addgamemode')}}) }}
+{{form_row(form.name)}} {# name #}
+<div class="form-btn-group pull-right">
+    <button type="submit" id="addgamemode" class="btn btn-primary">Enregistrer</button>
+    <a href="{{path('app_admin_competition_gestioncompetitions')}}" class="btn btn-default" title="">Annuler</a>
+</div>
+{{form_end(form)}} {# ferme la balise form #} 
+

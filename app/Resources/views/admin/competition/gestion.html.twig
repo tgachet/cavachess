@@ -9,13 +9,33 @@
 {% block content %}
     <hr>
     <section>
-        <h2>Ajouter une compétition</h2>
-        <a href="{{path('app_admin_competition_gestioncompetitions')}}" title="">Ajouter</a>
-      
+        
     </section>
+    
+    <div class="clearfix"></div>
+    
+    <section>
+        <h2>Opération compétition</h2>
+        <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {{render(url('app_admin_competition_addtypeofgame'))}}
+            </div>
+            
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {{render(url('app_admin_competition_addgamemode'))}}
+            </div>
+            
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {{render(url('app_admin_competition_editcompetition'))}}
+            </div>
+        </div>
+    </section>
+    
+    <div class="clearfix"></div>
     
     <section>
         <h2>Liste des compétitions</h2>    
-        {{render(controller('AppBundle:Admin\\Competition:listCompetitions'))}}
+        {#{{render(controller('AppBundle:Admin\\Competition:listCompetitions'))}}#}
+        {{render(url('app_admin_competition_listcompetitions'))}}
     </section>    
 {% endblock %}
