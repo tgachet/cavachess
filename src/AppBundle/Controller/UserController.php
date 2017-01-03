@@ -20,9 +20,9 @@ class UserController extends Controller
         $user = $em->find('AppBundle:User', $id);
         
         return $this->render(
-            'user/display.html.twig',
+            'user/profile.html.twig',
             [
-                'user' => $user,               
+                'user' => $user,
             ]
         );
     }

@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Category
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
@@ -30,22 +31,23 @@ class Category
      * @Assert\NotBlank(message="Le nom de la rubrique est obligatoire")
      * @Assert\Length(max="20", maxMessage="Le nom de la rubrique ne doit pas dépasser {{ limit }} caractères") 
      */
-    private $name;
-    
+    private $name;   
      
     /**
      *
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="categories")
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     * 
      */
     private $posts;
     
+    /***** CONSTRUCT *****/
     public function __construct()
     {
          $this->posts = new ArrayCollection();
     }
 
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -64,19 +66,35 @@ class Category
         return $this->posts;
     }
 
+    /***** SETTERS *****/
     public function setName($name) {
         $this->name = $name;
         return $this;
     }
 
-    public function setPosts(ArrayCollection $posts) {
-        $this->posts = $posts;
-        return $this;
-    }
-
+    /***** OTHERS *****/
+    
+    /**
+     * @return string
+     * Retourne le nom en chaine de caractère
+     */
     public function __toString()
     {
         return $this->name;
     }
+    
+     /*** Depuis la catégorie prendre le post et l'attribuer à cette catégorie au lieu de depuis Post ***/
+    public function addPost(Post $post)
+    {
+        $this->posts[] = $post;
+        $post->setCategory($this);
+        return $this;
+    }
+    
+    public function removeArticle(Post $post)
+    {
+        $this->posts->removeElement($post);
+    }    
+    
 }
 
