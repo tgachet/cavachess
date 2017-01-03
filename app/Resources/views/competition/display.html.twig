@@ -13,10 +13,27 @@
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>              
-                    <th>Identifiant <a href="{{path('app_competition_displaycompetitions', {'sort' : 'DESC'} )}}" title="">DESC</a></th>                
-                    <th>Nom</th>                
-                    <th>Mode de jeu</th>                
-                    <th>Type de jeu</th>                                                       
+                    <th>
+                        Identifiant 
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'ASC', 'orderby' : 'id'})}}" title="">ASC</a>
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'DESC', 'orderby' : 'id'})}}" title="">DESC</a>
+                    </th>                
+                    <th>
+                        Nom
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'ASC', 'orderby' : 'name'})}}" title="">ASC</a>
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'DESC', 'orderby' : 'name'})}}" title="">DESC</a>                        
+                    </th>                
+                    <th>
+                        Mode de jeu
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'ASC', 'orderby' : 'gamemode'})}}" title="">ASC</a>
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'DESC', 'orderby' : 'gamemode'})}}" title="">DESC</a>                        
+                    </th>                
+                    <th>
+                        Type de jeu
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'ASC', 'orderby' : 'typeofgame'})}}" title="">ASC</a>
+                        <a href="{{path('app_competition_displaycompetitions', {'sort' : 'DESC', 'orderby' : 'typeofgame'})}}" title="">DESC</a>                        
+                    </th>
+                    <th width="100px"></th> 
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +43,7 @@
                         <td>{{competition.name}}</td>
                         <td>{{competition.gamemode}}</td>
                         <td>{{competition.typeofgame}}</td>
+                        <td><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

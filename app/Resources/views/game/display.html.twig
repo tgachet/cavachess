@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
+{% endblock %}
+
+{% block page_title %}
+    <h1>
+        Partie {{app.user.username}}
+    </h1>
+{% endblock %}
+
+{% block content %}
+{#    {{dump(app.user)}}
+    {{dump(app.request)}}
+    {{dump(app.session)}}#}
+    <section id="jeu">
+        <div id="board" style="width: 400px"></div>
+        <p>Status: <span id="status"></span></p>
+        <p>FEN: <span id="fen"></span></p>
+        <p>PGN: <span id="pgn"></span></p>
+        <p id="testinfo"></p>			
+    </section>	    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+    <script src="{{ asset('js/chessboard-0.3.0.js')}}></script>		
+    <script src="{{ asset('js/functions.js')}}></script>    
+{% endblock %}

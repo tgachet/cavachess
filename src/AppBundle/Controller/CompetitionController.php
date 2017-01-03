@@ -12,10 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class CompetitionController extends Controller
 {
     /**
+     * WARNING : LES TRIS ASC/DESC SE FONT SUR LES ID DES TABLES DE JOINTURE ET PAS LES NAME
      * DISPLAY COMPETITIONS
-     * @Route("/{orderby}/{sort}", defaults={"orderby": "id", "sort": "ASC"})
+     * @Route("/{orderby}/{sort}", defaults={"orderby": null, "sort": null})
      */
-    public function displayCompetitionsAction($sort, $orderby) 
+    public function displayCompetitionsAction($sort = 'ASC', $orderby = 'id') 
     {
         $em = $this->getDoctrine()->getManager();
         $competitions = $em->getRepository('AppBundle:Competition')->findBy(array(), array($orderby => $sort));
