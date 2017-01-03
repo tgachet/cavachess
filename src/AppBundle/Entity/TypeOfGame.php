@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class TypeOfGame
 {
+    /***** PROPERIES *****/
     /**
      * @var int
      *
@@ -36,7 +37,14 @@ class TypeOfGame
      * @ORM\OneToMany(targetEntity="Competition", mappedBy="type_of_game_id")
      */
     private $competitions;
+    
+    /***** CONSTRUCT *****/
+    public function __construct()
+    {
+        $this->competitions = new ArrayCollection();
+    }      
 
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -47,13 +55,19 @@ class TypeOfGame
         return $this->id;
     }
     
-     public function getName() {
+    public function getName() {
         return $this->name;
     }
+
+    public function getCompetitions() {
+        return $this->competitions;
+    }    
     
-     public function setName($name) {
+    /***** SETTERS *****/
+    public function setName($name) {
         $this->name = $name;
         return $this;
     }
+    
 }
 

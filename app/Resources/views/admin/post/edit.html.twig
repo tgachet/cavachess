@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}
+    <h1>
+    {% if new %}
+        Nouveau post
+    {% else %}
+        Modification de post
+    {% endif %}
+    </h1>
+{% endblock %}
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.categories) }}
+    <div class="form-btn-group pull-right">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ path('app_admin_post_list') }}" class="btn btn-default">Annuler</a>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

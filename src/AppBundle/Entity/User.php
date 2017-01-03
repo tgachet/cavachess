@@ -6,7 +6,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
-use AppBundle\Repository\UserRepository;
+use Serializable;
+
 /**
  * User
  *
@@ -15,8 +16,9 @@ use AppBundle\Repository\UserRepository;
  * @UniqueEntity(fields="email", message="Cet email n'est pas disponible")
  * @UniqueEntity(fields="username", message="Un utilisateur existe déja avec ce pseudo")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, Serializable
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
@@ -67,7 +69,7 @@ class User implements UserInterface, \Serializable
     
     /**
      * @var string
-     *  @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20)
      * 
      */
     
@@ -120,28 +122,33 @@ class User implements UserInterface, \Serializable
     /**
      *
      * @var ArrayCollection 
-     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idwinner")
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="idwinner")
      */
-    private $competition_winner;
+    private $gamewinner;
     
     /**
      *
      * @var ArrayCollection 
-     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="$idlooser")
+     * @ORM\OneToMany(targetEntity="GamesFinished", mappedBy="idlooser")
      */
-    private $competition_looser;
+    private $gamelooser;
     
+    /***** CONSTRUCT *****/
     public function __construct()
     {
          $this->posts = new ArrayCollection();
          $this->myFriends = new ArrayCollection();
          $this->friendsWithMe = new ArrayCollection();
+         $this->gamelooser = new ArrayCollection();
+         $this->gamewinner = new ArrayCollection();
+         $this->player = new ArrayCollection();
     }
 
     /*
      * Ne pas oublier de construire une fonction getAllFriends() qui permet de fusionner les deux ArrayCollections de myFriends et de friendsWithMe pour avoir l'ensemble de la liste d'amis
      */
     
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -183,7 +190,34 @@ class User implements UserInterface, \Serializable
     public function getPlainPassword() {
         return $this->plainPassword;
     }
+    
+     public function getPosts() {
+        return $this->posts;
+    }   
+    
+    public function getFriendsWithMe() {
+        return $this->friendsWithMe;
+    }
 
+    public function getMyFriends() {
+        return $this->myFriends;
+    }
+
+    public function getPlayer() {
+        return $this->player;
+    }
+
+    public function getGamewinner() {
+        return $this->gamewinner;
+    }
+
+    public function getGamelooser() {
+        return $this->gamelooser;
+    }
+
+        
+    /***** SETTERS *****/
+    
     public function setFirstname($firstname) {
         $this->firstname = $firstname;
         return $this;
@@ -224,16 +258,9 @@ class User implements UserInterface, \Serializable
         return $this;
     }
     
-    public function getPosts() {
-        return $this->posts;
-    }
-
-    public function setPosts(ArrayCollection $posts) {
-        $this->posts = $posts;
-        return $this;
-    }
+    /***** OTHERS *****/
     
-    // Optionnels
+    /*** Depuis l'utilisateur prendre le post et l'attribuer à cet utilisateur au lieu de depuis Post ***/   
     public function addPost(Post $post)
     {
         $this->posts[] = $post;
@@ -247,6 +274,8 @@ class User implements UserInterface, \Serializable
         $this->posts->removeElement($post);
     }
     
+    
+    /***** IMPLEMENTS *****/
     public function eraseCredentials() {
         
     }
@@ -291,4 +320,5 @@ class User implements UserInterface, \Serializable
     {
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
+    
 }

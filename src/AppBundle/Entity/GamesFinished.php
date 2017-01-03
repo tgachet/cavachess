@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class GamesFinished
 {
+    /***** PROPERTIES *****/
     /**
      * @var int
      *
@@ -48,7 +49,7 @@ class GamesFinished
     /**
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="competition_winner")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="gamewinner")
      * @ORM\JoinColumn(name="id_winner", referencedColumnName="id", nullable=false)
      */
     private $idwinner;
@@ -56,10 +57,10 @@ class GamesFinished
     /**
      *
      * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="competition_looser")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="gamelooser")
      * @ORM\JoinColumn(name="id_looser", referencedColumnName="id", nullable=false)
      */
-    private $idloser;
+    private $idlooser;
     
     /**
      *
@@ -69,6 +70,8 @@ class GamesFinished
      */
     private $id_competition;
     
+    
+    /***** GETTERS *****/
     /**
      * Get id
      *
@@ -95,10 +98,15 @@ class GamesFinished
         return $this->idwinner;
     }
 
-    public function getIdloser() {
-        return $this->idloser;
+    public function getIdlooser() {
+        return $this->idlooser;
     }
-
+    
+    public function getId_competition() {
+        return $this->id_competition;
+    }
+    
+    /***** SETTERS *****/
     public function setDategame(datetime $dategame) {
         $this->dategame = $dategame;
         return $this;
@@ -119,10 +127,16 @@ class GamesFinished
         return $this;
     }
 
-    public function setIdloser(User $idloser) {
-        $this->idloser = $idloser;
+    public function setIdlooser(User $idlooser) {
+        $this->idlooser = $idlooser;
         return $this;
     }
+
+    public function setId_competition(Competition $id_competition) {
+        $this->id_competition = $id_competition;
+        return $this;
+    }
+
 
 
 }
