@@ -9,23 +9,23 @@
 {% block body %}
     {% if is_granted('ROLE_ADMIN') %}{# si un utilisateur est connecté et qu'il a le rôle ROLE_ADMIN#}
         <nav class="navbar navbar-inverse navbar-admin">
-{#            <div class="container">
+            <div class="container">
                 <a class="navbar-brand">
                     Menu Admin
                 </a>
                 <ul class="nav navbar-nav">
-                    <li {% if app.request.get('_route') == 'app_admin_category_list' %}class="active"{% endif %}>
-                        <a href="{{ path('app_admin_category_list') }}">
-                            Gestion catégories
+                    <li {% if app.request.get('_route') == 'app_admin_user_listusers' %}class="active"{% endif %}>
+                        <a href="{{ path('app_admin_user_listusers') }}">
+                            Gestion des joueurs
                         </a>
                     </li>
-                    <li {% if app.request.get('_route') == 'app_admin_article_list' %}class="active"{% endif %}>
-                        <a href="{{ path('app_admin_article_list') }}">
-                            Gestion articles
+                    <li {% if app.request.get('_route') == 'app_admin_competition_gestioncompetitions' %}class="active"{% endif %}>
+                        <a href="{{ path('app_admin_competition_gestioncompetitions') }}">
+                            Gestion des compétitions
                         </a>
                     </li>
                 </ul>
-            </div>#}
+            </div>
             
         </nav>
     {% endif %}
@@ -36,18 +36,18 @@
             </a>
             {# render(controller('AppBundle:Category:menu')) #}
             <ul class="nav navbar-nav navbar-right">
-               {# {% if app.user is not null %}
+               {% if app.user is not null %}
                     <li>
                         <a>{{ app.user.username }}</a>
                     </li>
                     <li>
                         <a href="{{ path('logout') }}">
-                            Déonnexion
+                            Déconnexion
                         </a>
                     </li>
                     
                 {% else %}
-                    <li {% if app.request.get('_route') == 'app_security_regiter' %}class="active"{% endif %}>
+                    <li {% if app.request.get('_route') == 'app_security_register' %}class="active"{% endif %}>
                         <a href="{{ path('app_security_register') }}">
                             Créer un compte
                         </a>
@@ -58,10 +58,10 @@
                         </a>
                     </li>
                 {% endif %}
-                <li {% if app.request.get('_route') == 'app_contact_index' %}class="active"{% endif %}>
+                {#<li {% if app.request.get('_route') == 'app_contact_index' %}class="active"{% endif %}>
                     <a href="{{ path('app_contact_index') }}">Contact</a>
-                </li>
-                #}
+                </li>#}
+                
             </ul>
         </div>
     </nav>

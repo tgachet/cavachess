@@ -15,13 +15,13 @@ use AppBundle\Form\CompetitionType;
 /**
  * Description of CompetitionController
  *
- * 
+ * @Route("/competition")
  */
 class CompetitionController extends Controller
 {
     /**
      * 
-     * @Route("/competition")
+     * @Route()
      */
     public function gestionCompetitionsAction() 
     {
@@ -42,31 +42,57 @@ class CompetitionController extends Controller
         ]);
     }
     
+    public function ajoutCompetitionAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $competition = new Competition(); 
+        
+        // Création du formulaire associé à l'instance de Competition
+        $form = $this->createForm(CompetitionType::class, $competition);
+
+        //
+        $form->handleRequest($request);
+        
+        // Soumission formulaire
+        if($form->isSubmitted())
+        {
+            if($form->isValid()) // No error
+            {
+                $em->persist($competition); // 
+                $em->flush(); // Execute()
+
+                $this->addFlash('success', 'La compétition a bien été crée');
+                return $this->redirectToRoute('app_admin_gestioncompetitions');
+            }
+            else
+            {
+                // Ajout le message flash
+                $this->addFlash('error', 'Le formulaire contient des erreurs');
+            }
+        }
+        
+        // Render
+        return $this->render('admin/competition/edit.html.twig',
+        [
+           'form' => $form->createView(),
+        ]);         
+    }
+    
     /**
-     * @param int $id
-     * @Route("/modif/{id}", defaults={"id":null})
      * 
+     * @Route("/{id}", defaults={"id":null})
      */
     public function editCompetitionAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        
-        if(is_null($id)) // création d'une nouvelle instance de Competition
-        {
-            $new = true;
-            $competition = new Competition(); 
-        }
-        else // modification d'une instance de Competition
-        {
-            $new = false;
-            // Raccourci pour $em->getReposiroty('AppBundle:Competition', $id)->find($id)
-            $competition = $em->find('AppBundle:Competition', $id);
+
+        $competition = $em->find('AppBundle:Competition', $id);
                 
-            if(is_null($competition))
-            {
-                // On redirige vers la page de gestion de compétition
-                return $this->redirectToRoute('app_admin_competition');
-            }
+        if(is_null($competition))
+        {
+            // On redirige vers la page de gestion de compétition
+            return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
         }
 
         // Création du formulaire associé à l'instance de Competition
@@ -82,14 +108,9 @@ class CompetitionController extends Controller
             {
                 $em->persist($competition); // 
                 $em->flush(); // Execute()
-                
-                // Forme ternaire. Si new existe => ? sinon :
-                $msg = ($new)
-                        ? 'La compétition a bien été crée'
-                        : 'La compétition a bien été modifiée'
-                      ;
-                $this->addFlash('success', $msg);
-                return $this->redirectToRoute('competition');
+
+                $this->addFlash('success', 'La compétition a bien été modifiée');
+                return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
             }
             else
             {
@@ -99,9 +120,8 @@ class CompetitionController extends Controller
         }
         
         // Render
-        return $this->render('admin/competition/edit.html.twig',
+        return $this->render('admin/competition/gestion.html.twig',
         [
-           'new' => $new,
            'form' => $form->createView(),
         ]);         
     }

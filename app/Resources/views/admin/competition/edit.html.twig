@@ -1,6 +1,6 @@
-{% extends 'layout.html.twig' %}
+{#{% extends 'layout.html.twig' %}
 
-{% block content %}
+{% block content %}#}
 {{form_start(form)}} 
 {{form_row(form.name)}} {# name #}
 {{form_row(form.game_mode_id)}} {# game_mode_id #}
@@ -10,4 +10,4 @@
     <a href="{{path('app_admin_competition_gestioncompetitions')}}" class="btn btn-default" title="">Annuler</a>
 </div>
 {{form_end(form)}} {# ferme la balise form #} 
-{% endblock %}
+{#{% endblock %}#}
