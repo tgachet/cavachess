@@ -42,7 +42,7 @@ class PostType extends AbstractType
                 'label' => 'Catégorie',
                 'class' => 'AppBundle:Category', // Nom de l'entité
                 'choice_label' => 'name', // Le champ de l'entité qui va s'afficher dans les options
-                'placeholder' => 'Choisissez une rubrique' // Pour avoir une première option vide
+                'placeholder' => 'Choisissez une catégorie' // Pour avoir une première option vide
             ])
         ;
     }

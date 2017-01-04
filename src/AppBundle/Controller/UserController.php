@@ -14,7 +14,7 @@ class UserController extends Controller
      * @param int $id
      * @Route("/user/{id}")
      */
-    public function displayInfo(Request $request, $id)
+    public function displayInfo($id)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->find('AppBundle:User', $id);
