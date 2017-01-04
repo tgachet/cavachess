@@ -23,6 +23,15 @@ class GameController extends Controller
             throw $this->createAccessDeniedException();
         }
         
+        /*
+         * Variables à passer en js
+         */
+        $user = $this->get('security.token_storage')->getToken()->getUser()->getUsername();
+        $vars = array('user' => $user, 'competition' => $competition );
+        
+        $this->get('app.js_vars')->chartData = $vars;
+
+        
 //        $player = $this->getUser(); => Coté controller pour stocker l'utilisateur
         return $this->render('game/display.html.twig', 
         [

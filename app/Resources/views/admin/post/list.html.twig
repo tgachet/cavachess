@@ -10,6 +10,7 @@
     <hr>
     <p><a href="{{path('app_admin_post_edit')}}" title="Ajouter post" class="btn btn-primary">Ajouter un post</a></p>
     <section>
+        {{dump(posts)}}
         <table class="table">
             <thead>
                 <tr>
@@ -27,9 +28,15 @@
                         <td>{{post.id}}</td>
                         <td>{{post.title}}</td>
                         <td>{{post.author.username}}</td>
-                        <td>{{post.category.name}}</td>
-                        <td><a href="{{path('app_admin_post_edit', {"id":post.id})}}" title="Modifier rubrique" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                        <td><a href="{{path('app_admin_posts_delete', {"id":post.id})}}" title="Supprimer rubrique" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
+                        {% if not post.categories.empty %}
+                            <td>
+                              {% for category in post.categories %}
+                                {{ category.name }}{% if not loop.last %}, {% endif %}
+                              {% endfor %}
+                            <td>
+                          {% endif %}
+                        <td><a href="{{path('app_admin_post_edit', {"id":post.id})}}" title="Modifier post" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td><a href="{{path('app_admin_post_delete', {"id":post.id})}}" title="Supprimer post" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
                 {% else %}
                     <tr>

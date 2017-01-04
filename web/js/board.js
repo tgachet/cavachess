@@ -5,15 +5,6 @@ var board,
   fenEl = $('#fen'),
   pgnEl = $('#pgn');
 
-
-// game.header('White', 'Robert James Fischer');
-// game.header('Black', 'Mikhail Tal');
-
-      // if ((game.turn() === 'w' && player === 'black' ) || (game.turn() === 'b' && player === 'white' ))
-      // {
-      //  board.position(game.fen());
-      // }
-
 /* Cases d'aide */
 var removeGreySquares = function() {
   $('#board .square-55d63').css('background', '');
@@ -120,7 +111,7 @@ var updateStatus = function() {
 
   if (game.game_over() === true)
   {
-  	game.reset();
+    game.reset();
     game.fen();
     status += moveColor;
   }

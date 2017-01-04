@@ -41,7 +41,10 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     # ajout du thème bootstrap pour les formulaires
-    form_themes: ['bootstrap_3_layout.html.twig']     
+    form_themes: ['bootstrap_3_layout.html.twig']
+    # ajout des variables js (service.yml)
+    globals:
+        js_vars: "@app.js_vars"    
 # Doctrine Configuration
 doctrine:
     dbal:
