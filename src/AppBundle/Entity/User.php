@@ -321,4 +321,33 @@ class User implements UserInterface, Serializable
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
     
+    
+    /**
+     * Add User Friend
+     * @param User $user
+     */
+    public function addFriend(User $user)
+    {
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
+        if (!$this->myFriends->contains($user)) { 
+            if (!$user->getMyFriends()->contains($this)) { 
+                $user->addFriend($this);  // Lie l'utilisateur à la liste d'amis. 
+            } 
+            $this->myFriends->add($user); 
+        } 
+    }
+    
+    public function setMyFriends($users) 
+    { 
+        if ($users instanceof ArrayCollection || is_array($users)) { 
+            foreach ($users as $user) { 
+                $this->addFriend($user); 
+            } 
+        } elseif ($users instanceof User) { 
+            $this->addFriend($users); 
+        } else { 
+            throw new Exception("$users must be an instance of User or ArrayCollection"); 
+        } 
+    } 
+    
 }

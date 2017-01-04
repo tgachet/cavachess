@@ -2,6 +2,7 @@
 
 {% block page_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
 {% block content %}   
+{{ dump(users) }}
     <table class="table">
             <th>Prénom</th>
             <th>Nom</th>
@@ -27,7 +28,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{#{ path('app_admin_user_deleteusers', {"id": user.id}) }#}" class="btn btn-success">
+                    <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
                     </a>
                 </td>

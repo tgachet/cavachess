@@ -2,8 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -48,7 +49,7 @@ class UserController extends Controller
             ]
         );
     }
-    //// WIP /////   
+    
     /**
      * 
      * @param Request $request
@@ -57,23 +58,13 @@ class UserController extends Controller
      */
     public function addFriendAction(Request $request, $id)
     {
-        $user = $this->getDoctrine()
-                     ->getRepository('AppBundle:User')
-                     ->findOneById($id);
-        $friends = $user->getMyFriends();
-        $names = array();
-        foreach($friends as $friend) 
-        {
-            $names[] = $friend->getName();
-        }
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->find('AppBundle:User', $id);
-        
-        return $this->render(
-            'user/profile.html.twig',
-            [
-                'user' => $user,
-            ]
-        );
+        $friend = [$id];
+        $this->addFriend($friend);
+//        return $this->render(
+//            'user/profile.html.twig',
+//            [
+//                'user' => $id,
+//            ]
+//        );
     }
 }
