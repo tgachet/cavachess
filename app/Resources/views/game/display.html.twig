@@ -11,9 +11,9 @@
 {% endblock %}
 
 {% block content %}
-{#    {{dump(app.user)}}
-    {{dump(app.request)}}
-    {{dump(app.session)}}#}
+    {#    {{dump(app.user)}}
+        {{dump(app.request)}}
+        {{dump(app.session)}}#}
     <h3 id="adversaire"></h3>
     <p id="info"></p>
     <section id="jeu">
@@ -21,8 +21,12 @@
         <p>Status: <span id="status"></span></p>
         <p>FEN: <span id="fen"></span></p>
         <p>PGN: <span id="pgn"></span></p>
-        			
-    </section>	    
+            
+    </section>
+    <div
+        id="js-vars"
+        data-vars="{{ js_vars|json_encode|e('html_attr') }}">
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -31,9 +35,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>		
     <script>
+        // Récupération des variables définies dans le service js_vars
+        var JsVars = $('#js-vars').data('vars');    
+        // Récuperer une variable
+        var chartData = JsVars.chartData;
+
         /* Initialisation */
         var connected = false; // Non connecté
-        var username = "{{app.user.username|escape('js')}}";
+        var username = chartData.user;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
         
