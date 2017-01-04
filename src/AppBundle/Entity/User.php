@@ -97,12 +97,6 @@ class User implements UserInterface, Serializable
     private $posts;
 
     /**
-     * Many Users have Many Users.
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="myFriends")
-     */
-    private $friendsWithMe;
-
-    /**
      * Many Users have many Users.
      * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
      * @ORM\JoinTable(name="friends",
@@ -110,7 +104,7 @@ class User implements UserInterface, Serializable
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_friend_user", referencedColumnName="id")}
      *      )
      */
-    private $myFriends;
+    private $friends;
     
     /**
      *
@@ -137,8 +131,7 @@ class User implements UserInterface, Serializable
     public function __construct()
     {
          $this->posts = new ArrayCollection();
-         $this->myFriends = new ArrayCollection();
-         $this->friendsWithMe = new ArrayCollection();
+         $this->friends = new ArrayCollection();
          $this->gamelooser = new ArrayCollection();
          $this->gamewinner = new ArrayCollection();
          $this->player = new ArrayCollection();
@@ -195,12 +188,12 @@ class User implements UserInterface, Serializable
         return $this->posts;
     }   
     
-    public function getFriendsWithMe() {
-        return $this->friendsWithMe;
-    }
-
-    public function getMyFriends() {
-        return $this->myFriends;
+    /**
+     * 
+     * @return array
+     */
+    public function getFriends() {
+        return $this->friends->toArray();
     }
 
     public function getPlayer() {
@@ -297,8 +290,6 @@ class User implements UserInterface, Serializable
             $this->email,
             $this->avatar,
             $this->password,
-            $this->myFriends,
-            $this->friendsWithMe,
         ]);
     }
 
@@ -311,11 +302,7 @@ class User implements UserInterface, Serializable
             $this->email,
             $this->avatar,
             $this->password,
-            $this->myFriends,
-            $this->friendsWithMe,
-        
-                
-                ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
     
     /**
@@ -331,56 +318,27 @@ class User implements UserInterface, Serializable
     /**
      * Add User Friend
      * @param User $user
+     * @return void
      */
-    public function addFriendWithMe(User $user)
-    {
-        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
-        if (!$this->friendsWithMe->contains($user)) { 
-            if (!$user->getMyFriends()->contains($this)) { 
-                $user->addMyFriend($this);  // Lie l'utilisateur à la liste d'amis. 
-            } 
-            $this->friendsWithMe->add($user); 
+    public function addFriend(User $user)
+    {     
+        if (!$this->friends->contains($user)) { 
+            $this->friends->add($user);
+            $user->addFriend($this);
         } 
     }
     
-    public function setFriendsWithMe($users) 
-    { 
-        if ($users instanceof ArrayCollection || is_array($users)) { 
-            foreach ($users as $user) { 
-                $this->addFriendWithMe($user); 
-            } 
-        } elseif ($users instanceof User) { 
-            $this->addFriendWithMe($users); 
-        } else { 
-            throw new Exception("$users must be an instance of User or ArrayCollection"); 
-        } 
-    } 
-
     /**
-     * Add User Friend
+     * Remove User Friend
      * @param User $user
+     * @return void
      */
-    public function addMyFriend(User $user)
-    {
-        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
-        if (!$this->myFriends->contains($user)) { 
-            if (!$user->getFriendsWithMe()->contains($this)) { 
-                $user->addFriendWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
-            } 
-            $this->myFriends->add($user); 
+    public function removeFriend(User $user)
+    {        
+        if ($this->friends->contains($user)) { 
+            $this->friends->removeElement($user);
+            $user->removeFriend($this);
         } 
     }
-    
-    public function setMyFriends($users) 
-    { 
-        if ($users instanceof ArrayCollection || is_array($users)) { 
-            foreach ($users as $user) { 
-                $this->addMyFriend($user); 
-            } 
-        } elseif ($users instanceof User) { 
-            $this->addMyFriend($users); 
-        } else { 
-            throw new Exception("$users must be an instance of User or ArrayCollection"); 
-        } 
-    }  
+      
 }
