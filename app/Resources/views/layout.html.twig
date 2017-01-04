@@ -20,8 +20,18 @@
                         </a>
                     </li>
                     <li {% if app.request.get('_route') == 'app_admin_competition_gestioncompetitions' %}class="active"{% endif %}>
-                        <a href="{{ path('app_admin_competition_gestioncompetitions') }}">
+                        <a href="{{ path('app_admin_competition_displaycompetitions') }}">
                             Gestion des compétitions
+                        </a>
+                    </li>
+                    <li {% if app.request.get('_route') == 'app_admin_post_list' %}class="active"{% endif %}>
+                        <a href="{{ path('app_admin_post_list') }}">
+                            Gestion des posts
+                        </a>
+                    </li>
+                    <li {% if app.request.get('_route') == 'app_admin_category_list' %}class="active"{% endif %}>
+                        <a href="{{ path('app_admin_category_list') }}">
+                            Gestion des catégories
                         </a>
                     </li>
                 </ul>
@@ -37,8 +47,8 @@
             {# render(controller('AppBundle:Category:menu')) #}
             <ul class="nav navbar-nav navbar-right">
                {% if app.user is not null %}
-                    <li>
-                        <a>{{ app.user.username }}</a>
+                    <li {% if app.request.get('_route') == 'app_user_displayinfo' %}class="active"{% endif %}>
+                        <a href="{{ path('app_user_displayinfo', {"id" : app.user.id}) }}" title="Voir mon profil">{{ app.user.username }}</a>
                     </li>
                     <li>
                         <a href="{{ path('logout') }}">

@@ -6,22 +6,27 @@
 
 {% block page_title %}
     <h1>
-        Partie {{app.user.username}}
+        Ma partie
     </h1>
 {% endblock %}
 
 {% block content %}
-{#    {{dump(app.user)}}
-    {{dump(app.request)}}
-    {{dump(app.session)}}#}
+    {#    {{dump(app.user)}}
+        {{dump(app.request)}}
+        {{dump(app.session)}}#}
     <h3 id="adversaire"></h3>
+    <p id="info"></p>
     <section id="jeu">
         <div id="board" style="width: 400px"></div>
         <p>Status: <span id="status"></span></p>
         <p>FEN: <span id="fen"></span></p>
         <p>PGN: <span id="pgn"></span></p>
-        <p id="testinfo"></p>			
-    </section>	    
+            
+    </section>
+    <div
+        id="js-vars"
+        data-vars="{{ js_vars|json_encode|e('html_attr') }}">
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -29,11 +34,15 @@
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>		
-    <script src="{{ asset('js/functions.js')}}"></script>
     <script>
+        // Récupération des variables définies dans le service js_vars
+        var JsVars = $('#js-vars').data('vars');    
+        // Récuperer une variable
+        var chartData = JsVars.chartData;
+
         /* Initialisation */
         var connected = false; // Non connecté
-        var username = makeid(); // Utilisateur => à remplacer par une $_SESSION['user']
+        var username = chartData.user;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
         
@@ -50,28 +59,23 @@
         /* Réception de l'initialisation de la partie */
         socket.on('gameStart', function(data) {
             room = data.room;
-            show_game(data.name, data.room, data.color, 1); // some method which will show game window
             player = data.color;
-        });
-        
+            
+            $("#adversaire").html(username+" (vous) "+ data.color +" contre "+data.name+ " dans la salle "+data.room);            
+        });   
         
         /* Réception event fin de la partie. */
         socket.on('gameEnd', function(data) {
-            $('#testinfo').append($('<p>').text("Votre adversaire a quitté !"));
-            //socket.leave(room); // On quitte la room automatiquement (possibilité de le faire coté serveur). Exemple si l'autre user à quitté
-            show_game('rien', 'rien', 'rien', 2);
-            room = ''; 
+            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));         
+            $("#adversaire").html("Partie terminée, vous avez gagné");
+            room = '';
+            setTimeout(setLocation, 5000);
         });
         
-        /* En cas de déconnexion */
-        socket.on('disconnect', function(data) { // handle server/connection falling
-            console.log('Navigateur fermé ou perte de connexion');
-        });		
-        
-        $("#jouer").on("click", function() {
-            board.position(game.fen());
-        });
-        
+        function setLocation()
+        {
+            window.location.assign("{{path('app_competition_displaycompetitions')}}");
+        }
     </script>    
     <script src="{{ asset('js/board.js')}}"></script>    
 {% endblock %}
