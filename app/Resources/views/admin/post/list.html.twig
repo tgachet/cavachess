@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+    
+{% block page_title %}
+    <h1>
+        Gestion des posts
+    </h1>
+{% endblock %}
+    
+{% block content %}
+    <hr>
+    <p><a href="{{path('app_admin_post_edit')}}" title="Ajouter post" class="btn btn-primary">Ajouter un post</a></p>
+    <section>
+        {{dump(posts)}}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Catégorie</th>
+                    <th width="100px"></th>
+                    <th width="100px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr>
+                        <td>{{post.id}}</td>
+                        <td>{{post.title}}</td>
+                        <td>{{post.author.username}}</td>
+{#<td>{{post.categories.name}}</td>#}
+                        <td><a href="{{path('app_admin_post_edit', {"id":post.id})}}" title="Modifier post" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td><a href="{{path('app_admin_post_delete', {"id":post.id})}}" title="Supprimer post" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" align="center">Aucun résultat</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
