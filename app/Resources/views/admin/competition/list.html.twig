@@ -5,6 +5,8 @@
             <th>Nom</th>                
             <th>Mode de jeu</th>                
             <th>Type de jeu</th>                             
+            <th width="100px"></th>                             
+            <th width="100px"></th>                             
         </tr>
     </thead>
     <tbody>
@@ -15,6 +17,7 @@
                 <td>{{competition.gamemode}}</td>
                 <td>{{competition.typeofgame}}</td>
                 <td><a href="{{path('app_admin_competition_editcompetition', {'id': competition.id})}}" title="">Modifier</a></td>
+                <td><a href="{{path('app_admin_competition_deletecompetition', {'id': competition.id})}}" title="">Supprimer</a></td>
             </tr>
         {% else %}
             <tr>
