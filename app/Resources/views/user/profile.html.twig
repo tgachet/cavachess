@@ -11,10 +11,23 @@
             {% if user.role == 'ROLE_ADMIN' %}
                 <b style="color: darkred;">Administrateur</b><hr/>
             {% endif %}
-
-            <b>Nom: {{ user.lastname|title }}</b><br>
-            <b>Prénom: </b><b>{{ user.firstname|title}}</b><br>
-            <b>Email: </b><i>{{ user.email }}</i>
+            
+          {% if id == app.user.id %}
+               <b>Nom: {{ user.lastname|title }}</b><br/>
+               <b>Prénom: </b><b>{{ user.firstname|title}}</b><br/>
+               <b> Email: </b><i>{{ user.email }}</i><br/>
+           {% endif %}
+            <b> Pseudo: </b><b>{{ user.username }}<br/>
+            
+            <b> Classements : </b> <br/>
+                <ul>
+                    <li> Bullet : ... </li>
+                    <li> Blitz : ... </li>
+                    <li>  ....  : ... </li>
+                </ul>
+            <br/>
+            <b> Articles postés: </b><b> <br/>
+                    
         </div>
     </div>
 {% endblock %}
