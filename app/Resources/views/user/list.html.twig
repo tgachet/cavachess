@@ -2,6 +2,7 @@
 
 {% block page_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
 {% block content %}   
+{{ dump(app.user) }}
 {{ dump(users) }}
     <table class="table">
             <th>Prénom</th>
@@ -28,9 +29,15 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
-                    </a>
+                    {#% if (user.id in app.user.friendsWithMe) or (user.id in app.user.myFriends) %#}
+                        <a href="#" class="btn btn-success">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
+                        </a>
+                    {#% else %#}
+                        <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
+                        </a>
+                    {#% endif %#}    
                 </td>
             </tr>
         {% else %}

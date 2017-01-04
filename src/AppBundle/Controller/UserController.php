@@ -58,13 +58,26 @@ class UserController extends Controller
      */
     public function addFriendAction(Request $request, $id)
     {
-        $friend = [$id];
-        $this->addMyFriend($friend);
-//        return $this->render(
-//            'user/profile.html.twig',
-//            [
-//                'user' => $id,
-//            ]
-//        );
+        $em = $this->getDoctrine()->getManager();
+        $friend = $em->find('AppBundle:User', $id);
+        $user = $this->getUser();
+        $user->setMyFriends($friend);
+        
+        return $this->render(
+            'user/profile.html.twig',
+            [
+                'user' => $user,
+            ]
+        );
+//        $user = $this->getDoctrine()
+//                     ->getRepository('AppBundle:User')
+//                     ->findOneById($id);
+//        
+//        $friends = $user->getMyFriends();
+//        $names = array();
+//        foreach($friends as $friend)
+//        {
+//            $names[] = $friend->getName();
+//        }
     }
 }

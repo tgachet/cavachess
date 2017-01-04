@@ -14,7 +14,11 @@
 
             <b>Nom: {{ user.lastname|title }}</b><br>
             <b>Prénom: </b><b>{{ user.firstname|title}}</b><br>
-            <b>Email: </b><i>{{ user.email }}</i>
+            <b>Email: </b><i>{{ user.email }}</i><br>
+            <b>Amis </b>
+                {% for myFriend in user.myFriends %}
+                    <i>{{ myFriend }}</i>
+                {% endfor %}
         </div>
     </div>
 {% endblock %}

@@ -297,6 +297,8 @@ class User implements UserInterface, Serializable
             $this->email,
             $this->avatar,
             $this->password,
+            $this->myFriends,
+            $this->friendsWithMe,
         ]);
     }
 
@@ -309,7 +311,11 @@ class User implements UserInterface, Serializable
             $this->email,
             $this->avatar,
             $this->password,
-        ) = unserialize($serialized);
+            $this->myFriends,
+            $this->friendsWithMe,
+        
+                
+                ) = unserialize($serialized);
     }
     
     /**
@@ -359,7 +365,7 @@ class User implements UserInterface, Serializable
         // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
         if (!$this->myFriends->contains($user)) { 
             if (!$user->getFriendsWithMe()->contains($this)) { 
-                $user->addFriendsWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
+                $user->addFriendWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
             } 
             $this->myFriends->add($user); 
         } 
