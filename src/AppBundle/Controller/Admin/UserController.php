@@ -54,7 +54,8 @@ class UserController extends Controller
             }
         }
         
-        $form = $this->createForm(UserType::class, $user, ['role' => $user->getRoles()]);
+        $roles = $this->getUser()->getRoles();
+        $form = $this->createForm(UserType::class, $user, ['role' => $roles]);
         
         $form->handleRequest($request); // le formulaire analyse la requête HTTP 
         

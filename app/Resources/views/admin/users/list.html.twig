@@ -22,7 +22,7 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.role }}</td>
-                <td>{{ user.avatar }}</td>
+                <td><img src="{{ asset('upload/' ~ user.avatar) }}" height="40vh"/></td>
                 <td>
                     <a href="{{ path('app_admin_user_editusers', {"id": user.id}) }}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Modifier"></span>
