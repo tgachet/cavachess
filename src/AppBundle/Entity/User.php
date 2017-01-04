@@ -326,12 +326,40 @@ class User implements UserInterface, Serializable
      * Add User Friend
      * @param User $user
      */
-    public function addFriend(User $user)
+    public function addFriendWithMe(User $user)
+    {
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
+        if (!$this->friendsWithMe->contains($user)) { 
+            if (!$user->getMyFriends()->contains($this)) { 
+                $user->addMyFriend($this);  // Lie l'utilisateur à la liste d'amis. 
+            } 
+            $this->friendsWithMe->add($user); 
+        } 
+    }
+    
+    public function setFriendsWithMe($users) 
+    { 
+        if ($users instanceof ArrayCollection || is_array($users)) { 
+            foreach ($users as $user) { 
+                $this->addFriendWithMe($user); 
+            } 
+        } elseif ($users instanceof User) { 
+            $this->addFriendWithMe($users); 
+        } else { 
+            throw new Exception("$users must be an instance of User or ArrayCollection"); 
+        } 
+    } 
+
+    /**
+     * Add User Friend
+     * @param User $user
+     */
+    public function addMyFriend(User $user)
     {
         // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
         if (!$this->myFriends->contains($user)) { 
-            if (!$user->getMyFriends()->contains($this)) { 
-                $user->addFriend($this);  // Lie l'utilisateur à la liste d'amis. 
+            if (!$user->getFriendsWithMe()->contains($this)) { 
+                $user->addFriendsWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
             } 
             $this->myFriends->add($user); 
         } 
@@ -341,13 +369,12 @@ class User implements UserInterface, Serializable
     { 
         if ($users instanceof ArrayCollection || is_array($users)) { 
             foreach ($users as $user) { 
-                $this->addFriend($user); 
+                $this->addMyFriend($user); 
             } 
         } elseif ($users instanceof User) { 
-            $this->addFriend($users); 
+            $this->addMyFriend($users); 
         } else { 
             throw new Exception("$users must be an instance of User or ArrayCollection"); 
         } 
-    } 
-    
+    }  
 }

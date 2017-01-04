@@ -59,7 +59,7 @@ class UserController extends Controller
     public function addFriendAction(Request $request, $id)
     {
         $friend = [$id];
-        $this->addFriend($friend);
+        $this->addMyFriend($friend);
 //        return $this->render(
 //            'user/profile.html.twig',
 //            [
