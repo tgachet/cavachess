@@ -20,113 +20,115 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CompetitionController extends Controller
 {
+
     /**
-     * 
+     * DISPLAY COMPETITIONS
      * @Route()
      */
-    public function gestionCompetitionsAction() 
+    public function displayCompetitionsAction() 
     {
-        return $this->render('admin/competition/gestion.html.twig');
-    }
+        return $this->render('admin/competition/display.html.twig');
+    }    
     
-    
+    /**
+     * LISTE COMPETITIONS
+     * @Route("/list")
+     */
     public function listCompetitionsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $competitions = $em->getRepository('AppBundle:Competition')->findAll();
-        $columns = $em->getClassMetadata('AppBundle:Competition')->getFieldNames();
         
         return $this->render('admin/competition/list.html.twig', 
         [
             'competitions' => $competitions,
-            'columns' => $columns,
         ]);
     }
     
+    /**
+     * AJOUT COMPETITION
+     * @Route("/addcompet")
+     */
     public function addCompetitionAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $competition = new Competition(); 
+        $competition = new Competition(); // On crée un objet de la classe Category du namespace 
         
-        // Création du formulaire associé à l'instance de Competition
         $form = $this->createForm(CompetitionType::class, $competition);
 
-        //
         $form->handleRequest($request);
         
-        // Soumission formulaire
-        if($form->isSubmitted())
+        if($form->isSubmitted()) // Si le formulaire a été soumis
         {
-            if($form->isValid()) // No error
+            if($form->isValid()) // S'il n'y a pas eu d'erreur de validation du formulaire
             {
-                $em->persist($competition); // 
-                $em->flush(); // Execute()
+                $em->persist($competition); // persist = on garde en persistance les infos
+                $em->flush(); // execution des éléments gardés en persistance (enregistrement en BDD)
 
                 $this->addFlash('success', 'La compétition a bien été crée');
-                return $this->redirectToRoute('app_admin_gestioncompetitions');
+                return $this->redirectToRoute('app_admin_competition_displaycompetitions');
             }
             else
             {
                 // Ajout le message flash
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
-        }
+        }        
         
-        // Render
-        return $this->render('admin/competition/add.html.twig',
+        return $this->render('admin/competition/add.html.twig', 
         [
-           'form' => $form->createView(),
-        ]);         
+            'form' => $form->createView(),
+        ]);
     }
-    
+
     /**
-     * 
-     * @Route("/{id}", defaults={"id":null})
+     * MODIFICATION COMPETITION
+     * @Route("/edit/{id}", defaults={"id": null})
      */
     public function editCompetitionAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
         $competition = $em->find('AppBundle:Competition', $id);
-                
+            
         if(is_null($competition))
         {
-            // On redirige vers la page de gestion de compétition
-            return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
+            // On redirige vers la route de la liste s'il n'y a pas de categories
+            return $this->redirectToRoute('app_admin_competition_displaycompetitions');
         }
-
-        // Création du formulaire associé à l'instance de Competition
+        
         $form = $this->createForm(CompetitionType::class, $competition);
-
-        //
+        
         $form->handleRequest($request);
         
-        // Soumission formulaire
-        if($form->isSubmitted())
+        if($form->isSubmitted()) // Si le formulaire a été soumis
         {
-            if($form->isValid()) // No error
+            if($form->isValid()) // S'il n'y a pas eu d'erreur de validation du formulaire
             {
-                $em->persist($competition); // 
-                $em->flush(); // Execute()
-
-                $this->addFlash('success', 'La compétition a bien été modifiée');
-                return $this->redirectToRoute('app_admin_competition_gestioncompetitions');
+                $em->persist($competition); // persist = on garde en persistance les infos
+                $em->flush(); // execution des éléments gardés en persistance (enregistrement en BDD)
+                
+                $this->addFlash('success', 'La compétition a bien été modifié');
+                return $this->redirectToRoute('app_admin_competition_displaycompetitions');
             }
             else
             {
                 // Ajout le message flash
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
-        }
+        }        
         
-        // Render
-        return $this->render('admin/competition/gestion.html.twig',
+        return $this->render('admin/competition/display.html.twig', 
         [
-           'form' => $form->createView(),
-        ]);         
+            'form' => $form->createView(),
+        ]);
     }
-    
+   
+    /**
+     * AJOUT GAME TYPE
+     * @Route("/gametype")
+     */
     public function addTypeOfGameAction(Request $request) 
     {
         $em = $this->getDoctrine()->getManager();
@@ -134,7 +136,7 @@ class CompetitionController extends Controller
         $typeOfGame = new TypeOfGame(); 
         
         // Création du formulaire associé à l'instance de TypeOfGame
-        $formBuilder = $this->createFormBuilder();
+        $formBuilder = $this->createFormBuilder($typeOfGame);
         
         $formBuilder
             ->add('name',
@@ -152,11 +154,12 @@ class CompetitionController extends Controller
         {
             if($form->isValid()) // No error
             {
+                $typeOfGame = $form->getData();
                 $em->persist($typeOfGame); // 
                 $em->flush(); // Execute()
 
                 $this->addFlash('success', 'Le type de jeu a bien été crée');
-                return $this->redirectToRoute('app_admin_gestioncompetitions');
+                return $this->redirectToRoute('app_admin_competition_displaycompetitions');
             }
             else
             {
@@ -171,15 +174,19 @@ class CompetitionController extends Controller
            'form' => $form->createView(),
         ]);        
     }
-
+    
+    /**
+     * AJOUT GAME MODE
+     * @Route("/gamemode")
+     */
     public function addGameModeAction(Request $request) 
     {
-        $em = $this->getDoctrine()->getManager();
+        //$em = $this->getDoctrine()->getManager();
 
         $gamemode = new GameMode(); 
         
-        // Création du formulaire associé à l'instance de TypeOfGame
-        $formBuilder = $this->createFormBuilder();
+        // Création du formulaire associé à l'instance de gamemode
+        $formBuilder = $this->createFormBuilder($gamemode);
         
         $formBuilder
             ->add('name',
@@ -187,7 +194,7 @@ class CompetitionController extends Controller
                 [
                     'label' => 'Nom du mode de jeu',
                 ]);
-        
+
         $form = $formBuilder->getForm();
         
         $form->handleRequest($request);
@@ -197,11 +204,18 @@ class CompetitionController extends Controller
         {
             if($form->isValid()) // No error
             {
+               
+                $gamemode = $form->getData();
+                
+                $em = $this->getDoctrine()->getManager();
+                
                 $em->persist($gamemode); // 
                 $em->flush(); // Execute()
+                
+                
 
                 $this->addFlash('success', 'Le mode de jeu a bien été crée');
-                return $this->redirectToRoute('app_admin_gestioncompetitions');
+                return $this->redirectToRoute('app_admin_competition_displaycompetitions');
             }
             else
             {
@@ -215,5 +229,28 @@ class CompetitionController extends Controller
         [
            'form' => $form->createView(),
         ]);        
-    }    
+    } 
+    
+    /**
+     * SUPPRESSION COMPETITION
+     * @Route("/delete/{id}")
+     */
+    public function deleteCompetitionAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $competition = $em->find('AppBundle:Competition', $id);
+        
+        if(is_null($competition))
+        {
+            // On redirige vers la route de la liste s'il n'y a pas de compétition
+            return $this->redirectToRoute('app_admin_competition_displaycompetitions');
+        } 
+        $em->remove($competition);
+        $em->flush();
+        
+        $this->addFlash('success', 'La compétition a bien été supprimé');
+        
+        return $this->redirectToRoute('app_admin_competition_displaycompetitions');
+    } 
+       
 }
