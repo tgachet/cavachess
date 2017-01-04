@@ -9,16 +9,25 @@
 {% block content %}
     <hr>
     <section>
-        <div class="clearfix"></div>
+        
     </section>
     
+    <div class="clearfix"></div>
     
     <section>
-        <h2>Ajouter une compétition</h2>
+        <h2>Opération compétition</h2>
         <div class="row">
-            <div class="col-sm-5 col-md-4 col-lg-3">
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {{render(controller('AppBundle:Admin\\Competition:addTypeOfGame'))}}
+            </div>
+            
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {{render(controller('AppBundle:Admin\\Competition:addGameMode'))}}
+            </div>
+            
+            <div class="col-sm-4 col-md-4 col-lg-3">
                 {% if app.request.get('_route') == 'app_admin_competition_gestioncompetitions' %}
-                    {{render(controller('AppBundle:Admin\\Competition:ajoutCompetition'))}}
+                    {{render(controller('AppBundle:Admin\\Competition:addCompetition'))}}
                 {% elseif app.request.get('_route') == 'app_admin_competition_editcompetition' %}
                     {{form_start(form)}} 
                     {{form_row(form.name)}}
