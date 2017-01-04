@@ -39,10 +39,12 @@ class PostType extends AbstractType
             ->add('categories',
             EntityType::class, // input type Entity (select, radio, checkbox)
             [
-                'label' => 'Catégorie',
+                'label' => 'Catégories',
                 'class' => 'AppBundle:Category', // Nom de l'entité
                 'choice_label' => 'name', // Le champ de l'entité qui va s'afficher dans les options
-                'placeholder' => 'Choisissez une catégorie' // Pour avoir une première option vide
+                'multiple' => true,
+                'expanded' => true,
+//                'placeholder' => 'Choisissez une catégorie' // Pour avoir une première option vide
             ])
         ;
     }

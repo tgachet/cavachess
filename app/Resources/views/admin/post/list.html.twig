@@ -28,7 +28,13 @@
                         <td>{{post.id}}</td>
                         <td>{{post.title}}</td>
                         <td>{{post.author.username}}</td>
-{#<td>{{post.categories.name}}</td>#}
+                        {% if not post.categories.empty %}
+                            <td>
+                              {% for category in post.categories %}
+                                {{ category.name }}{% if not loop.last %}, {% endif %}
+                              {% endfor %}
+                            <td>
+                          {% endif %}
                         <td><a href="{{path('app_admin_post_edit', {"id":post.id})}}" title="Modifier post" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td><a href="{{path('app_admin_post_delete', {"id":post.id})}}" title="Supprimer post" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
