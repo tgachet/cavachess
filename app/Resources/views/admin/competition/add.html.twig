@@ -1,10 +1,10 @@
-{{form_start(form)}} 
+{{form_start(form, {'attr': {'method' : 'post', 'action' : path('app_admin_competition_addcompetition')}}) }} 
 {{form_row(form.name)}} {# name #}
-{{form_row(form.game_mode_id)}} {# game_mode_id #}
-{{form_row(form.type_of_game_id)}} {# type_of_game_id #}
+{{form_row(form.gamemode)}} {# game_mode_id #}
+{{form_row(form.typeofgame)}} {# type_of_game_id #}
 <div class="form-btn-group pull-right">
     <button type="submit" class="btn btn-primary">Enregistrer</button>
-    <a href="{{path('app_admin_competition_gestioncompetitions')}}" class="btn btn-default" title="">Annuler</a>
+    <a href="{{path('app_admin_competition_listcompetitions')}}" class="btn btn-default" title="">Annuler</a>
 </div>
 {{form_end(form)}} {# ferme la balise form #} 
 
