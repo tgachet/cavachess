@@ -35,14 +35,14 @@ class GameMode
     /**
      *
      * @var arrayCollection 
-     * @ORM\OneToMany(targetEntity="Competition", mappedBy="game_mode_id")
+     * @ORM\OneToMany(targetEntity="Competition", mappedBy="gamemode")
      */
-    private $gamemode;
+    private $competitions;
     
     /***** CONSTRUCT *****/
     public function __construct()
     {
-        $this->gamemode = new ArrayCollection();
+        $this->competitions = new ArrayCollection();
     }  
 
 
@@ -61,16 +61,25 @@ class GameMode
         return $this->name;
     }
 
-    public function getGamemode() {
-        return $this->gamemode;
+    public function getCompetitions() {
+        return $this->competitions;
     }
 
+    
     /***** SETTERS *****/
     public function setName($name) {
         $this->name = $name;
         return $this;
     }
 
-
+    /***** OTHER *****/
+    /**
+     * @return string
+     * Retourne le nom en chaine de caractère
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
 

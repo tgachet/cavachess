@@ -1,0 +1,115 @@
+{% extends 'layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
+    <style>
+        #jeu, #chat {float:left;}
+    </style>
+{% endblock %}
+
+{% block page_title %}
+    <h1>
+        Ma partie
+    </h1>
+{% endblock %}
+
+{% block content %}
+    {#    {{dump(app.user)}}
+        {{dump(app.request)}}
+        {{dump(app.session)}}#}
+    <h3 id="adversaire"></h3>
+    <p id="info"></p>
+    <section id="jeu">
+        <div id="board" style="width: 400px"></div>
+        <p>Status: <span id="status"></span></p>
+        <p>FEN: <span id="fen"></span></p>
+        <p>PGN: <span id="pgn"></span></p>           
+    </section>
+    <section id="chat" style="margin: 0px 0px 20px 40px">
+        <div id="chat-output" style="width: 400px; height : 400px; border: 1px solid black; margin-bottom:20px;">
+        </div>
+        <form id="chat-input">
+            <textarea id ="message" name="message" style="width: 400px; height : 150px;"></textarea>
+            <input type="submit" value="envoyer" style="display:block;" />
+        </form>
+    </section>
+    <div class="clearfix"></div>
+    <div
+        id="js-vars"
+        data-vars="{{ js_vars|json_encode|e('html_attr') }}">
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+    <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>		
+    <script>
+        // Récupération des variables définies dans le service js_vars
+        var JsVars = $('#js-vars').data('vars');    
+        // Récuperer une variable
+        var chartData = JsVars.chartData;
+
+        /* Initialisation */
+        var connected = false; // Non connecté
+        var username = chartData.user;
+        var competition = chartData.competition;
+        var rank = chartData.rank;
+        var room = ''; // socket room
+        var player = ''; // Couleur du joueur
+        
+        /* Connexion au serveur */
+        // fire un événement 'connection' coté serveur et 'connect' coté client
+        var socket = io("http://localhost:3000");
+        
+        /* Envoi du pseudo au serveur */
+        socket.on('connect', function(data) {
+            connected = true; // Connecté
+            socket.emit('login', {'username' : username, 'competition': competition, 'rank' : rank}); // Envoie de l'event 'login' qui contient mon username
+        });
+        
+        /* Réception de l'initialisation de la partie */
+        socket.on('gameStart', function(data) {
+            room = data.room;
+            player = data.color;
+            
+            $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");            
+        });   
+        
+        /* Réception event fin de la partie. */
+        socket.on('gameEnd', function(data) {
+{#            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));      #}   
+            $("#adversaire").html("Partie terminée, votre adversaire à quitté la partie");
+            room = '';
+            //setTimeout(setLocation, 5000);
+        });
+
+        /* Réception event fin de la partie. */
+        socket.on('gameLooser', function(data) {  
+            $("#adversaire").html("Partie terminée, vous avez perdu");
+            room = '';
+        });
+        
+        /* Fonction pour rediriger automatiquement le joueur en fin de partie */
+        function setLocation()
+        {
+            window.location.assign("{{path('app_competition_displaycompetitions')}}");
+        }
+        
+        /* Chat envoi */
+        $("#chat-input").on("submit", function(e) {
+            e.preventDefault();
+            var message = $("#message").val();
+            socket.emit('chatmessage', {'message' : message, 'username' : username});
+            $("#message").val("");
+        });
+        
+        /* Chat réception */
+        socket.on('receptionmessage', function(data) {
+            var message = $('<p>').text(data);
+            $("#chat-output").append(message);
+        });
+    </script>    
+    <script src="{{ asset('js/board.js')}}"></script>    
+{% endblock %}

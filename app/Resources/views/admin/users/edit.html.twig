@@ -5,13 +5,13 @@
     {% if new %}
         Création d'un compte utilisateur
     {% else %}
-        Modification du compte utilisateur {{ user.id }}
+        Modification des droits de {{ user.username }}
     {% endif %}
-    </h1>
+    </h1><br>
 {% endblock %}
 {% block content %}
     {{ form_start(form) }} {# ouvre la balise <form> #}
-    {{ form_row(form.firstname) }} {# affiche l'élément de formulaire pour name #}
+    {{ form_row(form.role) }}
     <div class="form-btn-group pull-right">
         <button type="submit" class="btn btn-primary">Enregistrer</button>
         <a href="{{ path('app_admin_user_listusers') }}" class="btn btn-default">Annuler</a>

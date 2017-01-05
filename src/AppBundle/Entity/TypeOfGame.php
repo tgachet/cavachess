@@ -34,7 +34,7 @@ class TypeOfGame
     /**
      * 
      * @var ArrayCollection 
-     * @ORM\OneToMany(targetEntity="Competition", mappedBy="type_of_game_id")
+     * @ORM\OneToMany(targetEntity="Competition", mappedBy="typeofgame")
      */
     private $competitions;
     
@@ -69,5 +69,14 @@ class TypeOfGame
         return $this;
     }
     
+    /***** OTHER *****/
+    /**
+     * @return string
+     * Retourne le nom en chaine de caractère
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
 

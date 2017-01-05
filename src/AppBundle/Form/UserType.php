@@ -78,6 +78,7 @@ class UserType extends AbstractType
                             [
                                 'label' => 'Avatar',
                                 'required' => false, // pour rendre le champ optionnel
+                                'data_class' => null,
                             ]
                     )
             ;
@@ -127,6 +128,7 @@ class UserType extends AbstractType
                             [
                                 'label' => 'Avatar',
                                 'required' => false, // pour rendre le champ optionnel
+                                'data_class' => null,
                             ]
                     )
             ;
