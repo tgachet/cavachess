@@ -111,9 +111,11 @@ var updateStatus = function() {
 
   if (game.game_over() === true)
   {
-    game.reset();
-    game.fen();
-    status += moveColor;
+    //game.reset();
+    //game.fen();
+    //status += moveColor;
+    $("#adversaire").html("Partie terminée, vous avez gagné");       
+    socket.emit('gameOver');
   }
 
   statusEl.html(status);

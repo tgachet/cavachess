@@ -20,10 +20,12 @@ class CompetitionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $competitions = $em->getRepository('AppBundle:Competition')->findBy(array(), array($orderby => $sort));
+        $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array(), array('points'=> 'DESC'));
         
         return $this->render('competition/display.html.twig', 
         [
             'competitions' => $competitions,
+            'rankings' => $rankings,
         ]);
     }    
 }
