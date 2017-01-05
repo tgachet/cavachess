@@ -79,10 +79,16 @@
         
         /* Réception event fin de la partie. */
         socket.on('gameEnd', function(data) {
-            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));         
-            $("#adversaire").html("Partie terminée, vous avez gagné");
+{#            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));      #}   
+            $("#adversaire").html("Partie terminée, votre adversaire à quitté la partie");
             room = '';
-            setTimeout(setLocation, 5000);
+            //setTimeout(setLocation, 5000);
+        });
+
+        /* Réception event fin de la partie. */
+        socket.on('gameLooser', function(data) {  
+            $("#adversaire").html("Partie terminée, vous avez perdu");
+            room = '';
         });
         
         /* Fonction pour rediriger automatiquement le joueur en fin de partie */
