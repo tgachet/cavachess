@@ -2,6 +2,9 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
+    <style>
+        #jeu, #chat {float:left;}
+    </style>
 {% endblock %}
 
 {% block page_title %}
@@ -22,6 +25,15 @@
         <p>FEN: <span id="fen"></span></p>
         <p>PGN: <span id="pgn"></span></p>           
     </section>
+    <section id="chat" style="margin: 0px 0px 20px 40px">
+        <div id="chat-output" style="width: 400px; height : 400px; border: 1px solid black; margin-bottom:20px;">
+        </div>
+        <form id="chat-input">
+            <textarea id ="message" name="message" style="width: 400px; height : 150px;"></textarea>
+            <input type="submit" value="envoyer" style="display:block;" />
+        </form>
+    </section>
+    <div class="clearfix"></div>
     <div
         id="js-vars"
         data-vars="{{ js_vars|json_encode|e('html_attr') }}">
@@ -72,10 +84,25 @@
             setTimeout(setLocation, 5000);
         });
         
+        /* Fonction pour rediriger automatiquement le joueur en fin de partie */
         function setLocation()
         {
             window.location.assign("{{path('app_competition_displaycompetitions')}}");
         }
+        
+        /* Chat envoi */
+        $("#chat-input").on("submit", function(e) {
+            e.preventDefault();
+            var message = $("#message").val();
+            socket.emit('chatmessage', {'message' : message, 'username' : username});
+            $("#message").val("");
+        });
+        
+        /* Chat réception */
+        socket.on('receptionmessage', function(data) {
+            var message = $('<p>').text(data);
+            $("#chat-output").append(message);
+        });
     </script>    
     <script src="{{ asset('js/board.js')}}"></script>    
 {% endblock %}
