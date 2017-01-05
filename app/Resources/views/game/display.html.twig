@@ -20,8 +20,7 @@
         <div id="board" style="width: 400px"></div>
         <p>Status: <span id="status"></span></p>
         <p>FEN: <span id="fen"></span></p>
-        <p>PGN: <span id="pgn"></span></p>
-            
+        <p>PGN: <span id="pgn"></span></p>           
     </section>
     <div
         id="js-vars"
@@ -43,6 +42,7 @@
         /* Initialisation */
         var connected = false; // Non connecté
         var username = chartData.user;
+        var competition = chartData.competition;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
         
@@ -53,7 +53,7 @@
         /* Envoi du pseudo au serveur */
         socket.on('connect', function(data) {
             connected = true; // Connecté
-            if (username) socket.emit('login', {'username' : username}); // Envoie de l'event 'login' qui contient mon username
+            socket.emit('login', {'username' : username, 'competition': competition}); // Envoie de l'event 'login' qui contient mon username
         });
         
         /* Réception de l'initialisation de la partie */
@@ -61,7 +61,7 @@
             room = data.room;
             player = data.color;
             
-            $("#adversaire").html(username+" (vous) "+ data.color +" contre "+data.name+ " dans la salle "+data.room);            
+            $("#adversaire").html(username+" (vous) "+ data.color +" contre "+data.name+ " dans la salle "+data.room + " compétition : "+competition);            
         });   
         
         /* Réception event fin de la partie. */

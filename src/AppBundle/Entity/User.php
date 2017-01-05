@@ -68,7 +68,15 @@ class User implements UserInterface, Serializable
      */
     private $email;
     
-    /**
+   /**
+     *
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    
+    private $date;
+
+        /**
      * @var string
      * @ORM\Column(type="string", length=20)
      * 
@@ -152,6 +160,7 @@ class User implements UserInterface, Serializable
          $this->allfriends = new ArrayCollection(
                             array_merge($friendswithme->toArray(), $myfriends->toArray())
                             );
+         $this->date = new \DateTime();
     }
 
     /*
@@ -189,6 +198,10 @@ class User implements UserInterface, Serializable
         return $this->email;
     }
     
+    public function getDate() {
+        return $this->date;
+    }
+
     public function getRole() {
         return $this->role;
     }
@@ -257,6 +270,11 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
+   public function setDate(\DateTime $date) {
+        $this->date = $date;
+        return $this;
+    }
+    
     public function setRole($role) {
         $this->role = $role;
         return $this;

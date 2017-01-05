@@ -42,10 +42,12 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->find('AppBundle:User', $id);
         
+        
         return $this->render(
             'user/profile.html.twig',
             [
                 'user' => $user,
+                'id' => $id,
             ]
         );
     }
