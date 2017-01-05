@@ -56,13 +56,21 @@ class UserController extends Controller
      * @param int $id
      * @Route("/add/{id}")
      */
-    public function addFriendAction(Request $request, $id)
+    public function addFriendAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $friend = $em->find('AppBundle:User', $id);
-        $user = $this->getUser();
-        $user->setMyFriends($friend);
+        $friend = $em->getRepository('AppBundle:User')->find($id);
+        if (!$friend) {
+            throw $this->createNotFoundException(
+                'No user found for id '.$id
+            );
+        }
         
+        $user = $this->getUser();
+        $friend->setFriendsWithMe($user);
+        $em->persist($friend);
+        $em->flush();
+            
         return $this->render(
             'user/profile.html.twig',
             [

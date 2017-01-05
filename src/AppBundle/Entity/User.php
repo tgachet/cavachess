@@ -1,12 +1,13 @@
 <?php
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -115,6 +116,12 @@ class User implements UserInterface, Serializable
     /**
      *
      * @var ArrayCollection 
+     */
+    private $allfriends;
+    
+    /**
+     *
+     * @var ArrayCollection 
      * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
      */
     private $player;
@@ -142,6 +149,9 @@ class User implements UserInterface, Serializable
          $this->gamelooser = new ArrayCollection();
          $this->gamewinner = new ArrayCollection();
          $this->player = new ArrayCollection();
+         $this->allfriends = new ArrayCollection(
+                            array_merge($friendswithme->toArray(), $myfriends->toArray())
+                            );
     }
 
     /*
@@ -202,7 +212,11 @@ class User implements UserInterface, Serializable
     public function getMyFriends() {
         return $this->myFriends;
     }
-
+    
+    public function getAllFriends(){
+         return $this->allfriends;
+    }
+    
     public function getPlayer() {
         return $this->player;
     }
@@ -313,9 +327,7 @@ class User implements UserInterface, Serializable
             $this->password,
             $this->myFriends,
             $this->friendsWithMe,
-        
-                
-                ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
     
     /**
@@ -343,16 +355,16 @@ class User implements UserInterface, Serializable
         } 
     }
     
-    public function setFriendsWithMe($users) 
+    public function setFriendsWithMe($friends) 
     { 
-        if ($users instanceof ArrayCollection || is_array($users)) { 
-            foreach ($users as $user) { 
-                $this->addFriendWithMe($user); 
+        if ($friends instanceof ArrayCollection || is_array($friends)) { 
+            foreach ($friends as $friend) { 
+                $this->addFriendWithMe($friend); 
             } 
-        } elseif ($users instanceof User) { 
-            $this->addFriendWithMe($users); 
+        } elseif ($friends instanceof User) { 
+            $this->addFriendWithMe($friends); 
         } else { 
-            throw new Exception("$users must be an instance of User or ArrayCollection"); 
+            throw new Exception("$friends must be an instance of User or ArrayCollection"); 
         } 
     } 
 
@@ -373,14 +385,21 @@ class User implements UserInterface, Serializable
     
     public function setMyFriends($users) 
     { 
-        if ($users instanceof ArrayCollection || is_array($users)) { 
-            foreach ($users as $user) { 
-                $this->addMyFriend($user); 
+        if ($friends instanceof ArrayCollection || is_array($friends)) { 
+            foreach ($friends as $friend) { 
+                $this->addMyFriend($friend); 
             } 
-        } elseif ($users instanceof User) { 
-            $this->addMyFriend($users); 
+        } elseif ($friends instanceof User) { 
+            $this->addMyFriend($friends); 
         } else { 
-            throw new Exception("$users must be an instance of User or ArrayCollection"); 
+            throw new Exception("$friends must be an instance of User or ArrayCollection"); 
         } 
-    }  
+    }
+    
+//    public function setAllFriends($friendswithme, $myfriends){
+//        $this->allfriends = new ArrayCollection(
+//                            array_merge($friendswithme->toArray(), $myfriends->toArray())
+//                            ); 
+//        return $this;
+//    }
 }
