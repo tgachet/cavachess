@@ -55,6 +55,7 @@
         var connected = false; // Non connecté
         var username = chartData.user;
         var competition = chartData.competition;
+        var rank = chartData.rank;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
         
@@ -65,7 +66,7 @@
         /* Envoi du pseudo au serveur */
         socket.on('connect', function(data) {
             connected = true; // Connecté
-            socket.emit('login', {'username' : username, 'competition': competition}); // Envoie de l'event 'login' qui contient mon username
+            socket.emit('login', {'username' : username, 'competition': competition, 'rank' : rank}); // Envoie de l'event 'login' qui contient mon username
         });
         
         /* Réception de l'initialisation de la partie */
@@ -73,7 +74,7 @@
             room = data.room;
             player = data.color;
             
-            $("#adversaire").html(username+" (vous) "+ data.color +" contre "+data.name+ " dans la salle "+data.room + " compétition : "+competition);            
+            $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");            
         });   
         
         /* Réception event fin de la partie. */

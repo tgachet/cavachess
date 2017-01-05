@@ -23,18 +23,28 @@ class GameController extends Controller
             throw $this->createAccessDeniedException();
         }
         
+        /* Pseudo utilisateur */
+        $username = $this->get('security.token_storage')->getToken()->getUser()->getUsername();
+        
+        /* Id utilisateur */
+        $userid = $this->getUser()->getId();
+        
+        /* Rank de l'utilisateur */
+        $em = $this->getDoctrine()->getManager();
+        $rank = $em->getRepository('AppBundle:Ranking')->findOneBy(array('user_id' => $userid, 'competition_id' => $competition));
+        $points = $rank->getPoints();
+        
         /*
          * Variables à passer en js
          */
-        $user = $this->get('security.token_storage')->getToken()->getUser()->getUsername();
-        $vars = array('user' => $user, 'competition' => $competition );
+        
+        $vars = array('user' => $username, 'competition' => $competition, 'rank' => $points );
         
         $this->get('app.js_vars')->chartData = $vars;
 
-        
-//        $player = $this->getUser(); => Coté controller pour stocker l'utilisateur
         return $this->render('game/display.html.twig', 
         [
+            'rank' => $points,
         ]);        
     }
 }
