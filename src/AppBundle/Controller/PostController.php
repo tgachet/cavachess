@@ -25,6 +25,7 @@ class PostController extends Controller
             throw $this->createNotFoundException(); //Jette une page 404
         }
         
+        /** Formulaire de commentaires par Post **/
         $comments = $em->getRepository('AppBundle:Comment')->findAllByPost($post);
         
         $comment = new Comment();

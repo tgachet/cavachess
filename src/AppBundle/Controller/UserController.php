@@ -41,13 +41,14 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->find('AppBundle:User', $id);
-        
-        
+        $posts = $em->getRepository('AppBundle:Post')->findByAuthor($id);
+
         return $this->render(
             'user/profile.html.twig',
             [
                 'user' => $user,
                 'id' => $id,
+                'posts' =>$posts,
             ]
         );
     }
