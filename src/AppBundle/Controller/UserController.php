@@ -41,16 +41,34 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $em->find('AppBundle:User', $id);
-        
-        
+        $posts = $em->getRepository('AppBundle:Post')->findByAuthor($id);
+
         return $this->render(
             'user/profile.html.twig',
             [
                 'user' => $user,
                 'id' => $id,
+                'posts' =>$posts,
             ]
         );
     }
+    
+//    /**
+//     * @param Request $request
+//     * 
+//     */
+//    public function whoIsOnlineAction()
+//    {
+//        $cons = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->getActive();
+// 
+//        return $this->render(
+//            'default/index.html.twig',
+//            [
+//                'cons' => $cons,
+//            ]
+//        );
+////        return array('cons' => $cons);
+//    }
     
     /**
      * 
@@ -58,27 +76,27 @@ class UserController extends Controller
      * @param int $id
      * @Route("/add/{id}")
      */
-    public function addFriendAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $friend = $em->getRepository('AppBundle:User')->find($id);
-        if (!$friend) {
-            throw $this->createNotFoundException(
-                'No user found for id '.$id
-            );
-        }
-        
-        $user = $this->getUser();
-        $friend->setFriendsWithMe($user);
-        $em->persist($friend);
-        $em->flush();
-            
-        return $this->render(
-            'user/profile.html.twig',
-            [
-                'user' => $user,
-            ]
-        );
+//    public function addFriendAction($id)
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//        $friend = $em->getRepository('AppBundle:User')->find($id);
+//        if (!$friend) {
+//            throw $this->createNotFoundException(
+//                'No user found for id '.$id
+//            );
+//        }
+//        
+//        $user = $this->getUser();
+//        $friend->setFriendsWithMe($user);
+//        $em->persist($friend);
+//        $em->flush();
+//            
+//        return $this->render(
+//            'user/profile.html.twig',
+//            [
+//                'user' => $user,
+//            ]
+//        );
 //        $user = $this->getDoctrine()
 //                     ->getRepository('AppBundle:User')
 //                     ->findOneById($id);
@@ -89,5 +107,5 @@ class UserController extends Controller
 //        {
 //            $names[] = $friend->getName();
 //        }
-    }
+    
 }

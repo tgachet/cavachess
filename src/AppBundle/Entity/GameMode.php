@@ -2,9 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * GameMode
@@ -39,6 +40,14 @@ class GameMode
      */
     private $competitions;
     
+    /**
+     *
+     * @var DateTime
+     * @ORM\Column(type="time")
+     * @Assert\NotBlank()
+     */
+    private $gametime;
+    
     /***** CONSTRUCT *****/
     public function __construct()
     {
@@ -65,14 +74,22 @@ class GameMode
         return $this->competitions;
     }
 
-    
+    public function getGametime() {
+        return $this->gametime;
+    }
+
     /***** SETTERS *****/
     public function setName($name) {
         $this->name = $name;
         return $this;
     }
+    
+    public function setGametime(DateTime $gametime) {
+        $this->gametime = $gametime;
+        return $this;
+    }
 
-    /***** OTHER *****/
+        /***** OTHER *****/
     /**
      * @return string
      * Retourne le nom en chaine de caractère

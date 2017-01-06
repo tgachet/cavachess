@@ -4,6 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
+
+    activity_listener:
+        class: AppBundle\Listener\ActivityListener
+        arguments: ["@security.token_storage", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onCoreController }
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
