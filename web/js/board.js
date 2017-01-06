@@ -122,16 +122,29 @@ var updateStatus = function() {
   fenEl.html(game.fen());
   pgnEl.html(game.pgn());
 
-  /* Envoi des infos à l'adversaire */
-  if (connected === true) 
-  {
-    var message = {
-        turn : status,
-        fen : game.fen(),
-        history : game.pgn(),
-    };
-    socket.emit('gameturninfo', message);
+  /* Mise à jour des chronomètres */
+  if(game.turn() === 'w'){
+    clearInterval(timeintervalp2);
+    var clockp1 = getClockp1();
+    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));   
+    initializeClockp1('clockdivp1', clock);
+          
   }
+  else if(game.turn() === 'b'){
+    clearInterval(timeintervalp1);
+    var clockp2 = getClockp2();
+    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));     
+    initializeClockp2('clockdivp2', clock);         
+  }
+
+  /* Envoi des infos à l'adversaire */
+
+  var message = {
+    turn : status,
+    fen : game.fen(),
+    history : game.pgn(),
+  };
+  socket.emit('gameturninfo', message);
 
 
 };
@@ -148,16 +161,32 @@ var cfg = {
 
 board = ChessBoard('board', cfg);
 
-updateStatus();
+//updateStatus();
 
 
 /* Réception du tour de l'adversaire */
 socket.on('gameturninfo', function(data)
 {
+   /* Mise à jour des infos partie */
   game.load_pgn(data.history);
   statusEl.html(data.turn);
   fenEl.html(data.fen);
-  pgnEl.html(data.history); 
+  pgnEl.html(data.history);
+  
+  /* Mise à jour des chronomètres */
+  if(game.turn() === 'w'){
+    clearInterval(timeintervalp2);
+    var clockp1 = getClockp1();
+    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));   
+    initializeClockp1('clockdivp1', clock);
+          
+  }
+  else if(game.turn() === 'b'){
+    clearInterval(timeintervalp1);
+    var clockp2 = getClockp2();
+    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));     
+    initializeClockp2('clockdivp2', clock);         
+  }
 });
 
 $(window).on('focus', function() {
