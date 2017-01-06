@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}<h1>{{ post.title }}</h1>{% endblock %}
+        
+{% block content %}
+    <post>
+        <p>Dans 
+            {% for category in post.categories %}
+                <span class="category-tag"> 
+                    {{ category }}
+                </span>&nbsp
+            {% endfor %} 
+        par 
+            <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
+                {{ post.author.username }}
+            </a>
+        <p>{{ post.description }}</p>
+        <div>{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
+    </post>
+        
+    <h2>Commentaires</h2>
+    
+    {% if app.user %}
+        <div class="well">
+            <h3>Votre commentaire</h3>
+                {{ form_start(form) }}
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
+                <div class="form-btn-group pull-right">
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+                <div class="clearfix"></div>
+                {{ form_end(form) }}
+        </div>
+    {% else %}    
+        <div class="alert alert-info">
+            Vous devez être connecté pour publier un commentaire
+        </div>
+    {% endif %}
+    
+    {% for comment in comments %}
+        <div class="well well-sm">
+            <h4>
+                {% if comment.user.avatar %}
+                    <img src="{{ asset('upload/' ~ comment.user.avatar) }}" height="30px">
+                {% endif %}
+                {{ comment.user.username }}
+            </h4>
+            <h5>
+                {{ comment.title }}
+                <small>
+                    {{ comment.date | date('d-m-Y H:i:s')}}
+                </small>
+            </h5>
+            <p>{{ comment.content | nl2br }}</p>     
+        </div>
+        
+    {% endfor %}  
+    
+{% endblock %}
