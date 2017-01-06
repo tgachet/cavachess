@@ -42,7 +42,7 @@
     <nav class="navbar navbar-default">
         <div class="container">
             <a class="navbar-brand" href="{{ path('homepage') }}">
-                Blog
+                Cavachess
             </a>
             {# render(controller('AppBundle:Category:menu')) #}
             <ul class="nav navbar-nav navbar-right">
@@ -86,6 +86,7 @@
         {% endfor %}
         {% block page_title %}{%endblock%}
         {% block content %}{% endblock %}
+        {% block list %}{% endblock %}
     </div>
     
 {% endblock %}
