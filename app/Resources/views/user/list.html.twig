@@ -1,0 +1,49 @@
+{% extends "layout.html.twig" %}
+
+{% block page_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
+{% block content %}   
+{{ dump(app.user) }}
+{{ dump(users) }}
+    <table class="table">
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Pseudo</th>
+            <th>E-Mail</th>
+            <th>Avatar</th>
+            <th>Voir le profil</th>
+            <th>Ajouter aux amis</th>
+            <th width="100px"></th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <img src="{{ asset('upload/' ~ user.avatar) }}" width="10%"/>
+                </td>
+                <td>
+                    <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true" title="Voir le profil"></span>
+                    </a>
+                </td>
+                <td>
+                    {#% if (user.id in app.user.friendsWithMe) or (user.id in app.user.myFriends) %#}
+                        <a href="#" class="btn btn-success">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
+                        </a>
+                    {#% else %#}
+                        <a href="{#{ path('app_user_addfriend', {"id": user.id}) }#}" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
+                        </a>
+                    {#% endif %#}    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3" align="center">Aucun résultat</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

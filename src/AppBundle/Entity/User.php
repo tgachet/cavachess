@@ -1,12 +1,13 @@
 <?php
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -67,7 +68,15 @@ class User implements UserInterface, Serializable
      */
     private $email;
     
-    /**
+   /**
+     *
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    
+    private $date;
+
+        /**
      * @var string
      * @ORM\Column(type="string", length=20)
      * 
@@ -115,6 +124,12 @@ class User implements UserInterface, Serializable
     /**
      *
      * @var ArrayCollection 
+     */
+    private $allfriends;
+    
+    /**
+     *
+     * @var ArrayCollection 
      * @ORM\OneToMany(targetEntity="Ranking", mappedBy="user_id")
      */
     private $player;
@@ -142,6 +157,10 @@ class User implements UserInterface, Serializable
          $this->gamelooser = new ArrayCollection();
          $this->gamewinner = new ArrayCollection();
          $this->player = new ArrayCollection();
+//         $this->allfriends = new ArrayCollection(
+//                            array_merge($friendswithme->toArray(), $myfriends->toArray())
+//                            );
+         $this->date = new \DateTime();
     }
 
     /*
@@ -179,6 +198,10 @@ class User implements UserInterface, Serializable
         return $this->email;
     }
     
+    public function getDate() {
+        return $this->date;
+    }
+
     public function getRole() {
         return $this->role;
     }
@@ -202,7 +225,11 @@ class User implements UserInterface, Serializable
     public function getMyFriends() {
         return $this->myFriends;
     }
-
+    
+    public function getAllFriends(){
+         return $this->allfriends;
+    }
+    
     public function getPlayer() {
         return $this->player;
     }
@@ -243,6 +270,11 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
+   public function setDate(\DateTime $date) {
+        $this->date = $date;
+        return $this;
+    }
+    
     public function setRole($role) {
         $this->role = $role;
         return $this;
@@ -297,6 +329,8 @@ class User implements UserInterface, Serializable
             $this->email,
             $this->avatar,
             $this->password,
+//            $this->myFriends,
+//            $this->friendsWithMe,
         ]);
     }
 
@@ -309,6 +343,8 @@ class User implements UserInterface, Serializable
             $this->email,
             $this->avatar,
             $this->password,
+//            $this->myFriends,
+//            $this->friendsWithMe,
         ) = unserialize($serialized);
     }
     
@@ -321,4 +357,67 @@ class User implements UserInterface, Serializable
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
     
+    
+    /**
+     * Add User Friend
+     * @param User $user
+     */
+//    public function addFriendWithMe(User $user)
+//    {
+//        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
+//        if (!$this->friendsWithMe->contains($user)) { 
+//            if (!$user->getMyFriends()->contains($this)) { 
+//                $user->addMyFriend($this);  // Lie l'utilisateur à la liste d'amis. 
+//            } 
+//            $this->friendsWithMe->add($user); 
+//        } 
+//    }
+//    
+//    public function setFriendsWithMe($friends) 
+//    { 
+//        if ($friends instanceof ArrayCollection || is_array($friends)) { 
+//            foreach ($friends as $friend) { 
+//                $this->addFriendWithMe($friend); 
+//            } 
+//        } elseif ($friends instanceof User) { 
+//            $this->addFriendWithMe($friends); 
+//        } else { 
+//            throw new Exception("$friends must be an instance of User or ArrayCollection"); 
+//        } 
+//    } 
+//
+//    /**
+//     * Add User Friend
+//     * @param User $user
+//     */
+//    public function addMyFriend(User $user)
+//    {
+//        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
+//        if (!$this->myFriends->contains($user)) { 
+//            if (!$user->getFriendsWithMe()->contains($this)) { 
+//                $user->addFriendWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
+//            } 
+//            $this->myFriends->add($user); 
+//        } 
+//    }
+//    
+//    public function setMyFriends($users) 
+//    { 
+//        if ($friends instanceof ArrayCollection || is_array($friends)) { 
+//            foreach ($friends as $friend) { 
+//                $this->addMyFriend($friend); 
+//            } 
+//        } elseif ($friends instanceof User) { 
+//            $this->addMyFriend($friends); 
+//        } else { 
+//            throw new Exception("$friends must be an instance of User or ArrayCollection"); 
+//        } 
+//    }
+    
+//    public function setAllFriends($friendswithme, $myfriends){
+//        $this->allfriends = new ArrayCollection(
+//                            array_merge($friendswithme->toArray(), $myfriends->toArray())
+//                            ); 
+//        return $this;
+//    }
 }

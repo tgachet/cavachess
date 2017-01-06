@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findLatest($limit)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb 
+           ->orderBy('a.id', 'DESC')
+           ->setMaxResults($limit) // pour créer la limite
+        ;
+                       
+        return $qb->getQuery()->getResult();
+    }
 }
