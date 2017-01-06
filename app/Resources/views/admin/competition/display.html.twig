@@ -26,7 +26,21 @@
             </div>
             
             <div class="col-sm-4 col-md-4 col-lg-3">
-                {{render(url('app_admin_competition_editcompetition'))}}
+                {{render(url('app_admin_competition_addcompetition'))}}
+            </div>
+                
+            <div class="col-sm-4 col-md-4 col-lg-3">
+                {% if app.request.get('_route') == 'app_admin_competition_editcompetition' %}
+                    {{form_start(form)}} 
+                    {{form_row(form.name)}}
+                    {{form_row(form.gamemode)}} {# game_mode_id #}
+                    {{form_row(form.typeofgame)}} {# type_of_game_id #}
+                    <div class="form-btn-group pull-right">
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                        <a href="{{path('app_admin_competition_displaycompetitions')}}" class="btn btn-default" title="">Annuler</a>
+                    </div>
+                    {{form_end(form)}}
+                {% endif %}
             </div>
         </div>
     </section>
