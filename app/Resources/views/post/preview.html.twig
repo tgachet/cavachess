@@ -1,0 +1,19 @@
+<article>
+    <h3>
+        {{ post.title }}
+        <small>
+            <a href="{#{ path('app_article_display', {"id": post.id}) }#}">
+                <i class="glyphicon glyphicon-share"></i>
+            </a>
+        </small>
+    
+    </h3>
+    <div class ="well">{{ post.description }}</div>
+    <p> Dans 
+        {% for category in post.categories %}
+            {{ category }}, 
+        {% endfor %} 
+        par {{ post.author.username }}
+       
+    </p>
+</article>
