@@ -52,6 +52,23 @@ class UserController extends Controller
         );
     }
     
+//    /**
+//     * @param Request $request
+//     * 
+//     */
+//    public function whoIsOnlineAction()
+//    {
+//        $cons = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->getActive();
+// 
+//        return $this->render(
+//            'default/index.html.twig',
+//            [
+//                'cons' => $cons,
+//            ]
+//        );
+////        return array('cons' => $cons);
+//    }
+    
     /**
      * 
      * @param Request $request
