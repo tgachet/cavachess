@@ -35,6 +35,7 @@ class GameController extends Controller
         $em = $this->getDoctrine()->getManager();
         $rank = $em->getRepository('AppBundle:Ranking')->findOneBy(array('user_id' => $userid, 'competition_id' => $competition));
         $compet = $em->getRepository('AppBundle:Competition')->findOneBy(array('id' => $competition));
+        $gametime = $compet->getGamemode()->getGametime();
         if(!is_null($rank))
         {
             $points = $rank->getPoints();
@@ -57,13 +58,14 @@ class GameController extends Controller
          * Variables à passer en js
          */
         
-        $vars = array('user' => $username, 'competition' => $competition, 'rank' => $points );
+        $vars = array('user' => $username, 'competition' => $competition, 'rank' => $points, 'gametime' => $gametime->format('H:i:s'));
         
         $this->get('app.js_vars')->chartData = $vars;
 
         return $this->render('game/display.html.twig', 
         [
             'rank' => $points,
+            'gametime' => $gametime->format('H:i:s'),
         ]);        
     }
 }

@@ -67,6 +67,12 @@
         var connected = false; // Non connecté
         var username = chartData.user;
         var competition = chartData.competition;
+        var gametime = chartData.gametime;
+        var ingameclock = {
+            hours : parseInt(gametime.substr(0,2)),
+            minutes: parseInt(gametime.substr(3,2)),
+            seconds: parseInt(gametime.substr(6,2))
+        };
         var rank = chartData.rank;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
@@ -89,7 +95,7 @@
             $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
             
             /* Lancement des chronomètres */
-            var clock = Date.parse(new Date(Date.parse(new Date()) + 1 * 60 * 60 * 1000));
+            var clock = Date.parse(new Date(Date.parse(new Date()) + ((ingameclock.hours*60*60) + (ingameclock.minutes * 60) + ingameclock.seconds) * 1000));
             initializeClockp1('clockdivp1', clock);
             initializeClockp2('clockdivp2', clock);
             clearInterval(timeintervalp2);
