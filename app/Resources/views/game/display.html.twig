@@ -19,6 +19,16 @@
         {{dump(app.session)}}#}
     <h3 id="adversaire"></h3>
     <p id="info"></p>
+    <div id="clockdivp1">
+        <p>
+            Joueur 1 : <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
+        </p>
+    </div>
+    <div id="clockdivp2">
+        <p>
+            Joueur 2 : <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
+        </p>
+    </div>
     <section id="jeu">
         <div id="board" style="width: 400px"></div>
         <p>Status: <span id="status"></span></p>
@@ -44,8 +54,10 @@
     {{ parent() }}
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-    <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>		
+    <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>				
+    <script src="{{ asset('js/countdown.js')}}"></script>				
     <script>
+     
         // Récupération des variables définies dans le service js_vars
         var JsVars = $('#js-vars').data('vars');    
         // Récuperer une variable
@@ -55,9 +67,16 @@
         var connected = false; // Non connecté
         var username = chartData.user;
         var competition = chartData.competition;
+        var gametime = chartData.gametime;
+        var ingameclock = {
+            hours : parseInt(gametime.substr(0,2)),
+            minutes: parseInt(gametime.substr(3,2)),
+            seconds: parseInt(gametime.substr(6,2))
+        };
         var rank = chartData.rank;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
+        
         
         /* Connexion au serveur */
         // fire un événement 'connection' coté serveur et 'connect' coté client
@@ -72,10 +91,15 @@
         /* Réception de l'initialisation de la partie */
         socket.on('gameStart', function(data) {
             room = data.room;
-            player = data.color;
+            player = data.color;           
+            $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
             
-            $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");            
-        });   
+            /* Lancement des chronomètres */
+            var clock = Date.parse(new Date(Date.parse(new Date()) + ((ingameclock.hours*60*60) + (ingameclock.minutes * 60) + ingameclock.seconds) * 1000));
+            initializeClockp1('clockdivp1', clock);
+            initializeClockp2('clockdivp2', clock);
+            clearInterval(timeintervalp2);
+        });
         
         /* Réception event fin de la partie. */
         socket.on('gameEnd', function(data) {
@@ -110,6 +134,8 @@
             var message = $('<p>').text(data);
             $("#chat-output").append(message);
         });
+        
+
     </script>    
     <script src="{{ asset('js/board.js')}}"></script>    
 {% endblock %}

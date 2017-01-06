@@ -10,6 +10,7 @@ use AppBundle\Form\CompetitionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -193,6 +194,15 @@ class CompetitionController extends Controller
                 TextType::class, // input type text
                 [
                     'label' => 'Nom du mode de jeu',
+                ])
+            ->add('gametime', TimeType::class, 
+                [
+                    'input'  => 'datetime',
+                    'widget' => 'choice',
+                    'with_seconds' => true,
+                    'placeholder' => array(
+                        'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+                    )
                 ]);
 
         $form = $formBuilder->getForm();

@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Ranking;
+use AppBundle\Entity\Competition;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Page Jeu front-office
@@ -32,19 +34,38 @@ class GameController extends Controller
         /* Rank de l'utilisateur */
         $em = $this->getDoctrine()->getManager();
         $rank = $em->getRepository('AppBundle:Ranking')->findOneBy(array('user_id' => $userid, 'competition_id' => $competition));
-        $points = $rank->getPoints();
+        $compet = $em->getRepository('AppBundle:Competition')->findOneBy(array('id' => $competition));
+        $gametime = $compet->getGamemode()->getGametime();
+        if(!is_null($rank))
+        {
+            $points = $rank->getPoints();
+        }
+        else {
+            /* Ajout d'un nouveau rank */  
+            $ranking = new Ranking();
+            $ranking->setUser_id($this->getUser());
+            $ranking->setCompetition_id($compet);
+            $ranking->setPoints(1500);
+            
+            $em->persist($ranking);
+            $em->flush();
+            
+            $points = 1500;
+        }
+        
         
         /*
          * Variables à passer en js
          */
         
-        $vars = array('user' => $username, 'competition' => $competition, 'rank' => $points );
+        $vars = array('user' => $username, 'competition' => $competition, 'rank' => $points, 'gametime' => $gametime->format('H:i:s'));
         
         $this->get('app.js_vars')->chartData = $vars;
 
         return $this->render('game/display.html.twig', 
         [
             'rank' => $points,
+            'gametime' => $gametime->format('H:i:s'),
         ]);        
     }
 }
