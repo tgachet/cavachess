@@ -75,8 +75,15 @@ class User implements UserInterface, Serializable
      */
     
     private $date;
+    
+    /**
+     *
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    private $lastActivity;
 
-        /**
+    /**
      * @var string
      * @ORM\Column(type="string", length=20)
      * 
@@ -201,6 +208,10 @@ class User implements UserInterface, Serializable
     public function getDate() {
         return $this->date;
     }
+    
+      public function getLastActivity() {
+        return $this->lastActivity;
+    }
 
     public function getRole() {
         return $this->role;
@@ -272,6 +283,11 @@ class User implements UserInterface, Serializable
 
    public function setDate(\DateTime $date) {
         $this->date = $date;
+        return $this;
+    }
+    
+    public function setLastActivity(\DateTime $lastActivity) {
+        $this->lastActivity = $lastActivity;
         return $this;
     }
     
@@ -355,6 +371,11 @@ class User implements UserInterface, Serializable
     public function getFullName()
     {
         return $this->getFirstname() . ' ' . $this->getLastname();
+    }
+    
+    public function isActiveNow()
+    {
+        $this->setLastActivity(new \DateTime());
     }
     
     

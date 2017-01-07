@@ -2,18 +2,25 @@
     <h3>
         {{ post.title }}
         <small>
-            <a href="{#{ path('app_article_display', {"id": post.id}) }#}">
+            <a href="{{ path('app_post_display', {"id": post.id}) }}">
                 <i class="glyphicon glyphicon-share"></i>
             </a>
         </small>
     
     </h3>
     <div class ="well">{{ post.description }}</div>
-    <p> Dans 
+    <p>Dans 
         {% for category in post.categories %}
-            {{ category }}, 
+        <span class="category-tag"> 
+            {{ category }}
+        </span>&nbsp
         {% endfor %} 
-        par {{ post.author.username }}
-       
+        
+        {% if app.request.get('_route') != 'app_user_displayinfo' %}
+            par 
+            <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
+                {{ post.author.username }}
+            </a>
+        {% endif %}
     </p>
 </article>
