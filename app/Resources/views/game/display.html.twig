@@ -21,12 +21,12 @@
     <p id="info"></p>
     <div id="clockdivp1">
         <p>
-            Joueur 1 : <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
+            <span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
         </p>
     </div>
     <div id="clockdivp2">
         <p>
-            Joueur 2 : <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
+            <span id="player2username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
         </p>
     </div>
     <section id="jeu">
@@ -98,6 +98,16 @@
             player = data.color;   
             opponent = data.name;
             $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
+            /* Nom des joueurs pour le chronomètre */
+            if(player === 'white'){
+                $("#player1username").text(username);
+                $("#player2username").text(data.name);
+            }
+            else{
+                $("#player1username").text(data.name);
+                $("#player2username").text(username);
+            }
+            
             
             /* Initializing timers */
             var clock = Date.parse(new Date(Date.parse(new Date()) + ((ingameclock.hours*60*60) + (ingameclock.minutes * 60) + ingameclock.seconds) * 1000));

@@ -27,7 +27,7 @@
                 {% endif %}
             {% endif %}
            Membre depuis le <i> {{ user.date|date('d-m-Y') }}</i> <br/>
-           Dernière connection  le <i>***date de dernière connexion de l'user </i> <br/>
+           Dernière connection  à <i>{{ user.lastActivity|date('H:i')}} le  {{user.lastActivity|date('d-m-Y') }}</i> <br/>
            <br/>
             <b> Nombre parties jouées : </b> <i>***X récupérer le nombre de partie jouées par l'user </i>
                  <br/>
