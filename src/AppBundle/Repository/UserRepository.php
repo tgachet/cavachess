@@ -27,5 +27,19 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         
         return $qb->getQuery()->getOneOrNullResult();
     }
+    
+    // Correspond au listener activity listener pour l'entité User
+    public function getActive()
+    {
+        $delay = new \DateTime();
+        $delay->setTimestamp(strtotime('2 minutes ago'));
+ 
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.lastActivity > :delay')
+            ->setParameter('delay', $delay)
+        ;
+ 
+        return $qb->getQuery()->getResult();
+    }
 
 }

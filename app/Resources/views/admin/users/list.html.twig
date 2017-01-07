@@ -25,9 +25,6 @@
                 <td>{{ user.role }}</td>
                 <td><img src="{{ asset('upload/' ~ user.avatar) }}" height="40vh"/></td>
                 <td>
-                    <img src="{{ asset('upload/' ~ user.avatar) }}" width="10%"/>
-                </td>
-                <td>
                     <a href="{{ path('app_admin_user_editusers', {"id": user.id}) }}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Modifier"></span>
                     </a>

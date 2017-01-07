@@ -40,8 +40,12 @@
                    
                 </ul>
             <br/>
-            
-                    
         </div>
+    </div>
+    <div class="row">
+        <h2>Ses derniers articles</h2>
+        {% for post in posts %}
+            {% include 'post/preview.html.twig' with {"post" : post} %}
+        {% endfor %}
     </div>
 {% endblock %}
