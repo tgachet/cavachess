@@ -25,14 +25,14 @@ class GamesFinished
     private $id;
         
     /**
-     * @var datetime
+     * @var \datetime
      * @ORM\Column(name="date_game", type="datetime")
      * @Assert\NotBlank()
      */
     private $dategame;
     
     /**
-     * @var time
+     * @var DateTime
      * @ORM\Column(name="game_length", type="time")
      * @Assert\NotBlank()
      */
@@ -70,7 +70,11 @@ class GamesFinished
      */
     private $id_competition;
     
-    
+    /***** CONSTRUCT *****/
+    public function __construct()
+    {
+        $this->dategame = new \DateTime();
+    }    
     /***** GETTERS *****/
     /**
      * Get id
@@ -89,7 +93,7 @@ class GamesFinished
     public function getGamelength() {
         return $this->gamelength;
     }
-
+    
     public function getNbplays() {
         return $this->nbplays;
     }
@@ -107,12 +111,12 @@ class GamesFinished
     }
     
     /***** SETTERS *****/
-    public function setDategame(datetime $dategame) {
+    public function setDategame(\DateTime $dategame) {
         $this->dategame = $dategame;
         return $this;
     }
 
-    public function setGamelength(time $gamelength) {
+    public function setGamelength(\DateTime $gamelength) {
         $this->gamelength = $gamelength;
         return $this;
     }

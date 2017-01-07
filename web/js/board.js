@@ -48,6 +48,7 @@ var onDrop = function(source, target) {
   if (move === null) return 'snapback';
 
   updateStatus();
+  nbplays += 1;
 };
 
 /* Cases d'aide */
@@ -96,6 +97,8 @@ var updateStatus = function() {
       }
       else{
           gameisover = 'youwin';
+          /* Registering game info when game ended */
+          registerGame(urlajax, username, opponent, gamelength(ingameclock, getClockp1(), getClockp2()), nbplays, competition);
           $("#adversaire").html("Partie terminée, vous avez gagné");
       }
   }
@@ -105,6 +108,8 @@ var updateStatus = function() {
     status = 'Game over, ' + moveColor + ' is in checkmate.';
     if(moveColor !== player) {
         gameisover = 'youwin';
+        /* Registering game info when game ended */
+        registerGame(urlajax, username, opponent, gamelength(ingameclock, getClockp1(), getClockp2()), nbplays, competition); 
         $("#adversaire").html("Partie terminée, vous avez gagné");
     }
        
@@ -195,6 +200,7 @@ socket.on('gameturninfo', function(data)
   fenEl.html(data.fen);
   pgnEl.html(data.history);
   board.position(game.fen());
+  nbplays +=1 ;
   
   /* Mise à jour des chronomètres */
   if (game.game_over() === false && !timeisover)
