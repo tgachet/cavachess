@@ -76,6 +76,8 @@
         var rank = chartData.rank;
         var room = ''; // socket room
         var player = ''; // Couleur du joueur
+        var gameisover = '';
+        var timeisover = '';
         
         
         /* Connexion au serveur */
@@ -103,15 +105,30 @@
         
         /* Réception event fin de la partie. */
         socket.on('gameEnd', function(data) {
-{#            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));      #}   
-            $("#adversaire").html("Partie terminée, votre adversaire à quitté la partie");
-            room = '';
-            //setTimeout(setLocation, 5000);
+            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));
+            setTimeout(setLocation, 5000);
+            
+            if(!gameisover){
+                clearInterval(timeintervalp2);
+                clearInterval(timeintervalp1);
+                $("#adversaire").html("Partie terminée, vous avez gagné");
+                gameisover = 'youwin';               
+            } 
+            room = '';         
         });
 
         /* Réception event fin de la partie. */
-        socket.on('gameLooser', function(data) {  
-            $("#adversaire").html("Partie terminée, vous avez perdu");
+        socket.on('gameOver', function(data) {
+            clearInterval(timeintervalp2);
+            clearInterval(timeintervalp1);
+            if (data === 'youwin'){
+                gameisover = 'youloose';
+                $("#adversaire").html("Partie terminée, vous avez perdu");
+            }
+            else if (data === 'draw'){
+                gameisover = 'draw';
+                $("#adversaire").html("Partie terminée, match nul");
+            }          
             room = '';
         });
         
