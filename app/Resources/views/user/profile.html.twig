@@ -14,18 +14,20 @@
         </div>
         
         <div class="col-sm-9">
-            {% if user.role == 'ROLE_ADMIN' %}
-                <b style="color: darkred;">Administrateur</b><hr/>
-            {% endif %}
             
-          {% if id == app.user.id %}
-               <b>Nom: </b> {{ user.lastname|title }}<br/>
-               <b>Prénom: </b>{{ user.firstname|title}}<br/>
-               <b> Email: </b><i>{{ user.email }}</i><br/>
-               <br/>
-           {% endif %}
+            {% if app.user %}
+                {% if user.role == 'ROLE_ADMIN' %}
+                    <b style="color: darkred;">Administrateur</b><hr/>
+                {% endif %}
+                {% if id == app.user.id %}
+                    <b>Nom: </b> {{ user.lastname|title }}<br/>
+                    <b>Prénom: </b>{{ user.firstname|title}}<br/>
+                    <b> Email: </b><i>{{ user.email }}</i><br/>
+                    <br/>
+                {% endif %}
+            {% endif %}
            Membre depuis le <i> {{ user.date|date('d-m-Y') }}</i> <br/>
-           Dernière connection  le <i>***date de dernière connexion de l'user </i> <br/>
+           Dernière connection  à <i>{{ user.lastActivity|date('H:i')}} le  {{user.lastActivity|date('d-m-Y') }}</i> <br/>
            <br/>
             <b> Nombre parties jouées : </b> <i>***X récupérer le nombre de partie jouées par l'user </i>
                  <br/>

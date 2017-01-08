@@ -28,7 +28,7 @@ var onDragStart = function(source, piece, position, orientation) {
       (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
       (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
       (game.turn() === 'w' && player === 'black') ||
-      (game.turn() === 'b' && player === 'white'))
+      (game.turn() === 'b' && player === 'white') || timeisover )
   {
     return false;
   }
@@ -48,6 +48,7 @@ var onDrop = function(source, target) {
   if (move === null) return 'snapback';
 
   updateStatus();
+  nbplays += 1;
 };
 
 /* Cases d'aide */
@@ -84,19 +85,41 @@ var onSnapEnd = function() {
 var updateStatus = function() {
   var status = '';
 
-  var moveColor = 'White';
+  var moveColor = 'white';
   if (game.turn() === 'b') {
-    moveColor = 'Black';
+    moveColor = 'black';
+  }
+  
+  if(timeisover){
+      if(player === timeisover){
+          gameisover = 'youloose';
+          $("#adversaire").html("Partie terminée, vous avez perdu");
+      }
+      else{
+          gameisover = 'youwin';
+          /* Registering game info when game ended */
+          registerGame(urlajax, username, opponent, gamelength(ingameclock, getClockp1(), getClockp2()), nbplays, competition);
+          $("#adversaire").html("Partie terminée, vous avez gagné");
+      }
   }
 
   // checkmate?
   if (game.in_checkmate() === true) {
     status = 'Game over, ' + moveColor + ' is in checkmate.';
+    if(moveColor !== player) {
+        gameisover = 'youwin';
+        /* Registering game info when game ended */
+        registerGame(urlajax, username, opponent, gamelength(ingameclock, getClockp1(), getClockp2()), nbplays, competition); 
+        $("#adversaire").html("Partie terminée, vous avez gagné");
+    }
+       
   }
 
   // draw?
   else if (game.in_draw() === true) {
     status = 'Game over, drawn position';
+    $("#adversaire").html("Partie terminée, match nul");
+    gameisover = 'draw';
   }
 
   // game still on
@@ -114,27 +137,31 @@ var updateStatus = function() {
     //game.reset();
     //game.fen();
     //status += moveColor;
-    $("#adversaire").html("Partie terminée, vous avez gagné");       
-    socket.emit('gameOver');
-  }
+    clearInterval(timeintervalp2);
+    clearInterval(timeintervalp1);
+    socket.emit('gameOver', gameisover);        
+}
 
   statusEl.html(status);
   fenEl.html(game.fen());
   pgnEl.html(game.pgn());
 
   /* Mise à jour des chronomètres */
-  if(game.turn() === 'w'){
-    clearInterval(timeintervalp2);
-    var clockp1 = getClockp1();
-    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));   
-    initializeClockp1('clockdivp1', clock);
-          
-  }
-  else if(game.turn() === 'b'){
-    clearInterval(timeintervalp1);
-    var clockp2 = getClockp2();
-    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));     
-    initializeClockp2('clockdivp2', clock);         
+  if (game.game_over() === false && !timeisover)
+  {
+    if(game.turn() === 'w'){
+      clearInterval(timeintervalp2);
+      var clockp1 = getClockp1();
+      var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));   
+      initializeClockp1('clockdivp1', clock);
+
+    }
+    else if(game.turn() === 'b'){
+      clearInterval(timeintervalp1);
+      var clockp2 = getClockp2();
+      var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));     
+      initializeClockp2('clockdivp2', clock);         
+    }
   }
 
   /* Envoi des infos à l'adversaire */
@@ -172,23 +199,26 @@ socket.on('gameturninfo', function(data)
   statusEl.html(data.turn);
   fenEl.html(data.fen);
   pgnEl.html(data.history);
+  board.position(game.fen());
+  nbplays +=1 ;
   
   /* Mise à jour des chronomètres */
-  if(game.turn() === 'w'){
-    clearInterval(timeintervalp2);
-    var clockp1 = getClockp1();
-    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));   
-    initializeClockp1('clockdivp1', clock);
-          
+  if (game.game_over() === false && !timeisover)
+  {  
+    if(game.turn() === 'w'){
+      clearInterval(timeintervalp2);
+      var clockp1 = getClockp1();
+      var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));   
+      initializeClockp1('clockdivp1', clock);
+
+    }
+    else if(game.turn() === 'b'){
+      clearInterval(timeintervalp1);
+      var clockp2 = getClockp2();
+      var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));     
+      initializeClockp2('clockdivp2', clock);         
+    }
   }
-  else if(game.turn() === 'b'){
-    clearInterval(timeintervalp1);
-    var clockp2 = getClockp2();
-    var clock = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));     
-    initializeClockp2('clockdivp2', clock);         
-  }
+  
 });
 
-$(window).on('focus', function() {
-  board.position(game.fen());
-});

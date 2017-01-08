@@ -2,10 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Ranking;
 use AppBundle\Entity\Competition;
+use AppBundle\Entity\GamesFinished;
+use AppBundle\Entity\Ranking;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Page Jeu front-office
@@ -68,4 +70,58 @@ class GameController extends Controller
             'gametime' => $gametime->format('H:i:s'),
         ]);        
     }
+
+    /**
+     * 
+     * @Route("/register")
+     */
+    public function registerGameAction()
+    {
+        
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        
+        if($request->isXmlHttpRequest()) 
+        {
+            /* Get game infos from request */
+            $winner = $request->request->get('winner');
+            $looser = $request->request->get('looser');
+            $gamelength = $request->request->get('gamelength');
+            $nbplays = $request->request->get('nbplays');
+            $competition = $request->request->get('competition');
+            
+            /* EM */
+            $em = $this->getDoctrine()->getManager();
+            /* winner, looser, competition to new Objects */
+            $idwinner = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $winner));
+            $idlooser = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $looser));
+            $compet = $em->getRepository('AppBundle:Competition')->findOneBy(array('id' => $competition));
+            
+            $hours = floor($gamelength / 3600);
+            $mins = floor($gamelength / 60 % 60);
+            $secs = floor($gamelength % 60);
+            
+            /* gamelength to time */
+            $now = new \DateTime();
+            $now->setTime($hours, $mins, $secs);
+            
+            /* flush into GamesFinished */
+            $gamefinished = new GamesFinished();
+            $gamefinished->setNbplays($nbplays);
+            $gamefinished->setIdwinner($idwinner);
+            $gamefinished->setIdlooser($idlooser);
+            $gamefinished->setId_competition($compet);
+            $gamefinished->setGamelength($now);
+
+            $em->persist($gamefinished);
+            $em->flush();            
+
+            return new Response($gamelength);
+        }
+        else
+        {
+            /* Redirect if not AJAX request */
+            return $this->redirectToRoute('app_competition_displaycompetitions');
+        }
+    }
+    
 }

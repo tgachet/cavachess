@@ -30,6 +30,9 @@ function initializeClockp1(id, endtime) {
 
     if (t.total <= 0) {
       clearInterval(timeintervalp1);
+      timeisover = 'white';
+      clearInterval(timeintervalp2);
+      updateStatus();
     }
   }
 
@@ -54,6 +57,9 @@ function initializeClockp2(id, endtime) {
 
     if (t.total <= 0) {
       clearInterval(timeintervalp2);
+      timeisover = 'black';
+      clearInterval(timeintervalp1);
+      updateStatus();
     }
   }
 
