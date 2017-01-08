@@ -51,18 +51,25 @@ class UserController extends Controller
         $posts = $em->getRepository('AppBundle:Post')->findByAuthor($id);
         
 
-        /* TIME PLAYED FOR GAMES WON AND LOST */
-        $gamewontimelength = $em->getRepository('AppBundle:GamesFinished')->findTimeByGamesWon($id);
-        $gamelosttimelength = $em->getRepository('AppBundle:GamesFinished')->findTimeByGamesLost($id);
+        /* GET GAMES WON AND GAMES LOST */
+        $gamewon = $em->getRepository('AppBundle:GamesFinished')->findGamesWon($id);
+        $gamelost = $em->getRepository('AppBundle:GamesFinished')->findGamesLost($id);
         
         $times = [];
-        foreach ($gamewontimelength as $time){
-            $times[] = $time->getGamelength()->format('H:i:s');
+        $opponents = [];
+        $competitions = [];
+        foreach ($gamewon as $game){
+            $times[] = $game->getGamelength()->format('H:i:s');
+            $opponents[] = $game->getIdlooser()->getUsername();
+            $competitions[] = $game->getId_competition()->getName();
         }
-        foreach ($gamelosttimelength as $time) {
-            $times[] = $time->getGamelength()->format('H:i:s');
+        foreach ($gamelost as $game) {
+            $times[] = $game->getGamelength()->format('H:i:s');
+            $opponents[] = $game->getIdwinner()->getUsername();
+            $competitions[] = $game->getId_competition()->getName();
         }
         
+        /* TIME PLAYED FOR GAMES WON AND LOST */
         $seconds = 0;
         foreach ($times as $value) {
            list($hour,$minute,$second) = explode(':', $value);
@@ -77,14 +84,27 @@ class UserController extends Controller
         /* Time played */
         $totaltime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 
+        /* MOST PLAYED OPPONENT */
+        $countPerOpponent = array_count_values($opponents);
+        $playermostplayed = array_search(max($countPerOpponent),$countPerOpponent); 
         
+        /* MOST PLAYED COMPETITION */
+        $countPerCompetition = array_count_values($competitions);
+        $competitionmostplayed = array_search(max($countPerCompetition),$countPerCompetition); 
+
+        /* GET RANKINGS */
+        $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('user_id' => $id));
+        
+        /* RENDER */
         return $this->render(
             'user/profile.html.twig',
             [
                 'user' => $user,
                 'id' => $id,
                 'posts' =>$posts,
-                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime),
+                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
+                'rankings' => $rankings,
+                'test' => $competitions,
             ]
         );
     }
