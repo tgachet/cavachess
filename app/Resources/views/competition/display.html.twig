@@ -1,11 +1,15 @@
 {% extends 'layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         #competitions-list .panel-heading { padding:0;}
         #competitions-list .panel-heading a {text-decoration:none;}
         #competitions-list .panel-title { padding:10px 15px; }
         #competitions-list .ranking {background-color:white;}
+        .gameModeClass {
+            display:inline-block;
+        }
     </style>
 {% endblock %}
 
@@ -21,16 +25,43 @@
     {{dump(rankings)}}#}
     <hr>
     <div class="row">
-        <div class="col-sm-3 col-sm-push-9">
-            <aside>blabla</aside>
-        </div>
+        <div class="col-sm-3 col-sm-push-9">{# Accordion pour la description des modes de jeu #}
+            <aside class="game-mode-accordion">
+                <h4>Les différents modes de jeu</h4>
+                <div id="accordion">
+                    {% for gamemode in gamemodes %}
+                        {% set gameClass = '' %}
+                        {% if gamemode.id == 1 %}
+                            {% set gameClass = 'blitz-description' %}
+                        {% elseif gamemode.id == 2 %}
+                            {% set gameClass = 'bullet-description' %}
+                        {% elseif gamemode.id == 3 %}
+                            {% set gameClass = 'classical-description' %}
+                        {% endif %}
+                        
+                        <h3 class="{{ gameClass }}">{{ gamemode.name|title }}</h3>
+                        <div class="{{ gameClass }}">
+                            <p>{{ gamemode.description }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </aside>
+        </div>{# Fin de l'accordion #}
         <div class="col-sm-9 col-sm-pull-3">
             <section id="competitions-list">
                 <div class="row">
                     {% for competition in competitions %}
+                        {% set gameModeClass = '' %}
+                        {% if competition.gamemode.id == 1 %}
+                            {% set gameModeClass = 'game-mode-blitz' %}
+                        {% elseif competition.gamemode.id == 2 %}
+                            {% set gameModeClass = 'game-mode-bullet' %}
+                        {% elseif competition.gamemode.id == 3 %}
+                            {% set gameModeClass = 'game-mode-classical' %}
+                        {% endif %}
                         {% set rank = 0 %}
                         <div class="col-sm-6">
-                            <div class="panel panel-default">
+                            <div class="panel panel-default {{ gameModeClass }}">
                                 <div class="panel-heading" role="tab" id="heading{{competition.id}}">
                                     <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
                                     <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
@@ -99,3 +130,29 @@
     {{dump(app.user)}}
     {{dump(app.request)}}
     {{dump(app.session)}}#}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <script>
+        $( function() {
+            $( "#accordion" ).accordion({
+                collapsible: true,
+                heightStyle: "content",
+                active: false,
+                animate: 500,
+            });
+        });
+        
+        $(".game-mode-blitz:parent").on("mouseover", function(){
+            $( "#ui-id-1" ).removeClass( "ui-accordion-header-collapsed" );
+            $( "#ui-id-1" ).addClass( "ui-accordion-header-active" );
+            $( "#ui-id-1" ).css({"aria-expanded":"true", "aria-selected":"true"});
+            
+            {#$(".blitz-description").trigger("click");#}
+            $( ".blitz-description" ).addClass("ui-accordion-content-active" );
+           
+        });
+    </script>
+{% endblock %}
