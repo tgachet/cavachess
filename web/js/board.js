@@ -111,6 +111,9 @@ var updateStatus = function() {
                gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
            }
            registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+           
+        /* Updating rank */
+        updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);           
         }
   }
 
@@ -131,7 +134,10 @@ var updateStatus = function() {
             gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');
             gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
         }
-        registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);        
+        registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+        
+        /* Updating rank */
+        updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);
     }
        
   }

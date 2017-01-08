@@ -51,6 +51,31 @@ function registerGame(url, winner, looser, gamelength, gamelengthwinner, gamelen
     });	
 }
 
+function updateRank(url, winner, looser, winnerrank, looserrank, competition){
+   $.ajax({
+            url : url,
+            method : 'POST',			
+            data :  {
+                        winner : winner,
+                        looser : looser,                
+                        winnerrank : winnerrank,
+                        looserrank : looserrank,
+                        competition : competition                        
+                    },
+            success : function(data) {
+                    // fonction exécutée au succès de la requête
+                        console.log(data);
+            },
+            error : function(jqXHR, textStatus, errorThrow){
+                    // fonction exécutée à l'échec de la requête
+                    console.log(jqXHR, textStatus, errorThrow);
+            },
+            complete : function (data) {
+                    // fonction exécutée lorsque la requête est terminée. Renvoie un objet readyState + response + status	
+            }						
+    });	    
+}
+
 /* Enregistrement de la partie */
 //if(gameisover === 'youwin'){
 //   registerGame(username, opponent, gamelength(ingameclock, getClockp1(), getClockp2()), nbplays, competition); 

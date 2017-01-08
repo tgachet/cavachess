@@ -74,6 +74,7 @@
             seconds: parseInt(gametime.substr(6,2))
         };
         var rank = chartData.rank; // player rank
+        var rankopponent; // opponent rank
         var room = ''; // socket room
         var player = ''; // player color ('white' or 'black')
         var opponent = ''; // username of your opponent
@@ -85,6 +86,7 @@
         var gamelengthwinner; // time played by the winner
         var gamelengthlooser; // time played by the looser
         var urlajax = "{{ path('app_game_registergame')}}";
+        var urlajaxrank = "{{ path('app_game_updaterank')}}";
         
         /* Connexion au serveur */
         // fire un événement 'connection' coté serveur et 'connect' coté client
@@ -101,6 +103,7 @@
             room = data.room;
             player = data.color;   
             opponent = data.name;
+            rankopponent = data.rank;
             $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
             /* Nom des joueurs pour le chronomètre */
             if(player === 'white'){
@@ -140,7 +143,10 @@
                     gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');
                     gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
                 }
-                registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition); 
+                registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+                
+                /* Updating rank */
+                updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);
             } 
             room = '';         
         });
