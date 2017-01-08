@@ -1,5 +1,5 @@
 /* Function gamelenth */
-function gamelength(ingameclock, clockp1, clockp2){
+function gamelength(ingameclock, clockp1, clockp2, option){
     var gamelentgh;
     
     /* Calcul des timestamp */
@@ -7,13 +7,22 @@ function gamelength(ingameclock, clockp1, clockp2){
     var clockp1 = Date.parse(new Date(Date.parse(new Date()) + ((clockp1.hours*60*60) + (clockp1.minutes * 60) + clockp1.seconds) * 1000));  
     var clockp2 = Date.parse(new Date(Date.parse(new Date()) + ((clockp2.hours*60*60) + (clockp2.minutes * 60) + clockp2.seconds) * 1000));
     
-    gamelentgh = (gametime + gametime - clockp1 - clockp2)/1000;
-    
-    return gamelentgh;
+    if (option === 'total'){
+        gamelentgh = (gametime + gametime - clockp1 - clockp2)/1000;
+        return gamelentgh;
+    }
+    else if (option === 'white'){
+        gamelentgh = (gametime - clockp1)/1000;
+        return gamelentgh;        
+    }
+    else if (option === 'black'){
+        gamelentgh = (gametime - clockp2)/1000;
+        return gamelentgh;        
+    }
 }
 
 /* AJAX */
-function registerGame(url, winner, looser, gamelength, nbplays, competition){
+function registerGame(url, winner, looser, gamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplayswinner, nbplayslooser, competition){
    $.ajax({
             url : url,
             method : 'POST',			
@@ -21,7 +30,11 @@ function registerGame(url, winner, looser, gamelength, nbplays, competition){
                         winner : winner,
                         looser : looser,
                         gamelength : gamelength,
+                        gamelengthwinner : gamelengthwinner,
+                        gamelengthlooser : gamelengthlooser,
                         nbplays : nbplays,
+                        nbplayswinner : nbplayswinner,
+                        nbplayslooser : nbplayslooser,
                         competition : competition
                     },
             success : function(data) {

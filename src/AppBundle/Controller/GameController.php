@@ -86,7 +86,11 @@ class GameController extends Controller
             $winner = $request->request->get('winner');
             $looser = $request->request->get('looser');
             $gamelength = $request->request->get('gamelength');
+            $gamelengthwinner = $request->request->get('gamelengthwinner');
+            $gamelengthlooser = $request->request->get('gamelengthlooser');
             $nbplays = $request->request->get('nbplays');
+            $nbplayswinner = $request->request->get('nbplayswinner');
+            $nbplayslooser = $request->request->get('nbplayslooser');
             $competition = $request->request->get('competition');
             
             /* EM */
@@ -96,13 +100,32 @@ class GameController extends Controller
             $idlooser = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $looser));
             $compet = $em->getRepository('AppBundle:Competition')->findOneBy(array('id' => $competition));
             
-            $hours = floor($gamelength / 3600);
-            $mins = floor($gamelength / 60 % 60);
-            $secs = floor($gamelength % 60);
+//            /* gamelength */
+//            $hours = floor($gamelength / 3600);
+//            $mins = floor($gamelength / 60 % 60);
+//            $secs = floor($gamelength % 60);
+//            
+//            /* gamelengthwinner */
+//            $hours = floor($gamelength / 3600);
+//            $mins = floor($gamelength / 60 % 60);
+//            $secs = floor($gamelength % 60);
+//            
+//            /* gamelengthlooser */
+//            $hours = floor($gamelength / 3600);
+//            $mins = floor($gamelength / 60 % 60);
+//            $secs = floor($gamelength % 60);
             
-            /* gamelength to time */
-            $now = new \DateTime();
-            $now->setTime($hours, $mins, $secs);
+            /* gamelength */
+            $ttgl = new \DateTime();
+            $ttgl->setTime(floor($gamelength / 3600), floor($gamelength / 60 % 60), floor($gamelength % 60));
+            
+            /* gamelengthwinner */
+            $ttglw = new \DateTime();
+            $ttglw->setTime(floor($gamelengthwinner / 3600), floor($gamelengthwinner / 60 % 60), floor($gamelengthwinner % 60));
+            
+            /* gamelengthlooser */
+            $ttgll = new \DateTime();
+            $ttgll->setTime(floor($gamelengthlooser / 3600), floor($gamelengthlooser / 60 % 60), floor($gamelengthlooser % 60));
             
             /* flush into GamesFinished */
             $gamefinished = new GamesFinished();
@@ -110,12 +133,16 @@ class GameController extends Controller
             $gamefinished->setIdwinner($idwinner);
             $gamefinished->setIdlooser($idlooser);
             $gamefinished->setId_competition($compet);
-            $gamefinished->setGamelength($now);
+            $gamefinished->setGamelength($ttgl);
+            $gamefinished->setGamelengthwinner($ttglw);
+            $gamefinished->setGamelengthlooser($ttgll);
+            $gamefinished->setNbplayswinner($nbplayswinner);
+            $gamefinished->setNbplayslooser($nbplayslooser);
 
             $em->persist($gamefinished);
             $em->flush();            
 
-            return new Response($gamelength);
+            return new Response('winner time: '.$gamelengthwinner.' looser time:'.$gamelengthlooser.' winner plays:'.$nbplayswinner.' looser plays:'.$nbplayslooser);
         }
         else
         {
