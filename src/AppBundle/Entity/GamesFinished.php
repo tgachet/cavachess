@@ -39,12 +39,42 @@ class GamesFinished
     private $gamelength;
     
     /**
+     * @var DateTime
+     * @ORM\Column(type="time")
+     * @Assert\NotBlank()
+     */
+    private $gamelengthwinner;
+    
+    /**
+     * @var DateTime
+     * @ORM\Column(type="time")
+     * @Assert\NotBlank()
+     */
+    private $gamelengthlooser;
+    
+    /**
      * @var int
      *
      * @ORM\Column(name="nb_plays", type="integer")
      * @Assert\NotBlank()
      */
     private $nbplays;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     */
+    private $nbplayswinner;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     */
+    private $nbplayslooser;
     
     /**
      *
@@ -75,6 +105,7 @@ class GamesFinished
     {
         $this->dategame = new \DateTime();
     }    
+    
     /***** GETTERS *****/
     /**
      * Get id
@@ -110,6 +141,23 @@ class GamesFinished
         return $this->id_competition;
     }
     
+    public function getGamelengthwinner() {
+        return $this->gamelengthwinner;
+    }
+
+    public function getGamelengthlooser() {
+        return $this->gamelengthlooser;
+    }
+
+    public function getNbplayswinner() {
+        return $this->nbplayswinner;
+    }
+
+    public function getNbplayslooser() {
+        return $this->nbplayslooser;
+    }
+
+        
     /***** SETTERS *****/
     public function setDategame(\DateTime $dategame) {
         $this->dategame = $dategame;
@@ -140,6 +188,27 @@ class GamesFinished
         $this->id_competition = $id_competition;
         return $this;
     }
+    public function setGamelengthwinner(\DateTime $gamelengthwinner) {
+        $this->gamelengthwinner = $gamelengthwinner;
+        return $this;
+    }
+
+    public function setGamelengthlooser(\DateTime $gamelengthlooser) {
+        $this->gamelengthlooser = $gamelengthlooser;
+        return $this;
+    }
+
+    public function setNbplayswinner($nbplayswinner) {
+        $this->nbplayswinner = $nbplayswinner;
+        return $this;
+    }
+
+    public function setNbplayslooser($nbplayslooser) {
+        $this->nbplayslooser = $nbplayslooser;
+        return $this;
+    }
+
+
 
 
 

@@ -74,13 +74,19 @@
             seconds: parseInt(gametime.substr(6,2))
         };
         var rank = chartData.rank; // player rank
+        var rankopponent; // opponent rank
         var room = ''; // socket room
         var player = ''; // player color ('white' or 'black')
         var opponent = ''; // username of your opponent
         var gameisover = ''; // game end (win, draw, loss)
         var timeisover = ''; // time running out
         var nbplays = 0; // total plays
+        var nbplaysuser = 0; // total plays player
+        var nbplaysopponent = 0; // total plays opponent
+        var gamelengthwinner; // time played by the winner
+        var gamelengthlooser; // time played by the looser
         var urlajax = "{{ path('app_game_registergame')}}";
+        var urlajaxrank = "{{ path('app_game_updaterank')}}";
         
         /* Connexion au serveur */
         // fire un événement 'connection' coté serveur et 'connect' coté client
@@ -97,6 +103,7 @@
             room = data.room;
             player = data.color;   
             opponent = data.name;
+            rankopponent = data.rank;
             $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
             /* Nom des joueurs pour le chronomètre */
             if(player === 'white'){
@@ -127,7 +134,19 @@
                 $("#adversaire").html("Partie terminée, vous avez gagné");
                 gameisover = 'youwin';
                 /* Registering game info when game ended */
-                registerGame(urlajax, username, opponent, gamelength(ingameclock, getClockp1(), getClockp2()), nbplays, competition);
+                totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
+                if(player === 'white'){
+                    gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');
+                    gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');    
+                }
+                else{
+                    gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');
+                    gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
+                }
+                registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+                
+                /* Updating rank */
+                updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);
             } 
             room = '';         
         });

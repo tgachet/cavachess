@@ -9,6 +9,7 @@ use AppBundle\Entity\TypeOfGame;
 use AppBundle\Form\CompetitionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\Request;
@@ -202,8 +203,15 @@ class CompetitionController extends Controller
                     'with_seconds' => true,
                     'placeholder' => array(
                         'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
-                    )
-                ]);
+                )]
+            )
+            ->add('description',
+                TextareaType::class, // input type text
+                [
+                    'label' => 'Description',
+                ]
+            )
+        ;
 
         $form = $formBuilder->getForm();
         

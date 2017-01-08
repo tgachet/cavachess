@@ -82,45 +82,124 @@ class GameController extends Controller
         
         if($request->isXmlHttpRequest()) 
         {
-            /* Get game infos from request */
+            /* GET REQUEST */
             $winner = $request->request->get('winner');
             $looser = $request->request->get('looser');
             $gamelength = $request->request->get('gamelength');
+            $gamelengthwinner = $request->request->get('gamelengthwinner');
+            $gamelengthlooser = $request->request->get('gamelengthlooser');
             $nbplays = $request->request->get('nbplays');
+            $nbplayswinner = $request->request->get('nbplayswinner');
+            $nbplayslooser = $request->request->get('nbplayslooser');
             $competition = $request->request->get('competition');
             
-            /* EM */
+            /* ENTITY MANAGER */
             $em = $this->getDoctrine()->getManager();
-            /* winner, looser, competition to new Objects */
+            
+            /* GET OBJECT FROM ENTITIES USER AND COMPETITION */
             $idwinner = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $winner));
             $idlooser = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $looser));
             $compet = $em->getRepository('AppBundle:Competition')->findOneBy(array('id' => $competition));
             
-            $hours = floor($gamelength / 3600);
-            $mins = floor($gamelength / 60 % 60);
-            $secs = floor($gamelength % 60);
+            /* INGAME TIME TO DATETIME TO TIME */
+            /* gamelength */
+            $ttgl = new \DateTime();
+            $ttgl->setTime(floor($gamelength / 3600), floor($gamelength / 60 % 60), floor($gamelength % 60));
             
-            /* gamelength to time */
-            $now = new \DateTime();
-            $now->setTime($hours, $mins, $secs);
+            /* gamelengthwinner */
+            $ttglw = new \DateTime();
+            $ttglw->setTime(floor($gamelengthwinner / 3600), floor($gamelengthwinner / 60 % 60), floor($gamelengthwinner % 60));
             
-            /* flush into GamesFinished */
+            /* gamelengthlooser */
+            $ttgll = new \DateTime();
+            $ttgll->setTime(floor($gamelengthlooser / 3600), floor($gamelengthlooser / 60 % 60), floor($gamelengthlooser % 60));
+            
+            /* SET GAMESFINISHED*/
             $gamefinished = new GamesFinished();
             $gamefinished->setNbplays($nbplays);
             $gamefinished->setIdwinner($idwinner);
             $gamefinished->setIdlooser($idlooser);
             $gamefinished->setId_competition($compet);
-            $gamefinished->setGamelength($now);
+            $gamefinished->setGamelength($ttgl);
+            $gamefinished->setGamelengthwinner($ttglw);
+            $gamefinished->setGamelengthlooser($ttgll);
+            $gamefinished->setNbplayswinner($nbplayswinner);
+            $gamefinished->setNbplayslooser($nbplayslooser);
 
+            /* PERSIST AND FLUSH */
             $em->persist($gamefinished);
             $em->flush();            
 
-            return new Response($gamelength);
+            /* DEBUG PURPOSE */
+            return new Response('winner time: '.$gamelengthwinner.' looser time:'.$gamelengthlooser.' winner plays:'.$nbplayswinner.' looser plays:'.$nbplayslooser);
+            
         }
         else
         {
             /* Redirect if not AJAX request */
             return $this->redirectToRoute('app_competition_displaycompetitions');
+        }
+    }
+    
+    /**
+     * @Route("/updaterank")
+     */
+    public function updateRankAction(){
+        
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        
+        if($request->isXmlHttpRequest()) {
+            
+            /* GET REQUEST */
+            $winner = $request->request->get('winner');
+            $looser = $request->request->get('looser');
+            $winnerrank = $request->request->get('winnerrank');
+            $looserrank = $request->request->get('looserrank');
+            $competition = $request->request->get('competition');
+            
+            /*  SOME MATHS */
+            if ($winnerrank > $looserrank){
+                $winnerpts = 10;
+                $looserpts = -10;
+            }
+            elseif($winnerrank < $looserrank){
+                $winnerpts = 30;
+                $looserpts = -30;               
+            }
+            else{
+                $winnerpts = 20;
+                $looserpts = -20;                
+            }
+            
+            /* ENTITY MANAGER */
+            $em = $this->getDoctrine()->getManager();
+
+            /* GET OBJECT FROM ENTITIES USER AND COMPETITION */
+            $idwinner = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $winner))->getId();
+            $idlooser = $em->getRepository('AppBundle:User')->findOneBy(array('username' => $looser))->getId();
+            
+            /* UPDATE WINNER */
+            $updatewinnerrank = $em->getRepository('AppBundle:Ranking')->findOneBy(array('user_id' => $idwinner, 'competition_id' => $competition));
+            
+            $updatewinnerrank->setPoints($updatewinnerrank->getPoints()+$winnerpts);
+
+            $em->persist($updatewinnerrank);
+            $em->flush();               
+            
+            /* UPDATE LOOSER */
+            $updatelooserrank = $em->getRepository('AppBundle:Ranking')->findOneBy(array('user_id' => $idlooser, 'competition_id' => $competition));            
+            $updatelooserrank->setPoints($updatelooserrank->getPoints()+$looserpts);
+
+            $em->persist($updatelooserrank);
+            $em->flush();             
+        
+            
+            /* DEBUG PURPOSE */
+            return new Response('winner rank: '.$winnerrank.' looser rank:'.$looserrank); 
+        }
+        else {
+            /* Redirect if not AJAX request */
+            return $this->redirectToRoute('app_competition_displaycompetitions');           
         }
     }
     
