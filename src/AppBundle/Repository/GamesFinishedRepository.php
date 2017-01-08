@@ -10,4 +10,28 @@ namespace AppBundle\Repository;
  */
 class GamesFinishedRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findTimeByGamesWon($id){
+        $qb = $this->createQueryBuilder('gf')
+                ->innerJoin('gf.idwinner', 'u' )
+                ->where('gf.idwinner = :id')
+                ->setParameter('id', $id)
+        ;
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function findTimeByGamesLost($id){
+        $qb = $this->createQueryBuilder('gf')
+                ->innerJoin('gf.idlooser', 'u' )
+                ->where('gf.idlooser = :id')
+                ->setParameter('id', $id)
+        ;
+        
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function findByBestOpponent($id){
+        
+    }
+
 }
