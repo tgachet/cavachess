@@ -13,14 +13,15 @@ class RankingController extends Controller
     
     /**
      * LISTE COMPETITIONS
-     * @Route("/list")
+     * @Route("/{id}", defaults={"id": null})
      */
-    public function listRankingsAction()
+    public function displayRankingAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $rankings = $em->getRepository('AppBundle:Ranking')->findAll();
         
-        return $this->render('/ranking/list.html.twig', 
+        $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('competition_id' => $id));
+        
+        return $this->render('/ranking/display.html.twig', 
         [
             'rankings' => $rankings,
         ]);

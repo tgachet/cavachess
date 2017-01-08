@@ -80,6 +80,7 @@
                                                     <th>Points</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
                                                 {% for ranking in rankings %}                                
                                                     {% if ranking.competition_id.id ==  competition.id %} 
                                                         {% set rank = rank + 1 %}
