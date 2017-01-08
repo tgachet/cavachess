@@ -46,7 +46,8 @@ class Comment
     private $date;
     
     /**
-     *
+     * Changer l'intégrité car impossible de supprimer un POST
+     * 
      * @var Post
      * @ORM\ManyToOne(targetEntity="Post") 
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=false) 
