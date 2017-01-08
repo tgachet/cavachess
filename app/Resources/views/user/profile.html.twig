@@ -1,44 +1,56 @@
 {% extends 'layout.html.twig' %}
-{% block page_title %}<h1 style="margin-bottom:2em">Profil de <b>{{ user.username }}</b></h1>{% endblock %}
+{% block page_title %}<h1 style="margin-bottom:2em">Profil de <strong>{{ user.username }}</strong></h1>{% endblock %}
 
 {% block content %}
+    {#{{dump(test)}}#}
     <div class="row">
         <div class="col-sm-3">
-            <b> Statut : </b> ***<i> EN LIGNE ou hors-ligne </i> <br/>
+            <strong> Statut : </strong> ***<em> EN LIGNE ou hors-ligne </em> <br/>
             <br/>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
             <img src="{{ asset('upload/' ~ user.avatar) }}" width="100%"/>
-        </div>
-        
-        <div class="col-sm-9">
-            
+        </div>        
+        <div class="col-sm-9">            
             {% if app.user %}
                 {% if user.role == 'ROLE_ADMIN' %}
-                    <b style="color: darkred;">Administrateur</b><hr/>
+                    <strong>Administrateur</strong><hr/>
                 {% endif %}
-                {% if id == app.user.id %}
-                    <b>Nom: </b> {{ user.lastname|title }}<br/>
-                    <b>Prénom: </b>{{ user.firstname|title}}<br/>
-                    <b> Email: </b><i>{{ user.email }}</i><br/>
-                    <br/>
-                {% endif %}
-            {% endif %}
-           Membre depuis le <i> {{ user.date|date('d-m-Y') }}</i> <br/>
-           Dernière connection  le <i>***date de dernière connexion de l'user </i> <br/>
-           <br/>
-            <b> Nombre parties jouées : </b> <i>***X récupérer le nombre de partie jouées par l'user </i>
-                 <br/>
-                 <b> Temps de jeu effectif : </b> <i>***Nombre d'heures de jeu de l'user, en heures </i>
-                 <br/>
-                 <br/>
-             <b> Classements : </b> <br/>
                 <ul>
-                    <li> ***<i>GameMode X :  classement de l'user sur le Game Mode X</i></li>
-                    <li> ***<i>GameMode Y :  classement de l'user sur le Game Mode Y</i></li>
-                    <li> ***<i>GameMode Z :  classement de l'user sur le Game Mode Z</i></li>
+                    {% if id == app.user.id %}
+                        <li><strong>Nom: </strong> {{ user.lastname|title }}</li>
+                        <li><strong>Prénom: </strong>{{ user.firstname|title}}</li>
+                        <li><strong>Email: </strong><em>{{ user.email }}</em></li>
+                        {% endif %}
+                    {% endif %}
+                <li>Membre depuis le <em> {{ user.date|date('d-m-Y') }}</em></li>
+                <li>Dernière connexion  à <em>{{ user.lastActivity|date('H:i')}} le  {{user.lastActivity|date('d-m-Y') }}</em></li>
+                    {% if games.played != 0%}
+                    <li>
+                        <strong> Nombre parties jouées : </strong> <em>{{games.played}} ({{games.won}} victoires, {{games.lost}} défaites)</em>
+                    </li>
+                    <li>
+                        <strong> Temps de jeu effectif : </strong> <em>{{games.timeplayed}}</em>
+                    </li>
+                    <li>
+                        <strong> Joueur le plus joué : </strong> <em>{{games.playermostplayed}}</em>
+                    </li>
+                    <li>
+                        <strong> Compétition la plus jouée : </strong> <em>{{games.competitionmostplayed}}</em>
+                    </li>
+                {% else %}
+                    Aucune partie jouée
+                {% endif %}
+            </ul>     
+            <strong> Classements : </strong> <br/>
+                <ul>
+                    {% for ranking in rankings %}
+                        <li>{{ranking.competition_id.name}} : {{ranking.points}} points</li>
+                    {% else %}
+                        <li>Aucun classement</li>
+                    {% endfor %}
                    
                 </ul>
             <br/>
@@ -48,6 +60,8 @@
         <h2>Ses derniers articles</h2>
         {% for post in posts %}
             {% include 'post/preview.html.twig' with {"post" : post} %}
+        {% else %}
+            <p>Cet utilisateur n'a pas encore posté d'articles</p>
         {% endfor %}
     </div>
 {% endblock %}
