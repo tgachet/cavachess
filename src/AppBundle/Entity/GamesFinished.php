@@ -25,18 +25,32 @@ class GamesFinished
     private $id;
         
     /**
-     * @var datetime
+     * @var \datetime
      * @ORM\Column(name="date_game", type="datetime")
      * @Assert\NotBlank()
      */
     private $dategame;
     
     /**
-     * @var time
+     * @var DateTime
      * @ORM\Column(name="game_length", type="time")
      * @Assert\NotBlank()
      */
     private $gamelength;
+    
+    /**
+     * @var DateTime
+     * @ORM\Column(type="time")
+     * @Assert\NotBlank()
+     */
+    private $gamelengthwinner;
+    
+    /**
+     * @var DateTime
+     * @ORM\Column(type="time")
+     * @Assert\NotBlank()
+     */
+    private $gamelengthlooser;
     
     /**
      * @var int
@@ -45,6 +59,22 @@ class GamesFinished
      * @Assert\NotBlank()
      */
     private $nbplays;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     */
+    private $nbplayswinner;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     */
+    private $nbplayslooser;
     
     /**
      *
@@ -70,6 +100,11 @@ class GamesFinished
      */
     private $id_competition;
     
+    /***** CONSTRUCT *****/
+    public function __construct()
+    {
+        $this->dategame = new \DateTime();
+    }    
     
     /***** GETTERS *****/
     /**
@@ -89,7 +124,7 @@ class GamesFinished
     public function getGamelength() {
         return $this->gamelength;
     }
-
+    
     public function getNbplays() {
         return $this->nbplays;
     }
@@ -106,13 +141,30 @@ class GamesFinished
         return $this->id_competition;
     }
     
+    public function getGamelengthwinner() {
+        return $this->gamelengthwinner;
+    }
+
+    public function getGamelengthlooser() {
+        return $this->gamelengthlooser;
+    }
+
+    public function getNbplayswinner() {
+        return $this->nbplayswinner;
+    }
+
+    public function getNbplayslooser() {
+        return $this->nbplayslooser;
+    }
+
+        
     /***** SETTERS *****/
-    public function setDategame(datetime $dategame) {
+    public function setDategame(\DateTime $dategame) {
         $this->dategame = $dategame;
         return $this;
     }
 
-    public function setGamelength(time $gamelength) {
+    public function setGamelength(\DateTime $gamelength) {
         $this->gamelength = $gamelength;
         return $this;
     }
@@ -136,6 +188,27 @@ class GamesFinished
         $this->id_competition = $id_competition;
         return $this;
     }
+    public function setGamelengthwinner(\DateTime $gamelengthwinner) {
+        $this->gamelengthwinner = $gamelengthwinner;
+        return $this;
+    }
+
+    public function setGamelengthlooser(\DateTime $gamelengthlooser) {
+        $this->gamelengthlooser = $gamelengthlooser;
+        return $this;
+    }
+
+    public function setNbplayswinner($nbplayswinner) {
+        $this->nbplayswinner = $nbplayswinner;
+        return $this;
+    }
+
+    public function setNbplayslooser($nbplayslooser) {
+        $this->nbplayslooser = $nbplayslooser;
+        return $this;
+    }
+
+
 
 
 

@@ -46,7 +46,9 @@ var onDrop = function(source, target) {
 
   // illegal move
   if (move === null) return 'snapback';
-
+  
+  nbplays += 1;
+  nbplaysuser += 1;
   updateStatus();
 };
 
@@ -95,9 +97,24 @@ var updateStatus = function() {
           $("#adversaire").html("Partie terminée, vous avez perdu");
       }
       else{
-          gameisover = 'youwin';
-          $("#adversaire").html("Partie terminée, vous avez gagné");
-      }
+            gameisover = 'youwin';
+            $("#adversaire").html("Partie terminée, vous avez gagné");
+
+          /* Registering game info when game ended */
+           totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
+           if(player === 'white'){
+               gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');
+               gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');    
+           }
+           else{
+               gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');
+               gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
+           }
+           registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+           
+        /* Updating rank */
+        updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);           
+        }
   }
 
   // checkmate?
@@ -106,6 +123,21 @@ var updateStatus = function() {
     if(moveColor !== player) {
         gameisover = 'youwin';
         $("#adversaire").html("Partie terminée, vous avez gagné");
+        
+        /* Registering game info when game ended */
+        totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
+        if(player === 'white'){
+            gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');
+            gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');    
+        }
+        else{
+            gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');
+            gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
+        }
+        registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+        
+        /* Updating rank */
+        updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);
     }
        
   }
@@ -195,6 +227,8 @@ socket.on('gameturninfo', function(data)
   fenEl.html(data.fen);
   pgnEl.html(data.history);
   board.position(game.fen());
+  nbplays +=1 ;
+  nbplaysopponent +=1;
   
   /* Mise à jour des chronomètres */
   if (game.game_over() === false && !timeisover)
