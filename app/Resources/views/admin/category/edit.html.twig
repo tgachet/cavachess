@@ -2,25 +2,61 @@
 
 {% block page_title %}
     <h1>
-    {% if new %}
-        Création de catégorie
-    {% else %}
-        Modification de catégorie
-    {% endif %}
+    <h1>
+        Gestion des catégories
+    </h1>
     </h1>
 {% endblock %}
 
 {% block content %}
-    {{form_start(form)}} 
-    {{form_row(form.name)}}
-    <div class="form-btn-group pull-right">
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="{{path('app_admin_category_list')}}" class="btn btn-default" title="">Retour à la liste</a>
+    <div class="row">
+        <div class="col-sm-8">
+            <section>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th width="70vw"></th>
+                    <th width="70vw"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{category.id}}</td>
+                        <td>{{category.name}}</td>
+                        <td><a href="{{path('app_admin_category_edit', {"id":category.id})}}" class="btn btn-warning" title="Modifier catégorie"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                        <td><a href="{{path('app_admin_category_delete', {"id":category.id})}}" class="btn btn-danger" title="Supprimer catégorie"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" align="center">Aucun résultat</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+        </div>
+        <div class="col-sm-4">
+            <h4>
+            {% if new %}
+                Ajout de catégories
+            {% else %}
+                Modification de catégorie
+            {% endif %}
+            </h4>
+            {{form_start(form)}} 
+            {{form_row(form.name)}}
+            <div class="form-btn-group pull-right">
+                {% if not new %}
+                    <a href="{{path('app_admin_category_edit')}}" class="btn btn-default" title="">Annuler la modification</a>
+                {% endif %}
+                <button type="submit" class="btn btn-primary">Enregistrer</button>   
+            </div>
+            {{form_end(form)}}
+        </div>
     </div>
-    {{form_end(form)}}
-    {# Partie liste des catégories #}
-    {% block list %}
-        
-    {% endblock %}
+
 
 {% endblock %}

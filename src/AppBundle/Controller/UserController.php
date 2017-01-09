@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use DateTime;
 
 
 /**
@@ -113,6 +113,11 @@ class UserController extends Controller
             /* GET RANKINGS */
             $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('user_id' => $id));
         }
+        
+        /* Variable pour la gestion du STATUT (En ligne / Hors-ligne) */
+        $delay = new DateTime();
+        $delay->setTimestamp(strtotime('5 minutes ago'));
+        
         /* RENDER */
         return $this->render(
             'user/profile.html.twig',
@@ -122,6 +127,7 @@ class UserController extends Controller
                 'posts' =>$posts,
                 'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
                 'rankings' => $rankings,
+                'delay' => $delay,
             ]
         );
     }
