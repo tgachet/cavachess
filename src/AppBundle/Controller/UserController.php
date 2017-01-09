@@ -121,7 +121,7 @@ class UserController extends Controller
                 'user' => $user,
                 'id' => $id,
                 'posts' =>$posts,
-                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
+                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionsmostplayed),
                 'rankings' => $rankings,
             ]
         );
