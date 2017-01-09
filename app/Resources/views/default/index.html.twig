@@ -1,18 +1,28 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}<h1>CAVACHESS </h1>
-    <h3> Jouez aux échecs en ligne contre les meilleurs ! </h3>{% endblock %}
+{% block page_title %}{% endblock %}
 
 {% block content %}
     {% if app.user is null %}
         <div class="row">
-            <div class ="coverfront col-sm-7" style="border:solid black 1px;" class="img-responsive" alt="King Edinson Cavani" >
-                <img src="{{ asset('img/cavani.jpg') }}" />
+            <div class="titreoff col-sm-3">
+            <h1>CAVACHESS</h1>
             </div>
-            <div class="blocfront col-sm-5" style="border:solid black 1px; min-height: 320px">
+            <div class="soustitreoff col-sm-9">
+                <h2> Jouez aux échecs en ligne contre les meilleurs ! </h2>
+            </div>
+        </div>
+        <div class="coverhome row" style="border:solid black 1px;  min-height:400px;">
+           
+            <div class ="coverfront col-sm-7" >
+                <div class="imagefront col-sm-6 col-sm-offset-3">
+              
+                </div>
+            </div>
+            <div class="blocfront col-sm-5" >
                 <div class="boutonshome col-sm-8 col-sm-offset-2" style="margin-top:50px;">
                     <div style="background-color: menu">
-                        <b>Il y'a actuellement {{ cons | length }} joueur(s) connecté(s)</b>
+                        <b> Joueur(s) en ligne : {{ cons | length }} </b>
                     </div><br>
                     <a href="{{ path('login') }}">
                         <button type="button" class="btn btn-primary btn-lg btn-block">Se connecter</button>
@@ -23,30 +33,44 @@
                </div>
             </div>
         </div>
-    {% else %}   
+    {% else %}    <h1> Jouer en Ligne  </h1>
         <div class="row">
-            <div class ="coverfront col-sm-6">
-                
-            </div>
-            <div class="blocfront col-sm-6">
-
+            <div class="competitions col-sm-9">
+                {% for competition in competitions %}
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                                    <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
+                                    <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
+                                    {#<p>Rejoindre</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        {% if loop.index is divisible by(3) %}
+                        </div>
+                        <div class="row">
+                        {% endif %}                    
+                    {% endfor %}
             </div>
         </div>
+        
     {% endif %}
+    {% if comments != '' %}
     <h2>Article le plus populaire</h2>
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
         </div>
     </div>
+    {% endif %}
     <h2>Derniers articles</h2>
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             {% for post in posts %}
                 {% include 'post/preview.html.twig' with {"post" : post} %}
             {% endfor %}
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="row">
                 {% if app.user is not null %}
                 <div class="col-sm-11 col-sm-offset-1">
