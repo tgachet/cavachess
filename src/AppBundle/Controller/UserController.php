@@ -125,30 +125,6 @@ class UserController extends Controller
             ]
         );
     }
-    
-    /**
-     * @param int $id
-     * @Route("/delete/{id}")
-     */
-    public function deleteUserAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->find('AppBundle:User', $id);
-         
-        if(is_null($user))
-        {
-            // On redirige vers la route de la liste s'il n'y a pas de post
-            return $this->redirectToRoute('app_admin_user_listusers');
-        } 
-        $em->remove($user);
-        $em->flush();
-         
-        $this->addFlash('success', 'Le joueur a bien été supprimé');
-         
-        return $this->redirectToRoute('app_admin_user_listusers');
-    }
-    
-    
 //    /**
 //     * @param Request $request
 //     * 
