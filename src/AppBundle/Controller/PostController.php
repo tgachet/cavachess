@@ -13,7 +13,7 @@ class PostController extends Controller
     /**
      * 
      * @param int $id
-     * @Route("/article/{id}")
+     * @Route("/post/{id}")
      */
     public function displayAction(Request $request, $id)
     {
