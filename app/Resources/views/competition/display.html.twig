@@ -40,7 +40,7 @@
                         {% endif %}
                         
                         <h3 class="{{ gameClass }}">{{ gamemode.name|title }}</h3>
-                        <div class="{{ gameClass }}">
+                        <div>
                             <p>{{ gamemode.description }}</p>
                         </div>
                     {% endfor %}
@@ -50,18 +50,18 @@
         <div class="col-sm-9 col-sm-pull-3">
             <section id="competitions-list">
                 <div class="row">
+                    {% set gameModeClass = '' %}
                     {% for competition in competitions %}
-                        {% set gameModeClass = '' %}
                         {% if competition.gamemode.id == 1 %}
-                            {% set gameModeClass = 'game-mode-blitz' %}
+                            {% set gameModeClass = 'blitz' %}
                         {% elseif competition.gamemode.id == 2 %}
-                            {% set gameModeClass = 'game-mode-bullet' %}
+                            {% set gameModeClass = 'bullet' %}
                         {% elseif competition.gamemode.id == 3 %}
-                            {% set gameModeClass = 'game-mode-classical' %}
+                            {% set gameModeClass = 'classical' %}
                         {% endif %}
                         {% set rank = 0 %}
                         <div class="col-sm-6">
-                            <div class="panel panel-default {{ gameModeClass }}">
+                            <div class="panel panel-default {{ gameModeClass }}-competition">
                                 <div class="panel-heading" role="tab" id="heading{{competition.id}}">
                                     <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
                                     <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
@@ -141,18 +141,16 @@
                 collapsible: true,
                 heightStyle: "content",
                 active: false,
-                animate: 500,
+                animate: 500
             });
         });
-        
-        $(".game-mode-blitz:parent").on("mouseover", function(){
-            $( "#ui-id-1" ).removeClass( "ui-accordion-header-collapsed" );
-            $( "#ui-id-1" ).addClass( "ui-accordion-header-active" );
-            $( "#ui-id-1" ).css({"aria-expanded":"true", "aria-selected":"true"});
-            
-            {#$(".blitz-description").trigger("click");#}
-            $( ".blitz-description" ).addClass("ui-accordion-content-active" );
-           
-        });
+        {% for gamemode in gamemodes %}
+            $(".{{ gamemode.name|lower }}-competition").on("mouseenter", function(){
+                $(".{{ gamemode.name|lower }}-description").trigger("click");
+            });
+            $(".{{ gamemode.name|lower }}-competition").on("mouseleave", function(){
+                $(".{{ gamemode.name|lower }}-description").trigger("click");
+            });
+        {% endfor %}
     </script>
 {% endblock %}
