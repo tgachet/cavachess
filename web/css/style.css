@@ -10,6 +10,8 @@ font-family: 'Noto Sans', sans-serif;
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
 /* RESET / GLOBAL */
+body {font-family: 'Noto Sans', sans-serif; font-weight:400;}
+
 img {max-width:100%; height:auto;}
 
 a, a:hover {text-decoration: none; color:inherit;}
@@ -18,8 +20,8 @@ h1, h2, h3, h4, h5, h6, p {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
-h1 {font-size: 2.2em;}
-h2 {font-size: 1.8em; margin: 18px 0 6px 0;}
+h1 {font-size: 2.2em; font-weight:700}
+h2 {font-size: 1.8em; font-weight:700}
 h3 {font-size: 1.15em; font-weight:700;}
 h3 {font-size: 1.10em; font-weight:700;}
 
@@ -62,45 +64,54 @@ body {
 /*BLOC WELCOME CAVACHESS */
 .coverhome {
     background-image: url("../../web/img/coverfonthome6.jpg");
-    border:solid black 0,5px;  
     min-height:540px;
 }
+
+.bloc-cover-home {
+    position:absolute;
+    top:0;
+    left:0;
+}
 .cavachess {
-font-family: 'Noto Sans', sans-serif;
-font-weight:700;
-font-size:40pt;
-margin-left:30px;
+    padding-top: 20px;
+    margin-left:35px;
+    font-size:3.5em;
 }
 
 .headline {
     margin-top: 20px;
+    padding-left:20px;
 }
-
 .soustitre-cavachess {
-font-family: 'Noto Sans', sans-serif;
-font-weight:400;
-font-size:15pt;
-margin-bottom: 0;
+    font-size: 1.4em;
+    font-weight:400;
+    margin-left:10px;
+    padding-top:15px;
+    
 }
-
 .onlineplayer{
-    font-family:'Noto Sans', sans-serif;
+
     font-size: 15pt;
 }
 .boutonshome {
     padding-top: 100px;
     padding-left: 0;
     padding-right:0;
-}
-
-.btn-group-lg>.btn, .btn-lg {
     margin-bottom: 10px;
-    border-radius: 0;
-    font-family:'Noto Sans', sans-serif;
 }
 
+.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a
+{
+    margin-bottom:10px;
+}
+
+/* BLOC CAVABLOG HOMEPAGE */
 .cavablog {
-font-family: 'Noto Sans', sans-serif;
-font-weight:400;
-font-size:15pt;
+    margin-top:20px;
+}
+.jeuhomepage {
+    margin-top:20px;
+}
+.competitions {
+    margin-top:10px; 
 }
