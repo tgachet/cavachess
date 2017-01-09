@@ -31,50 +31,72 @@ class RankingController extends Controller
         
         /* GET GAMES FINISHED */
         $games = $em->getRepository('AppBundle:GamesFinished')->findBy(array('id_competition' => $id));    
-        
-        /* GLOBAL STATISTICS */
-        $times = [];
-        $tabplays = [];
-        $nbplays = 0;
-        $players = [];
-        foreach ($games as $game){
-            $times[] = $game->getGamelength()->format('H:i:s');
-            $tabplays[] = $game->getNbplays();
-            $nbplays += $game->getNbplays() ;
-            $players[] = $game->getIdwinner()->getUsername();
-            $players[] = $game->getIdlooser()->getUsername();
-        }        
+        if($games){
 
-        $seconds = 0;
-        foreach ($times as $value) {
-           list($hour,$minute,$second) = explode(':', $value);
-            $seconds += $hour*3600;
-            $seconds += $minute*60;
-            $seconds += $second;
+            /* STATISTICS */
+            $times = [];
+            $tabplays = [];
+            $players = [];
+            foreach ($games as $game){
+                $times[] = $game->getGamelength()->format('H:i:s');
+                $tabplays[] = $game->getNbplays();
+                $players[] = $game->getIdwinner()->getUsername();
+                $players[] = $game->getIdlooser()->getUsername();
+            }        
+
+            /* time */
+            $seconds = 0;
+            foreach ($times as $value) {
+               list($hour,$minute,$second) = explode(':', $value);
+                $seconds += $hour*3600;
+                $seconds += $minute*60;
+                $seconds += $second;
+            }
+            $avgseconds = round($seconds / count($times), 2);
+
+            $hours = floor($seconds/3600);
+            $seconds -= $hours*3600;
+            $minutes  = floor($seconds/60);
+            $seconds -= $minutes*60;
+
+            $avghours = floor($avgseconds/3600);
+            $avgseconds -= $avghours*3600;
+            $avgminutes  = floor($avgseconds/60);
+            $avgseconds -= $avgminutes*60;        
+
+            $totaltime = sprintf('%02d heure(s) %02d minute(s) %02d seconde(s)', $hours, $minutes, $seconds);
+            $avgtime = sprintf('%02d heure(s) %02d minute(s) %02d seconde(s)', $avghours, $avgminutes, $avgseconds);             
+            /* max */
+            $nbmaxplays = max($tabplays);
+            $nbplays = array_sum($tabplays);
+            $avgplays = round($nbplays / count($tabplays), 1);
+            $maxgamelength = max($times);
+            $countPlayers = array_count_values($players);
+            $topplayer = array_search(max($countPlayers),$countPlayers); 
         }
-        $hours = floor($seconds/3600);
-        $seconds -= $hours*3600;
-        $minutes  = floor($seconds/60);
-        $seconds -= $minutes*60;
-        $totaltime = sprintf('%02d heure(s) %02d minute(s) %02d seconde(s)', $hours, $minutes, $seconds);
-        
-        /* DETAILED STATISTICS */
-        $nbmaxplays = max($tabplays);
-        $maxgamelength = max($times);
-        $countPlayers = array_count_values($players);
-        $topplayer = array_search(max($countPlayers),$countPlayers); 
-        
+        else {
+            $nbmaxplays ='';
+            $nbplays ='';
+            $avgplays='';
+            $totaltime='';
+            $maxgamelength='';
+            $topplayer='';
+            $avgtime='';
+        }
         return $this->render('/ranking/display.html.twig', 
         [
             'rankings' => $rankings,
             'competition' => $competitionanme,
             'games' => $games,
-            'nbplays' => $nbplays,
-            'totaltime' => $totaltime,
-            'test' => $nbmaxplays,
-            'nbmaxplays' => $nbmaxplays,
-            'maxgamelength' => $maxgamelength,
-            'topplayer' => $topplayer,
+            'statistics' => array(
+                            'nbplays' => $nbplays,
+                            'totaltime' => $totaltime,
+                            'nbmaxplays' => $nbmaxplays,
+                            'avgplays' => $avgplays,
+                            'maxgamelength' => $maxgamelength,
+                            'topplayer' => $topplayer,
+                            'avgtime' => $avgtime
+                            ),
         ]);
     }    
 }

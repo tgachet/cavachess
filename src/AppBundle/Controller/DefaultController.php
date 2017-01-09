@@ -27,7 +27,7 @@ class DefaultController extends Controller
         $comments = '';
         
         $mostcommented = $em->createQuery("SELECT c, max(c.post) FROM AppBundle\Entity\Comment c")->getResult();
-        if (!is_null($mostcommented))
+        if (!is_null($mostcommented[0][0]))
         {
             $top_article = $mostcommented[0][0]->getPost();
         

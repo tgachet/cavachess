@@ -92,21 +92,24 @@ class UserController extends Controller
             /* MOST PLAYED OPPONENT */
             if (!empty($opponents))
             {
-            $countPerOpponent = array_count_values($opponents);
-            $playermostplayed = array_search(max($countPerOpponent),$countPerOpponent); 
+                $countPerOpponent = array_count_values($opponents);
+                $playermostplayed = array_search(max($countPerOpponent),$countPerOpponent); 
             }
-            else {
+            else
+            {
                 $playermostplayed ='';
             }
+            
             /* MOST PLAYED COMPETITION */
-            if (!empty($opponents   ))
+            if (!empty($opponents))
             {
-            $countPerCompetition = array_count_values($competitions);
-            $competitionmostplayed = array_search(max($countPerCompetition),$countPerCompetition); 
+                $countPerCompetition = array_count_values($competitions);
+                $competitionmostplayed = array_search(max($countPerCompetition),$countPerCompetition); 
             }
             else {
-                $competitionsmostplayed ='';
+                $competitionmostplayed ='';
             }
+            
             /* GET RANKINGS */
             $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('user_id' => $id));
         }
@@ -117,11 +120,34 @@ class UserController extends Controller
                 'user' => $user,
                 'id' => $id,
                 'posts' =>$posts,
-                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionsmostplayed),
+                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
                 'rankings' => $rankings,
             ]
         );
     }
+    
+    /**
+     * @param int $id
+     * @Route("/delete/{id}")
+     */
+    public function deleteUserAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->find('AppBundle:User', $id);
+         
+        if(is_null($user))
+        {
+            // On redirige vers la route de la liste s'il n'y a pas de post
+            return $this->redirectToRoute('app_admin_user_listusers');
+        } 
+        $em->remove($user);
+        $em->flush();
+         
+        $this->addFlash('success', 'Le joueur a bien été supprimé');
+         
+        return $this->redirectToRoute('app_admin_user_listusers');
+    }
+    
     
 //    /**
 //     * @param Request $request
