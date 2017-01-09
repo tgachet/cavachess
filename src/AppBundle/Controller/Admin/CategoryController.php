@@ -14,19 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CategoryController extends Controller
 {
-    
-    /**
-     * @Route("/list")
-     */
-    public function listAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository('AppBundle:Category')->findAll();
-         
-        return $this->render('admin/category/list.html.twig',[
-            'categories' => $categories,
-        ]);
-    }
      
     /**
      * 
@@ -36,7 +23,12 @@ class CategoryController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        
+        // Envoi des données de catégories à la vue
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
          
+         
+        // Création ou modification de catégories
         if(is_null($id)) // création
         {
             $new= true;
@@ -49,7 +41,7 @@ class CategoryController extends Controller
              
             if(is_null($category))
             {
-                return $this->redirectToRoute('app_admin_category_list');
+                return $this->redirectToRoute('app_admin_category_edit');
             }
         }
         $form = $this->createForm(CategoryType::class, $category);
@@ -68,7 +60,7 @@ class CategoryController extends Controller
                         : 'La catégorie a bien été modifiée'
                       ;
                 $this->addFlash('success', $msg);
-                return $this->redirectToRoute('app_admin_category_list');
+                return $this->redirectToRoute('app_admin_category_edit');
             }
             else
             {
@@ -80,6 +72,7 @@ class CategoryController extends Controller
         [
            'new' => $new,
            'form' => $form->createView(),
+           'categories' => $categories,
         ]);       
     }
      
@@ -95,13 +88,13 @@ class CategoryController extends Controller
         if(is_null($category))
         {
             // On redirige vers la route de la liste s'il n'y a pas de categories
-            return $this->redirectToRoute('app_admin_category_list');
+            return $this->redirectToRoute('app_admin_category_edit');
         } 
         $em->remove($category);
         $em->flush();
          
         $this->addFlash('success', 'La catégorie a bien été supprimée');
          
-        return $this->redirectToRoute('app_admin_category_list');
+        return $this->redirectToRoute('app_admin_category_edit');
     }
 }

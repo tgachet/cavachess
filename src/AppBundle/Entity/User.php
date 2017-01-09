@@ -168,6 +168,7 @@ class User implements UserInterface, Serializable
 //                            array_merge($friendswithme->toArray(), $myfriends->toArray())
 //                            );
          $this->date = new \DateTime();
+         $this->lastActivity = new \DateTime();
     }
 
     /*

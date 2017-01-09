@@ -96,13 +96,13 @@ class PostController extends Controller
          
         if(is_null($post))
         {
-            // On redirige vers la route de la liste s'il n'y a pas de categories
-            return $this->redirectToRoute('app_admin_category_list');
+            // On redirige vers la route de la liste s'il n'y a pas de post
+            return $this->redirectToRoute('app_admin_post_list');
         } 
         $em->remove($post);
         $em->flush();
          
-        $this->addFlash('success', 'L\'article a bien été supprimé');
+        $this->addFlash('success', 'Le post a bien été supprimé');
          
         return $this->redirectToRoute('app_admin_post_list');
     }

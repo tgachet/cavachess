@@ -46,10 +46,10 @@ class Comment
     private $date;
     
     /**
-     *
+     * 
      * @var Post
      * @ORM\ManyToOne(targetEntity="Post") 
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=false) 
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id", nullable=false, onDelete="CASCADE") 
      */
     private $post;
     
@@ -57,7 +57,7 @@ class Comment
      *
      * @var User
      * @ORM\ManyToOne(targetEntity="User") 
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false) 
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE") 
      */
     private $user;
 

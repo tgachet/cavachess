@@ -2,16 +2,23 @@
 {% block page_title %}<h1 style="margin-bottom:2em">Profil de <strong>{{ user.username }}</strong></h1>{% endblock %}
 
 {% block content %}
-    {#{{dump(test)}}#}
     <div class="row">
         <div class="col-sm-3">
-            <strong> Statut : </strong> ***<em> EN LIGNE ou hors-ligne </em> <br/>
-            <br/>
+            <strong> Statut : </strong>
+            {% if user.lastActivity > delay %}
+                <em style='color: #6d6'>** EN LIGNE **</em>
+            {% else %}
+                <em style='color: crimson'>** hors-ligne **</em>
+            {% endif %}
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <img src="{{ asset('upload/' ~ user.avatar) }}" width="100%"/>
+            {% if user.avatar %}
+                <img src="{{ asset('upload/' ~ user.avatar) }}" width="100%"/>
+            {% else %}
+                <img src="{{ asset('img/default_avatar.png') }}" width="100%"/>
+            {% endif %}
         </div>        
         <div class="col-sm-9">            
             {% if app.user %}
