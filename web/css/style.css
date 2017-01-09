@@ -8,10 +8,14 @@ and open the template in the editor.
     Author     : Etudiant
 */
 
-/* COLORS
+/* COLORS 
 primary : #FBFAF8 (white)
 secondary : #141311 (black)
 Third : #4F4A47 (grey)
+*/
+/* FONT
+font-family: 'Noto Sans', sans-serif;
+
 */
 
 .category-tag {
@@ -20,7 +24,58 @@ Third : #4F4A47 (grey)
     font-style: italic;
     padding: 5px;
 }
+/* BODY */
+body {
+    background-color: rgb(252,251,249);
+}
+/* NAVBAR */
 
+.navbar {
+    margin-bottom: 0;
+}
+
+/*BLOC WELCOME CAVACHESS */
 .coverhome {
-    background-image: url("../../web/img/coverfonthome.jpg");
+    background-image: url("../../web/img/coverfonthome6.jpg");
+    border:solid black 0,5px;  
+    min-height:540px;
+}
+.cavachess {
+font-family: 'Noto Sans', sans-serif;
+font-weight:700;
+font-size:40pt;
+margin-left:30px;
+}
+
+.headline {
+    margin-top: 20px;
+}
+
+.soustitre-cavachess {
+font-family: 'Noto Sans', sans-serif;
+font-weight:400;
+font-size:15pt;
+margin-bottom: 0;
+}
+
+.onlineplayer{
+    font-family:'Noto Sans', sans-serif;
+    font-size: 15pt;
+}
+.boutonshome {
+    padding-top: 100px;
+    padding-left: 0;
+    padding-right:0;
+}
+
+.btn-group-lg>.btn, .btn-lg {
+    margin-bottom: 10px;
+    border-radius: 0;
+    font-family:'Noto Sans', sans-serif;
+}
+
+.cavablog {
+font-family: 'Noto Sans', sans-serif;
+font-weight:400;
+font-size:15pt;
 }

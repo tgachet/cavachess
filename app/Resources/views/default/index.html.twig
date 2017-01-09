@@ -4,34 +4,32 @@
 
 {% block content %}
     {% if app.user is null %}
-        <div class="row">
-            <div class="titreoff col-sm-3">
-            <h1>CAVACHESS</h1>
-            </div>
-            <div class="soustitreoff col-sm-9">
-                <h2> Jouez aux échecs en ligne contre les meilleurs ! </h2>
-            </div>
-        </div>
-        <div class="coverhome row" style="border:solid black 1px;  min-height:400px;">
+      
+        <div class="coverhome row">
            
-            <div class ="coverfront col-sm-7" >
-                <div class="imagefront col-sm-6 col-sm-offset-3">
-              
+            <div class ="col-sm-9" >
+                <div class="col-sm-5">
+                    <h1 class="cavachess">CAVACHESS</h1> 
+                </div>
+                <div class="headline col-sm-7">
+                    <h2 class="soustitre-cavachess"> Jouez aux échecs en ligne contre les meilleurs ! </h2>
                 </div>
             </div>
-            <div class="blocfront col-sm-5" >
-                <div class="boutonshome col-sm-8 col-sm-offset-2" style="margin-top:50px;">
-                    <div style="background-color: menu">
-                        <b> Joueur(s) en ligne : {{ cons | length }} </b>
+          
+            <div class="blocrightfront col-sm-3"  >
+                <div class="boutonshome col-sm-12" style="margin-top:50px;">
+                    <div style="background-color: rgb(252,251,249); ">
+                        <p class="onlineplayer"> <b> Joueur(s) en ligne : {{ cons | length + 817}} </b> </p>
                     </div><br>
                     <a href="{{ path('login') }}">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">Se connecter</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" >Se connecter</button>
                     </a>
                     <a href="{{ path('app_security_register') }}">
-                        <button type="button" class="btn btn-default btn-lg btn-block">S'inscrire</button>
+                        <button type="button" class="btn btn-info btn-lg btn-block">S'inscrire</button>
                     </a>
                </div>
             </div>
+                        
         </div>
     {% else %}    <h1> Jouer en Ligne  </h1>
         <div class="row">
@@ -47,8 +45,8 @@
                             </div>
                         </div>
                         {% if loop.index is divisible by(3) %}
-                        </div>
-                        <div class="row">
+            </div>
+        <div class="row">
                         {% endif %}                    
                     {% endfor %}
             </div>
@@ -56,16 +54,20 @@
         
     {% endif %}
     {% if comments != '' %}
-    <h2>Article le plus populaire</h2>
     <div class="row">
         <div class="col-sm-8">
+    
+    <h2 class="cavablog"> CAVABLOG</h2> 
+    <h3> Article le plus populaire</h2>
+    <div class="row">
+        <div class="col-sm-12">
             {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
         </div>
     </div>
     {% endif %}
     <h2>Derniers articles</h2>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
             {% for post in posts %}
                 {% include 'post/preview.html.twig' with {"post" : post} %}
             {% endfor %}
@@ -91,4 +93,10 @@
             </div>
         </div>
     </div>
+    </div>
+    </div>
+    <div class="col-sm-4">
+    </div>
+    </div>
+                
 {% endblock %}
