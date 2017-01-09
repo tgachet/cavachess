@@ -42,8 +42,9 @@
                 <li><a href="#">Contact</a></li>      
               </ul>
   
-        {% if is_granted('ROLE_ADMIN') %}{# NAV ADMIN #}
-            <ul class="nav navbar-nav navbar-right"> 
+        
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted('ROLE_ADMIN') %}{# NAV ADMIN #}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -71,8 +72,12 @@
 
                     </ul>
                 </li>
+                {% endif %}{# END NAV ADMIN #}
+                {% if app.user %}
+                <li><a href="{{path('logout')}}" title="Se déconnecter">Se déconnecter</a></li>
+                {% endif %}
             </ul>
-        {% endif %}{# END NAV ADMIN #}
+        
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
         </nav>{# END NAV ALL USERS #}            
@@ -88,7 +93,7 @@
         {% endfor %}
         
         {% block page_title %}{%endblock%}{# H1 #}
-        {% block content %}{% endblock %}{# MAIN CONTENT #}
+        <main>{% block content %}{% endblock %}</main>{# MAIN CONTENT #}
 
     </div>{# END CONTAINER #}
 {% endblock %}{# END BODY #}
