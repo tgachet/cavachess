@@ -1,19 +1,44 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 2 janv. 2017, 18:49:44
-    Author     : Etudiant
-*/
-
 /* COLORS
 primary : #FBFAF8 (white)
-secondary : #141311 (black)
-Third : #4F4A47 (grey)
+secondary : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
+Third : #4F4A47 (grey) 
 */
 
+/********************** GLOBAL / RESETS / DEBUG / INFO **********************/
+/* RESET / GLOBAL */
+img {max-width:100%; height:auto;}
+
+a, a:hover {text-decoration: none; color:inherit;}
+
+h1, h2, h3, h4, h5, h6, p {margin:0;}
+
+hr {margin-top:10px; margin-bottom: 8px;}
+
+h1 {font-size: 2.2em;}
+h2 {font-size: 1.8em; margin: 18px 0 6px 0;}
+h3 {font-size: 1.15em; font-weight:700;}
+h3 {font-size: 1.10em; font-weight:700;}
+
+section, aside{margin-top:20px;}
+
+.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a {border-radius: 0px!important;}
+
+/********************** END **********************/
+
+
+/********************** MAIN LAYOUT **********************/
+/* NAV */
+.navbar-default {background-color:#4F4A47; border:none; border-radius: 0px;}
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {color:white;}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {background-color:#141311;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .active.navbar-brand {background-color:#141311;}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover  {color:white;}
+
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {background-color: #474644; color:white;}
+
+
+
+/********************** END **********************/
 .category-tag {
     background-color: darkslategrey;
     color: white;
