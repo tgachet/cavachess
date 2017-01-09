@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -113,6 +114,20 @@ class UserType extends AbstractType
                                 'type' => PasswordType::class, // ... de type password
                                 'first_options' => ['label' => 'Mot de passe'],
                                 'second_options' => ['label' => 'Confirmez le mot de passe'],
+                            ]
+                    )
+                    ->add(
+                            'date',
+                            DateType::class,
+                            [
+                                'label' => 'Date d\'enregistrement',
+                            ]
+                    )
+                    ->add(
+                            'lastActivity',
+                            DateType::class,
+                            [
+                                'label' => 'Dernière activité',
                             ]
                     )
                     ->add(

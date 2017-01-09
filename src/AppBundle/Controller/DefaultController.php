@@ -22,12 +22,18 @@ class DefaultController extends Controller
         $cons = $em->getRepository('AppBundle:User')->getActive();
         
         // Requête du post le plus commenté
+        $mostcommented = '';
+        $top_article = '';
+        $comments = '';
+        
         $mostcommented = $em->createQuery("SELECT c, max(c.post) FROM AppBundle\Entity\Comment c")->getResult();
-        $top_article = $mostcommented[0][0]->getPost();
+        if (!is_null($mostcommented))
+        {
+            $top_article = $mostcommented[0][0]->getPost();
         
         // Requête des trois derniers commentaires du post le plus commeenté
-        $comments = $em->getRepository('AppBundle:Comment')->findLatestByPost($top_article, 3);
-        
+            $comments = $em->getRepository('AppBundle:Comment')->findLatestByPost($top_article, 3);
+        }
         return $this->render(
                 'default/index.html.twig', 
                 [
