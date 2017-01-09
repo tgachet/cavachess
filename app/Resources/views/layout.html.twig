@@ -63,8 +63,8 @@
                                 Gestion des posts
                             </a>
                         </li>
-                        <li {% if app.request.get('_route') == 'app_admin_category_list' %}class="active"{% endif %}>
-                            <a href="{{ path('app_admin_category_list') }}">
+                        <li {% if app.request.get('_route') == 'app_admin_category_edit' %}class="active"{% endif %}>
+                            <a href="{{ path('app_admin_category_edit') }}">
                                 Gestion des catégories
                             </a>
                         </li>
@@ -82,7 +82,7 @@
             {% for flash in flashes %}
                 {% if label == 'error' %}{% set label = 'danger' %}{% endif %}
                 <div class="alert alert-{{ label }}">
-                    {{ "now"|date("H:i:s") }}: {{ flash }}
+                    {{ flash }}
                 </div>
             {% endfor %}
         {% endfor %}
