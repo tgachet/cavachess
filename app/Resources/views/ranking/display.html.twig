@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    {{dump(games)}}
+    {#{{dump(games)}}#}
     <h1>{{competition}}</h1>
     {% if rankings is empty %}
         <p>Ce classement n'a pas encore d'utilisateurs enregistrés</p>
@@ -9,18 +9,21 @@
         <section>
             <h2 class="text-center">Statistiques</h2>
             <hr>
+            {% if games is empty %}
+            <p>Ce classement n'a pas encore de parties jouées</p>
+            {% else %}
             <ul>
                 <li>Nombre de parties jouées : {{games|length}}</li>
-                <li>Joueur ayant le plus joué : {{topplayer}}</li>
-                <li>Partie la plus longue : {{maxgamelength}} </li>
-                <li>Maximum de coups joués dans une partie : {{nbmaxplays}} </li>
-                <li>Nombre total de coups joués : {{nbplays}} </li>
-                <li>Nombre de coups moyen par partie : {{avgplays}} </li>
-                <li>Temps de jeu total : {{totaltime}} </li>
-                <li>Temps de jeu moyen par partie : {{avgtime}} </li>
+                <li>Joueur ayant le plus joué : {{statistics.topplayer}}</li>
+                <li>Partie la plus longue : {{statistics.maxgamelength}} </li>
+                <li>Maximum de coups joués dans une partie : {{statistics.nbmaxplays}} </li>
+                <li>Nombre total de coups joués : {{statistics.nbplays}} </li>
+                <li>Nombre de coups moyen par partie : {{statistics.avgplays}} </li>
+                <li>Temps de jeu total : {{statistics.totaltime}} </li>
+                <li>Temps de jeu moyen par partie : {{statistics.avgtime}} </li>
             </ul>
         </section>
-        
+        {% endif %}
         <section>
             <h2 class="text-center">Classement</h2>
             <hr>
