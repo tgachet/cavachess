@@ -1,8 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    {{dump(test)}}
-    {{dump(nbmaxplays)}}
+    {{dump(games)}}
     <h1>{{competition}}</h1>
     {% if rankings is empty %}
         <p>Ce classement n'a pas encore d'utilisateurs enregistrés</p>
@@ -11,11 +10,14 @@
             <h2 class="text-center">Statistiques</h2>
             <hr>
             <ul>
+                <li>Nombre de parties jouées : {{games|length}}</li>
                 <li>Joueur ayant le plus joué : {{topplayer}}</li>
                 <li>Partie la plus longue : {{maxgamelength}} </li>
                 <li>Maximum de coups joués dans une partie : {{nbmaxplays}} </li>
                 <li>Nombre total de coups joués : {{nbplays}} </li>
+                <li>Nombre de coups moyen par partie : {{avgplays}} </li>
                 <li>Temps de jeu total : {{totaltime}} </li>
+                <li>Temps de jeu moyen par partie : {{avgtime}} </li>
             </ul>
         </section>
         
