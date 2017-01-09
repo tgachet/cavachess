@@ -49,7 +49,6 @@ class GameMode
     private $gametime;
     
     /**
-     * 
      * @var string
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
@@ -82,7 +81,7 @@ class GameMode
         return $this->competitions;
     }
 
-    public function getGametime() {
+        public function getGametime() {
         return $this->gametime;
     }
     
@@ -103,10 +102,11 @@ class GameMode
         return $this;
     }
     
-    public function setDescription($description) {
+        public function setDescription($description) {
         $this->description = $description;
         return $this;
     }
+
 
         /***** OTHER *****/
     /**

@@ -23,4 +23,16 @@ class CommentRepository extends EntityRepository
         
         return $qb->getQuery()->getResult();
     }
+    
+    public function findLatestByPost(Post $post, $limit)
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb 
+           ->where('IDENTITY(d.post) = '.$post->getId())
+           ->orderBy('d.id', 'DESC')
+           ->setMaxResults($limit) // pour créer la limite
+        ;
+                       
+        return $qb->getQuery()->getResult();
+    }
 }

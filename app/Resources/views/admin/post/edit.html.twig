@@ -21,3 +21,9 @@
     </div>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}{# pour ajouter au bloc sans remplacer le contenu #}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({selector: '.wysiwyg'})</script>
+{% endblock %}

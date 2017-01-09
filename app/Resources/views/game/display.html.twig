@@ -21,12 +21,12 @@
     <p id="info"></p>
     <div id="clockdivp1">
         <p>
-            Joueur 1 : <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
+            <span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
         </p>
     </div>
     <div id="clockdivp2">
         <p>
-            Joueur 2 : <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
+            <span id="player2username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
         </p>
     </div>
     <section id="jeu">
@@ -58,27 +58,35 @@
     <script src="{{ asset('js/countdown.js')}}"></script>				
     <script>
      
-        // Récupération des variables définies dans le service js_vars
+        // Getting data from service js_vars
         var JsVars = $('#js-vars').data('vars');    
-        // Récuperer une variable
+        // var obj from service js_vars
         var chartData = JsVars.chartData;
 
-        /* Initialisation */
-        var connected = false; // Non connecté
-        var username = chartData.user;
-        var competition = chartData.competition;
-        var gametime = chartData.gametime;
+        /* Initialization */
+        var connected = false; // not connected
+        var username = chartData.user; // player username
+        var competition = chartData.competition; // game competition
+        var gametime = chartData.gametime; // game time limit
         var ingameclock = {
             hours : parseInt(gametime.substr(0,2)),
             minutes: parseInt(gametime.substr(3,2)),
             seconds: parseInt(gametime.substr(6,2))
         };
-        var rank = chartData.rank;
+        var rank = chartData.rank; // player rank
+        var rankopponent; // opponent rank
         var room = ''; // socket room
-        var player = ''; // Couleur du joueur
-        var gameisover = '';
-        var timeisover = '';
-        
+        var player = ''; // player color ('white' or 'black')
+        var opponent = ''; // username of your opponent
+        var gameisover = ''; // game end (win, draw, loss)
+        var timeisover = ''; // time running out
+        var nbplays = 0; // total plays
+        var nbplaysuser = 0; // total plays player
+        var nbplaysopponent = 0; // total plays opponent
+        var gamelengthwinner; // time played by the winner
+        var gamelengthlooser; // time played by the looser
+        var urlajax = "{{ path('app_game_registergame')}}";
+        var urlajaxrank = "{{ path('app_game_updaterank')}}";
         
         /* Connexion au serveur */
         // fire un événement 'connection' coté serveur et 'connect' coté client
@@ -90,34 +98,60 @@
             socket.emit('login', {'username' : username, 'competition': competition, 'rank' : rank}); // Envoie de l'event 'login' qui contient mon username
         });
         
-        /* Réception de l'initialisation de la partie */
+        /* Websocket server 'gameStart' event response, initializing game */
         socket.on('gameStart', function(data) {
             room = data.room;
-            player = data.color;           
+            player = data.color;   
+            opponent = data.name;
+            rankopponent = data.rank;
             $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
+            /* Nom des joueurs pour le chronomètre */
+            if(player === 'white'){
+                $("#player1username").text(username);
+                $("#player2username").text(data.name);
+            }
+            else{
+                $("#player1username").text(data.name);
+                $("#player2username").text(username);
+            }
             
-            /* Lancement des chronomètres */
+            
+            /* Initializing timers */
             var clock = Date.parse(new Date(Date.parse(new Date()) + ((ingameclock.hours*60*60) + (ingameclock.minutes * 60) + ingameclock.seconds) * 1000));
             initializeClockp1('clockdivp1', clock);
             initializeClockp2('clockdivp2', clock);
             clearInterval(timeintervalp2);
         });
         
-        /* Réception event fin de la partie. */
+        /* Websocket server 'endGame' event response, disconnecting user when opponent has left */
         socket.on('gameEnd', function(data) {
             $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));
-            setTimeout(setLocation, 5000);
+            //setTimeout(setLocation, 5000);
             
             if(!gameisover){
                 clearInterval(timeintervalp2);
                 clearInterval(timeintervalp1);
                 $("#adversaire").html("Partie terminée, vous avez gagné");
-                gameisover = 'youwin';               
+                gameisover = 'youwin';
+                /* Registering game info when game ended */
+                totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
+                if(player === 'white'){
+                    gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');
+                    gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');    
+                }
+                else{
+                    gamelengthwinner = gamelength(ingameclock, getClockp1(), getClockp2(), 'black');
+                    gamelengthlooser = gamelength(ingameclock, getClockp1(), getClockp2(), 'white');       
+                }
+                registerGame(urlajax, username, opponent, totalgamelength, gamelengthwinner, gamelengthlooser, nbplays, nbplaysuser, nbplaysopponent, competition);
+                
+                /* Updating rank */
+                updateRank(urlajaxrank, username, opponent,  rank, rankopponent, competition);
             } 
             room = '';         
         });
 
-        /* Réception event fin de la partie. */
+        /* Websocket server 'gameOver' event response, displaying game draw or game loss */
         socket.on('gameOver', function(data) {
             clearInterval(timeintervalp2);
             clearInterval(timeintervalp1);
@@ -132,13 +166,13 @@
             room = '';
         });
         
-        /* Fonction pour rediriger automatiquement le joueur en fin de partie */
+        /* Function location assignment */
         function setLocation()
         {
             window.location.assign("{{path('app_competition_displaycompetitions')}}");
         }
         
-        /* Chat envoi */
+        /* Chat emit */
         $("#chat-input").on("submit", function(e) {
             e.preventDefault();
             var message = $("#message").val();
@@ -146,7 +180,7 @@
             $("#message").val("");
         });
         
-        /* Chat réception */
+        /* Chat server response */
         socket.on('receptionmessage', function(data) {
             var message = $('<p>').text(data);
             $("#chat-output").append(message);
@@ -155,4 +189,5 @@
 
     </script>    
     <script src="{{ asset('js/board.js')}}"></script>    
+    <script src="{{ asset('js/registergame.js')}}"></script>    
 {% endblock %}
