@@ -90,13 +90,23 @@ class UserController extends Controller
             $totaltime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 
             /* MOST PLAYED OPPONENT */
+            if (!empty($opponents))
+            {
             $countPerOpponent = array_count_values($opponents);
             $playermostplayed = array_search(max($countPerOpponent),$countPerOpponent); 
-
+            }
+            else {
+                $playermostplayed ='';
+            }
             /* MOST PLAYED COMPETITION */
+            if (!empty($opponents   ))
+            {
             $countPerCompetition = array_count_values($competitions);
             $competitionmostplayed = array_search(max($countPerCompetition),$countPerCompetition); 
-
+            }
+            else {
+                $competitionsmostplayed ='';
+            }
             /* GET RANKINGS */
             $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('user_id' => $id));
         }
@@ -107,7 +117,7 @@ class UserController extends Controller
                 'user' => $user,
                 'id' => $id,
                 'posts' =>$posts,
-                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
+                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionsmostplayed),
                 'rankings' => $rankings,
             ]
         );
