@@ -23,12 +23,14 @@ class PostController extends Controller
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository('AppBundle:Post')->findAll();
         $categories = $em->getRepository('AppBundle:Category')->findAll();
+        $category = '';
         
         return $this->render(
             'post/list.html.twig',
             [
                 'posts' => $posts,
                 'categories' => $categories,
+                'category' => $category,
             ]
         );
     }
@@ -42,13 +44,15 @@ class PostController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository('AppBundle:Post')->findByCategory($id);
-        $categories = $em->getRepository('AppBundle:Category')->find($id);
+        $category = $em->getRepository('AppBundle:Category')->find($id);
+        $categories = '';
         
         return $this->render(
             'post/list.html.twig',
             [
                 'posts' => $posts,
                 'categories' => $categories,
+                'category' => $category,
             ]
         );
     }

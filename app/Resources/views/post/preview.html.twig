@@ -11,9 +11,11 @@
     <div class ="well">{{ post.description }}</div>
     <p>Dans 
         {% for category in post.categories %}
-        <span class="category-tag"> 
-            {{ category }}
-        </span>&nbsp
+            <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}">
+                <span class="category-tag"> 
+                    {{ category }}
+                </span>&nbsp
+            </a>
         {% endfor %} 
         
         {% if app.request.get('_route') != 'app_user_displayinfo' %}
