@@ -98,5 +98,16 @@ class RankingController extends Controller
                             'avgtime' => $avgtime
                             ),
         ]);
+    }
+
+    public function menuAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rankings = $em->getRepository('AppBundle:Ranking')->findDistinctRanking();
+        
+        return $this->render('ranking/menu.html.twig',
+            [
+                'rankings' => $rankings,
+            ]);
     }    
 }
