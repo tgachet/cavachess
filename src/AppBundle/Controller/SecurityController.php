@@ -57,7 +57,7 @@ class SecurityController extends Controller
                 
                 $this->addFlash('success', 'Votre compte est créé');
                 
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('login');
             } else {
                 $this->addFlash('error', 'Le formulaire contient des erreurs');
             }
