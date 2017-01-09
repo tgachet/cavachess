@@ -28,7 +28,7 @@
                     <a href="{{ path('app_admin_user_editusers', {"id": user.id}) }}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Modifier"></span>
                     </a>
-                    <a href="{#{ path('app_admin_user_deleteusers', {"id": user.id}) }#}" class="btn btn-danger">
+                    <a href="{{ path('app_admin_user_deleteusers', {"id": user.id}) }}" class="btn btn-danger">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true" title="Supprimer"></span>
                     </a>
                 </td>
