@@ -12,5 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class RankingRepository extends EntityRepository
 {
-
+    public function findDistinctRanking(){
+        $qb = $this->createQueryBuilder('r')
+                   ->groupBy('r.competition_id')
+                ;
+        return $qb->getQuery()->getResult();
+    }
 }
