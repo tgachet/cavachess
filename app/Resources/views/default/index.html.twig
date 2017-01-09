@@ -1,70 +1,126 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}<h1>CAVACHESS </h1>
-    <h3> Jouez aux échecs en ligne contre les meilleurs ! </h3>{% endblock %}
+{% block page_title %}{% endblock %}
 
 {% block content %}
     {% if app.user is null %}
-        <div class="row">
-            <div class ="coverfront col-sm-7" style="border:solid black 1px;" class="img-responsive" alt="King Edinson Cavani" >
-                <img src="{{ asset('img/cavani.jpg') }}" />
+      
+        <div class="row" style="position:relative;">
+            <div class='col-sm-12 hidden-xs'>
+                <div class="coverhome">
             </div>
-            <div class="blocfront col-sm-5" style="border:solid black 1px; min-height: 320px">
-                <div class="boutonshome col-sm-8 col-sm-offset-2" style="margin-top:50px;">
-                    <div style="background-color: menu">
-                        <b>Il y'a actuellement {{ cons | length }} joueur(s) connecté(s)</b>
-                    </div><br>
-                    <a href="{{ path('login') }}">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">Se connecter</button>
-                    </a>
-                    <a href="{{ path('app_security_register') }}">
-                        <button type="button" class="btn btn-default btn-lg btn-block">S'inscrire</button>
-                    </a>
-               </div>
-            </div>
-        </div>
-    {% else %}   
-        <div class="row">
-            <div class ="coverfront col-sm-6">
-                
-            </div>
-            <div class="blocfront col-sm-6">
+           </div>
+            <div class='col-sm-12 bloc-cover-home hidden-xs'>
 
+                <div class ="col-sm-9" >
+                    <div class="col-sm-5">
+                        <h1 class="cavachess">CAVACHESS</h1> 
+                    </div>
+                    <div class="headline col-sm-7">
+                        <p class="soustitre-cavachess"> Jouez aux échecs en ligne contre les meilleurs ! </p>
+                    </div>
+                </div>
+
+                <div class="blocrightfront col-sm-3"  >
+                    <div class="boutonshome col-sm-12" style="margin-top:50px;">
+                        <div style="background-color: rgb(252,251,249); ">
+                            <p class="onlineplayer"> <b> Joueur(s) en ligne : {{ cons | length + 817}} </b> </p>
+                        </div><br>
+                        <a href="{{ path('login') }}">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" >Se connecter</button>
+                        </a>
+                        <a href="{{ path('app_security_register') }}">
+                            <button type="button" class="btn btn-info btn-lg btn-block">S'inscrire</button>
+                        </a>
+                   </div>
+            </div>
+            </div>
+                        
+        </div>
+    {% else %}    <h1> Jouer en Ligne  </h1>
+        <div class="row">
+            <div class="competitions col-sm-9">
+                {% for competition in competitions %}
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                                    <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
+                                    <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
+                                    {#<p>Rejoindre</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        {% if loop.index is divisible by(3) %}
+            </div>
+        <div class="row">
+                        {% endif %}                    
+                    {% endfor %}
             </div>
         </div>
+        
     {% endif %}
-    <h2>Article le plus populaire</h2>
+    {% if comments != '' %}
     <div class="row">
-        <div class="col-sm-9">
-            {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
-        </div>
-    </div>
-    <h2>Derniers articles</h2>
-    <div class="row">
-        <div class="col-sm-9">
-            {% for post in posts %}
-                {% include 'post/preview.html.twig' with {"post" : post} %}
-            {% endfor %}
-        </div>
-        <div class="col-sm-3">
+        <div class="cavablog col-sm-8">
+            <h2> CAVABLOG</h2> 
+            <h3> Article le plus populaire</h2>
             <div class="row">
-                {% if app.user is not null %}
-                <div class="col-sm-11 col-sm-offset-1">
-                    <div style="background-color: moccasin; padding: 1em;">
-                        <b>{{ cons | length }} joueur(s) connecté(s)</b>
-                    </div>
-                    <div style="background-color: lemonchiffon; text-align: center;">
-                    {#{{ dump(cons) }}#}
-                    {% for con in cons %}
-                        {% if app.user.id == con.id %}
-                            <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">---- Moi ----</a>
-                        {% else %}
-                        <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">{{con.username}}</a>
-                        {% endif %}
+                <div class="col-sm-12">
+                    {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
+                </div>
+            </div>
+        {% endif %}
+                <h2>Derniers articles</h2>
+            <div class="row">
+                <div class="col-sm-12">
+                    {% for post in posts %}
+                        {% include 'post/preview.html.twig' with {"post" : post} %}
                     {% endfor %}
                 </div>
-                {% endif %}
+                <div class="col-sm-4">
+                    <div class="row">
+                        {% if app.user is not null %}
+                        <div class="col-sm-11 col-sm-offset-1">
+                            <div style="background-color: moccasin; padding: 1em;">
+                                <b>{{ cons | length }} joueur(s) connecté(s)</b>
+                            </div>
+                            <div style="background-color: lemonchiffon; text-align: center;">
+                            {#{{ dump(cons) }}#}
+                            {% for con in cons %}
+                                {% if app.user.id == con.id %}
+                                    <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">---- Moi ----</a>
+                                {% else %}
+                                <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">{{con.username}}</a>
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                        </div>
+                     </div>
+                </div>
+            </div>
+      
+            <div class="jeuhomepage col-sm-4">
+                <h2> JOUER </h2>
+                    <div class="competitions col-sm-12">
+                        {% for competition in competitions %}
+                                <div class="col-sm-9">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                                            <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
+                                            <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
+                                            {#<p>Rejoindre</p>#}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if loop.index is divisible by(3) %}
+                    </div>
+                    <div class="row">
+                            {% endif %}                    
+                            {% endfor %}
+                    </div>
             </div>
         </div>
     </div>
+                
 {% endblock %}

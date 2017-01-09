@@ -25,15 +25,20 @@ class DefaultController extends Controller
         $mostcommented = '';
         $top_article = '';
         $comments = '';
+   
         
         $mostcommented = $em->createQuery("SELECT c, max(c.post) FROM AppBundle\Entity\Comment c")->getResult();
-        if (!is_null($mostcommented))
+        if (!is_null($mostcommented[0][0]))
         {
             $top_article = $mostcommented[0][0]->getPost();
         
-        // Requête des trois derniers commentaires du post le plus commeenté
+        // Requête des trois derniers commentaires du post le plus commenté
             $comments = $em->getRepository('AppBundle:Comment')->findLatestByPost($top_article, 3);
         }
+        
+        // Récup compet
+        $competitions = $em->getRepository('AppBundle:Competition')->findAll();
+        
         return $this->render(
                 'default/index.html.twig', 
                 [
@@ -43,23 +48,10 @@ class DefaultController extends Controller
                     'mostcommented' => $mostcommented,
                     'top_article' =>$top_article,
                     'comments' => $comments,
+                    'competitions' => $competitions,
+   
         ]);
     }
     
-//    /**
-//     * @param Request $request
-//     * 
-//     */
-//    public function whoIsOnlineAction()
-//    {
-//        $cons = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->getActive();
-// 
-//        return $this->render(
-//            'default/index.html.twig',
-//            [
-//                'cons' => $cons,
-//            ]
-//        );
-//        return array('cons' => $cons);
-//    }
+
 }

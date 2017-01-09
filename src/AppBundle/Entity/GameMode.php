@@ -61,7 +61,7 @@ class GameMode
         $this->competitions = new ArrayCollection();
     }  
 
-
+    
     /***** GETTERS *****/
     /**
      * Get id
@@ -88,6 +88,8 @@ class GameMode
     public function getDescription() {
         return $this->description;
     }
+
+
 
     /***** SETTERS *****/
     public function setName($name) {

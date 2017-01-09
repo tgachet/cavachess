@@ -1,0 +1,6 @@
+{% for ranking in rankings %}
+    <li>
+        <a href="{{path('app_ranking_displayranking', {"id": ranking.competition_id.id})}}" title="{{ranking.competition_id.name}}">{{ranking.competition_id.name}}</a>
+    </li>
+{% endfor %}
+
