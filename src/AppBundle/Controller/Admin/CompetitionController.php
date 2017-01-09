@@ -203,7 +203,14 @@ class CompetitionController extends Controller
                     'placeholder' => array(
                         'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
                     )
-                ]);
+                ])
+            ->add('description',
+            \Symfony\Component\Form\Extension\Core\Type\TextareaType::class,
+                    [
+                        'label' => 'Description',
+            ])
+        ;
+        
 
         $form = $formBuilder->getForm();
         
