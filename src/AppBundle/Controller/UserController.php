@@ -106,8 +106,7 @@ class UserController extends Controller
                 $countPerCompetition = array_count_values($competitions);
                 $competitionmostplayed = array_search(max($countPerCompetition),$countPerCompetition); 
             }
-            else
-            {
+            else {
                 $competitionmostplayed ='';
             }
             
@@ -121,7 +120,7 @@ class UserController extends Controller
                 'user' => $user,
                 'id' => $id,
                 'posts' =>$posts,
-                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionsmostplayed),
+                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
                 'rankings' => $rankings,
             ]
         );
