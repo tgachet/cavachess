@@ -8,9 +8,19 @@ and open the template in the editor.
     Author     : Etudiant
 */
 
-.category-tag{
+/* COLORS
+primary : #FBFAF8 (white)
+secondary : #141311 (black)
+Third : #4F4A47 (grey)
+*/
+
+.category-tag {
     background-color: darkslategrey;
     color: white;
     font-style: italic;
     padding: 5px;
+}
+
+.coverhome {
+    background-image: url("../../web/img/coverfonthome.jpg");
 }
