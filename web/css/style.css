@@ -77,12 +77,16 @@ section, aside{margin-top:20px;}
     margin-top:10px; 
 }
 
+#board-index {width:200px;}
+
 /********************** VIEWS > GAME > DISPLAY  **********************/
 section#jeu .toggle-display { display:none;} 
 #jeu #board {width:400px; float:left;}
 #jeu .chrono {padding-left: 30px; float:left;}
-#chat-output {height:300px; margin-bottom:20px; border:1px solid black;}
-#chat-input #message {height:80px; width:100%; resize:none;}
+#chat-output {height:320px; margin-bottom:20px; border:1px solid black;}
+#chat-input #chat-textarea {height:60px; width:calc(80% - 20px); resize:none;}
+#chat-submit {width:20%; height:60px; margin-left:20px;}
+#chat-textarea, #chat-submit {float:left;}
 
 
 /********************** VIEWS > POST > PREVIEW  **********************/
