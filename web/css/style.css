@@ -1,11 +1,8 @@
 /* COLORS
 primary : #FBFAF8 (white)
-secondary : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
-Third : #4F4A47 (grey) 
-*/
-/* FONT
-font-family: 'Noto Sans', sans-serif;
-
+secondary #4F4A47 (grey) 
+complementaire : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
+complementaire : #34495E (gris bleu)
 */
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
@@ -15,22 +12,23 @@ main {background-color:white; min-height:100vh; padding:30px 20px;}
 img {max-width:100%; height:auto;}
 
 a, a:hover {text-decoration: none; color:inherit;}
+a:hover {color:#34495E;}
 
 h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
 h1 {font-size: 2.2em; font-weight:700;}
-h2 {font-size: 1.8em; font-weight:700; margin:10px 0;}
+h2 {font-size: 1.8em; font-weight:700; margin:10px 0; color:#34495E;}
 h3 {font-size: 1.15em; font-weight:700; margin-bottom: 10px;}
-h4 {font-size: 1.10em; font-weight:700;}
+h4 {font-size: 1.10em; font-weight:400;}
 
 section, aside{margin-top:20px;}
 
 ul li {list-style-type: none;}
 ul {padding:0; margin:0;}
 
-.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default {border-radius: 0px!important;}
+.btn, .btn-default, .btn-ok, .btn-play, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default, .panel, .ui-accordion-header {border-radius: 0px!important;}
 
 /********************** MAIN LAYOUT **********************/
 /* NAV */
@@ -48,12 +46,12 @@ ul {padding:0; margin:0;}
     padding-top: 1px;
     padding-bottom: 1px;
     filter: grayscale(100%);
-    
 }
 
 /********************** VIEWS > DEFAULT > INDEX  **********************/
 .bg-cover-home {
     background-image: url("../../web/img/coverfonthome7.jpg");
+    background-repeat: no-repeat;
     min-height:400px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
 }
@@ -103,7 +101,7 @@ ul {padding:0; margin:0;}
     margin-top:5px; 
     font-style:italic; 
 } 
-.register-on-login a, a:hover {color:blue;} 
+.register-on-login a, .register-on-login a:hover {color:blue;} 
 .formconnexion {
     margin-top:50px;
     padding: 35px;
@@ -142,10 +140,20 @@ section#jeu .toggle-display { display:none;}
     font-size: 10px;
 }
 
+/********************** VIEWS > COMPETITION > DISPLAY  **********************/
+#competitions-list h3.panel-title {background-image:url('../../web/img/competion-bg.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 1px black}
+#competitions-list .panel-heading { padding:0;}
+#competitions-list h3.panel-title { padding:12px 15px; }
+#competitions-list p.panel-title { padding:10px 15px; }
+#competitions-list .ranking {background-color:white;}
+
+
 /********************** VIEWS > RANKING > DISPLAY  **********************/
-#ranking-statistics h2 {margin-bottom:20px;}
-#ranking-statistics .div-stats1 {box-shadow:1px 1px 1px black; margin-left:-15px; padding:5px 5px 5px 15px;}
-#ranking-statistics .div-stats2 {box-shadow:1px 1px 1px black; margin-right:-15px; padding:5px 5px 5px 15px;}
+#ranking-statistics h2 {margin-bottom:20px; background-image:url('../../web/img/bg-classement.jpg'); background-repeat: no-repeat; padding:6px 5px; color:white; text-shadow : 1px 1px 1px black}
+#ranking-list h2 {margin-bottom:20px; background-image:url('../../web/img/bg-classement.jpg'); background-repeat: no-repeat; padding:6px 5px; color:white; text-shadow : 1px 1px 1px black}
+#ranking-statistics .div-stats1, #ranking-statistics .div-stats2 {box-shadow:0px 1px 1px #4F4A47; padding:7px 5px 7px 15px; margin-bottom: 10px;}
+#ranking-statistics li {padding-bottom:2px;}
+#ranking-list .panel-body {box-shadow:0px 0px 1px #4F4A47; margin:15px;}
 
 /********************** MEDIA QUERY **********************/
 @media screen and (max-width:767px) {
@@ -161,7 +169,7 @@ section#jeu .toggle-display { display:none;}
 @media screen and (min-width:992px) {
     .game-padding-md {padding-right:0px;} /* Affichage du jeu page game en md */
     .chat-padding-md {padding-left:0px;} /* Affichage du chat page game en md */
-    #jeu .chrono {padding-left:0; margin-left:-5px; width: calc(100% - 396px);}
+    #jeu .chrono {padding-left:0; margin-left:-5px; width: calc(100% - 396px);} /* Chrono page game*/
 }
 
 
@@ -169,14 +177,14 @@ section#jeu .toggle-display { display:none;}
 /* REDEFINITION DES BOUTONS BOOTSTRAP */
 .btn-ok {
   color: #fff;
-  background-color: darkslategray; /* vert */
-  border-color: #559247; /* Darken 5% */
+  background-color: #34495E; /* Gris bleu */
+  border-color: #273C51; /* Darken 5% */
 }
 
 .btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
   color: #fff;
-  background-color: grey; /* Darken 10% */
-  border-color: #3B782D; /* Darken 15% */
+  background-color: #1B3045; /* Darken 10% */
+  border-color: #0E2338; /* Darken 15% */
 }
 
 .btn-ok:active:hover,
@@ -184,8 +192,8 @@ section#jeu .toggle-display { display:none;}
 .btn-ok:active:focus,
 .open > .dropdown-toggle.btn-ok:focus {
   color: #fff;
-  background-color: #559247; /* Darken 5% */
-  border-color: #559247; /* Darken 10% */
+  background-color: #273C51; /* Darken 5% */
+  border-color: #1B3045; /* Darken 10% */
 }
 .btn-ok:active, .open > .dropdown-toggle.btn-ok {background-image: none;}
 
@@ -196,6 +204,41 @@ section#jeu .toggle-display { display:none;}
 
 .btn-ok[disabled]:hover,
 .btn-ok[disabled]:focus
+{
+  background-color: #B9596B; /* Lighten 5% */
+  border-color: #AC4C5E; /* rouge */
+}
+
+
+.btn-play {
+  color: #fff;
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */
+}
+
+.btn-play:focus, .btn-play:hover, .btn-play:active, .open > .dropdown-toggle.btn-play {
+  color: #fff;
+  background-color: #933345; /* Darken 10% */
+  border-color: #862638; /* Darken 15% */
+}
+
+.btn-play:active:hover,
+.open > .dropdown-toggle.btn-play:hover,
+.btn-play:active:focus,
+.open > .dropdown-toggle.btn-play:focus {
+  color: #fff;
+  background-color: #273C51; /* Darken 5% */
+  border-color: #933345; /* Darken 10% */
+}
+.btn-play:active, .open > .dropdown-toggle.btn-play {background-image: none;}
+
+.btn-play[disabled] {
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */	
+}
+
+.btn-play[disabled]:hover,
+.btn-play[disabled]:focus
 {
   background-color: #B9596B; /* Lighten 5% */
   border-color: #AC4C5E; /* rouge */
