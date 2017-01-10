@@ -30,7 +30,9 @@
             <h4>
                 {% if comment.user.avatar %}
                     <img src="{{ asset('upload/' ~ comment.user.avatar) }}" style="max-height:40px; margin-bottom: 5px;">
-                {% endif %}
+                {% else %} 
+                    <img src="{{ asset('img/default_avatar.png') }}" style="max-height:40px; margin-bottom: 5px;"/> 
+                {% endif %} 
                 {{ comment.user.username }}
             </h4>
             <h5>

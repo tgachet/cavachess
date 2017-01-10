@@ -1,14 +1,19 @@
 <div>
-{#    <div class="row">#}
         <div class="row well well-sm">
             <div class="col-sm-4">
                 <h4>
-                    <img src="{{ asset('upload/' ~ user.avatar) }}" style="max-height:30px;">
+                {% if user.avatar %}
+                    <img src="{{ asset('upload/' ~ user.avatar) }}" style="max-height:30px;"/>
+                {% else %}
+                    <img src="{{ asset('img/default_avatar.png') }}" style="max-height:30px;"/>
+                {% endif %}
                 </h4>
             </div>
             <div class="col-sm-8">
                 <h5>
-                    <strong>{{ user.username }}</strong>
+                    <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}">
+                        <strong>{{ user.username }}</strong>
+                    <a/>
                 </h5>
                 <p>
                     {% if user.player|length != 0 %}
@@ -23,5 +28,4 @@
                 </p>
             </div>
         </div>
-{#    </div>#}
 </div>
