@@ -1,8 +1,10 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}<h1>{{ post.title }}</h1>{% endblock %}
-        
+       
 {% block content %}
+    
+    <h1>{{ post.title }}</h1>
+    <hr>
     <post>
         <p>Dans 
             {% for category in post.categories %}
@@ -14,17 +16,18 @@
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
                 {{ post.author.username }}
             </a>
-        <p>{{ post.description }}</p>
-        <div>{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
+            
+        <p> <br/> <b>{{ post.description }}</b></p>
+        <div class="post-article">{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
     </post>
         
     <h2>Commentaires</h2>
     
     {% if app.user %}
+
         <div class="well">
             <h3>Votre commentaire</h3>
                 {{ form_start(form) }}
-                {{ form_row(form.title) }}
                 {{ form_row(form.content) }}
                 <div class="form-btn-group pull-right">
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -39,20 +42,38 @@
     {% endif %}
     
     {% for comment in comments %}
-        <div class="well well-sm">
-            <h4>
-                {% if comment.user.avatar %}
-                    <img src="{{ asset('upload/' ~ comment.user.avatar) }}" height="30px">
-                {% endif %}
-                {{ comment.user.username }}
-            </h4>
-            <h5>
-                {{ comment.title }}
-                <small>
-                    {{ comment.date | date('d-m-Y H:i:s')}}
-                </small>
-            </h5>
-            <p>{{ comment.content | nl2br }}</p>     
+        <div class="media">
+            {% if comment.user.avatar %}
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="{{ asset('upload/' ~ comment.user.avatar) }}" style="width: 64px; height: 64px;" data-holder-rendered="true">
+                    </a>
+                </div>
+            {% endif %}    
+            <div class="media-body">
+                <h4 class="media-heading">{{ comment.user.username }}
+                    <small>
+                        {{ comment.date | date('d-m-Y H:i:s')}}
+                    </small>
+                </h4>
+                {{ comment.content | nl2br }}
+            </div>
+        </div>
+        <div class="media well well-sm">
+                <div class="/*media-left*/">
+
+                    <img class="media-object" src="{{ asset('upload/' ~ comment.user.avatar) }}" alt="avatar">
+
+                </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    {{ comment.user.username }}
+                    <small>
+                        {{ comment.date | date('d-m-Y H:i:s')}}
+                    </small>
+                </h4>
+                {{ comment.content | nl2br }}
+            </div>
         </div>
         
     {% endfor %}  

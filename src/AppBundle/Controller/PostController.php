@@ -84,8 +84,11 @@ class PostController extends Controller
         {
             if ($form->isValid())
             {
+                $title = $form->get('content')->getData();
+                
                 $comment
                    ->setPost($post)
+                   ->setTitle($title)
                    ->setUser($this->getUser())
                 ;
                 

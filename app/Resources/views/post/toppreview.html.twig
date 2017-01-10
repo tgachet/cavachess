@@ -1,15 +1,15 @@
 <article>
     <h3>
+        <a href="{{ path('app_post_display', {"id": post.id}) }}">
         {{ post.title }}
         <small>
-            <a href="{{ path('app_post_display', {"id": post.id}) }}">
+            
                 <i class="glyphicon glyphicon-share"></i>
-            </a>
+            
         </small>
     
     </h3>
-    <div class ="well">{{ post.description }}</div>
-    <p>Dans 
+         <p class="comment-index">Dans 
         {% for category in post.categories %}
         <span class="category-tag"> 
             {{ category }}
@@ -23,6 +23,9 @@
             </a>
         {% endif %}
     </p>
+    <div class ="well">{{ post.description }}</div>
+    </a>
+   
     {% for comment in comments %}
         <div class="well well-sm">
             <h4>

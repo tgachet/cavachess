@@ -1,0 +1,27 @@
+<div>
+{#    <div class="row">#}
+        <div class="row well well-sm">
+            <div class="col-sm-4">
+                <h4>
+                    <img src="{{ asset('upload/' ~ user.avatar) }}" style="max-height:30px;">
+                </h4>
+            </div>
+            <div class="col-sm-8">
+                <h5>
+                    <strong>{{ user.username }}</strong>
+                </h5>
+                <p>
+                    {% if user.player|length != 0 %}
+                        {% for test in user.player %}
+                            {% if test.points > 1200 %}
+                                <strong>{{test.competition_id.name}}:</strong> 
+                                {{test.points}} points
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+{#    </div>#}
+</div>

@@ -1,8 +1,9 @@
 {% extends 'layout.html.twig' %}
-{% block page_title %}<h1 style="margin-bottom:2em">Profil de <strong>{{ user.username }}</strong></h1>{% endblock %}
 
 {% block content %}
-    <div class="row">
+    <h1 style="margin-bottom:2em">Profil de {{ user.username }}</h1>
+    <hr>
+    <div class="row">       
         <div class="col-sm-3">
             <strong> Statut : </strong>
             {% if user.lastActivity > delay %}
@@ -20,7 +21,7 @@
                 <img src="{{ asset('img/default_avatar.png') }}" width="100%"/>
             {% endif %}
         </div>        
-        <div class="col-sm-9">            
+        <div class="col-sm-6">            
             {% if app.user %}
                 {% if user.role == 'ROLE_ADMIN' %}
                     <strong>Administrateur</strong><hr/>
@@ -31,9 +32,9 @@
                         <li><strong>Prénom: </strong>{{ user.firstname|title}}</li>
                         <li><strong>Email: </strong><em>{{ user.email }}</em></li>
                         {% endif %}
-                    {% endif %}
+            {% endif %}
                 <li>Membre depuis le <em> {{ user.date|date('d-m-Y') }}</em></li>
-                <li>Dernière connexion  à <em>{{ user.lastActivity|date('H:i')}} le  {{user.lastActivity|date('d-m-Y') }}</em></li>
+                <li>Dernière connexion  à <em>{{ user.lastActivity|date('H:i')}} le {{user.lastActivity|date('d-m-Y') }}</em></li>
                     {% if games.played != 0%}
                     <li>
                         <strong> Nombre parties jouées : </strong> <em>{{games.played}} ({{games.won}} victoires, {{games.lost}} défaites)</em>
@@ -64,13 +65,21 @@
                         <a href="{{ path('app_user_editusers', {"id": user.id}) }}" class="btn btn-info">Modifier mon profil</a>
                     </div>
         </div>
+        <div class="col-sm-3">
+            <strong>Contacts de {{ user.username }}:</strong>
+                {% for friend in user.allfriends %}
+                    {% include 'user/preview.html.twig' with {"user" : friend} %}
+                {% endfor %}
+        </div>
     </div>
     <div class="row">
-        <h2>Ses derniers articles</h2>
-        {% for post in posts %}
-            {% include 'post/preview.html.twig' with {"post" : post} %}
-        {% else %}
-            <p>Cet utilisateur n'a pas encore posté d'articles</p>
-        {% endfor %}
+        <div class="col-sm-12">
+            <h2>Ses derniers articles</h2>
+            {% for post in posts %}
+                {% include 'post/preview.html.twig' with {"post" : post} %}
+            {% else %}
+                <p>Cet utilisateur n'a pas encore posté d'articles</p>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

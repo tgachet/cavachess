@@ -64,8 +64,8 @@ class RankingController extends Controller
             $avgminutes  = floor($avgseconds/60);
             $avgseconds -= $avgminutes*60;        
 
-            $totaltime = sprintf('%02d heure(s) %02d minute(s) %02d seconde(s)', $hours, $minutes, $seconds);
-            $avgtime = sprintf('%02d heure(s) %02d minute(s) %02d seconde(s)', $avghours, $avgminutes, $avgseconds);             
+            $totaltime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+            $avgtime = sprintf('%02d:%02d:%02d', $avghours, $avgminutes, $avgseconds);             
             /* max */
             $nbmaxplays = max($tabplays);
             $nbplays = array_sum($tabplays);

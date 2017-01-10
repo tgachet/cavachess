@@ -2,10 +2,13 @@
 
 {% block title %}Cavachess{% endblock %}{# TITLE #} 
 
+
 {% block stylesheets %}{# CSS #} 
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    
 {% endblock %}{# END CSS #}   
 
 {% block body %}{# BODY #} 
@@ -34,17 +37,19 @@
                     {{render(controller('AppBundle:Ranking:menu'))}}
                   </ul>
                 </li>
-                <li {% if app.request.get('_route') == 'app_user_displayall' %}class="active"{% endif %}><a href="{{path('app_user_displayall')}}">Membres</a></li>
-            {% if app.user is not null %}
-                <li {% if app.request.get('_route') == 'app_user_displayinfo' %}class="active"{% endif %}>
-                    <a href="{{ path('app_user_displayinfo', {"id" : app.user.id}) }}" title="Voir mon profil">Mon profil</a>
-                </li>
-             {% endif %}         
-                <li><a href="#">Contact</a></li>      
+                <li {% if app.request.get('_route') == 'app_user_displayall' %}class="active"{% endif %}><a href="{{path('app_user_displayall')}}">Membres</a></li>    
+                <li {% if app.request.get('_route') == 'app_contact_index' %}class="active"{% endif %}><a href="{{path('app_contact_index')}}">Contact</a></li>      
               </ul>
   
-        
             <ul class="nav navbar-nav navbar-right">
+                 {% if app.user is not null %}
+                     <li class="hidden-xs">
+                       <img class="navbar-avatar" src="{{ asset('upload/' ~ app.user.avatar) }}"/>
+                     </li>
+                     <li {% if app.request.get('_route') == 'app_user_displayinfo' %}class="active"{% endif %}> 
+                         <a href="{{ path('app_user_displayinfo', {"id" : app.user.id}) }}"> {{ app.user.username }}</a>
+                     </li>
+                {% endif %}                
                 {% if is_granted('ROLE_ADMIN') %}{# NAV ADMIN #}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
@@ -74,6 +79,7 @@
                     </ul>
                 </li>
                 {% endif %}{# END NAV ADMIN #}
+
                 {% if app.user %}
                 <li><a href="{{path('logout')}}" title="Se déconnecter">Se déconnecter</a></li>
                 {% endif %}

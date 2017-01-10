@@ -1,15 +1,15 @@
 <article>
     <h3>
+         <a href="{{ path('app_post_display', {"id": post.id}) }}">
         {{ post.title }}
         <small>
-            <a href="{{ path('app_post_display', {"id": post.id}) }}">
+           
                 <i class="glyphicon glyphicon-share"></i>
             </a>
         </small>
     
     </h3>
-    <div class ="well">{{ post.description }}</div>
-    <p>Dans 
+         <p>Dans 
         {% for category in post.categories %}
             <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}">
                 <span class="category-tag"> 
@@ -23,6 +23,10 @@
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
                 {{ post.author.username }}
             </a>
+           
         {% endif %}
     </p>
+    <div class ="well article-index">{{ post.description }}</div>
+    <hr/>
+            
 </article>

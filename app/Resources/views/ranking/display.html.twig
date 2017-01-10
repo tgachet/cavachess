@@ -1,71 +1,83 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    {#{{dump(games)}}#}
     <h1>{{competition}}</h1>
+    <hr>
     {% if rankings is empty %}
         <p>Ce classement n'a pas encore d'utilisateurs enregistrés</p>
     {% else %}
-        <section>
-            <h2 class="text-center">Statistiques</h2>
-            <hr>
-            {% if games is empty %}
-            <p>Ce classement n'a pas encore de parties jouées</p>
-            {% else %}
-            <ul>
-                <li>Nombre de parties jouées : {{games|length}}</li>
-                <li>Joueur ayant le plus joué : {{statistics.topplayer}}</li>
-                <li>Partie la plus longue : {{statistics.maxgamelength}} </li>
-                <li>Maximum de coups joués dans une partie : {{statistics.nbmaxplays}} </li>
-                <li>Nombre total de coups joués : {{statistics.nbplays}} </li>
-                <li>Nombre de coups moyen par partie : {{statistics.avgplays}} </li>
-                <li>Temps de jeu total : {{statistics.totaltime}} </li>
-                <li>Temps de jeu moyen par partie : {{statistics.avgtime}} </li>
-            </ul>
-        </section>
-        {% endif %}
-        <section>
-            <h2 class="text-center">Classement</h2>
-            <hr>
-            {% set rank = 0 %}         
-            <div class="row">
-                <div class="panel-body">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>           
-                                <th>Rang</th>  
-                                <th>Joueur</th>
-                                <th>Points</th>
-                                <th>Victoires</th>
-                                <th>Défaites</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for ranking in rankings %}
-                                {% set rank = rank + 1 %}
-                                {% set wincounter = 0 %}
-                                {% set lostcounter = 0 %}
-                                {% for game in games %}
-                                    {% if ranking.user_id.id == game.idwinner.id %}
-                                        {% set wincounter = wincounter + 1 %}
-                                    {% elseif ranking.user_id.id == game.idlooser.id %}
-                                        {% set lostcounter = lostcounter + 1 %}
-                                    {% endif %}
-                                {% endfor %}
-                                <tr>
-                                    <td>{{rank}}</td>
-                                    <td><a href="{{ path('app_user_displayinfo', {"id" : ranking.user_id.id}) }}" title="Profil de {{ranking.user_id.username}}" target="_blanck">{{ranking.user_id.username}}</a></td>
-                                    <td>{{ranking.points}}</td>
-                                    {#{% if ranking.competition_id.id == gameswon.id_competition.id%}#}
-                                    <td>{{wincounter}}</td>
-                                    <td>{{lostcounter}}</td>
-                                    {#{% endif %}#}
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+    <div class="row">
+        <div class='col-sm-12'>
+            <section id="ranking-statistics">{# STATISTICS #}
+                <h2 class="text-center">Statistiques</h2>
+                {% if games is empty %}
+                <p>Ce classement n'a pas encore de parties jouées</p>
+                {% else %}
+                <div class='col-md-6 col-sm-12'>
+                    <ul class='div-stats1'>
+                        <li>Nombre de parties jouées : {{games|length}}</li>
+                        <li>Temps de jeu total : {{statistics.totaltime}} </li>
+                        <li>Nombre total de coups joués : {{statistics.nbplays}} </li>
+                        <li>Joueur ayant le plus joué : {{statistics.topplayer}}</li>
+                    </ul>
                 </div>
-            </div>
-        </section>
+                <div class='col-md-6 col-sm-12'>
+                    <ul class='div-stats2'>
+                        <li>Partie la plus longue : {{statistics.maxgamelength}} </li>               
+                        <li>Maximum de coups joués dans une partie : {{statistics.nbmaxplays}} </li>               
+                        <li>Nombre de coups moyen par partie : {{statistics.avgplays}} </li>               
+                        <li>Temps de jeu moyen par partie : {{statistics.avgtime}} </li>
+                    </ul>
+                </div>
+            </section>{# END STATISTICS #}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class='col-sm-12'>
+            <section>{# RANKING #}
+                <h2 class="text-center">Classement</h2>
+                {% set rank = 0 %}         
+                <div class="row">
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>           
+                                    <th>Rang</th>  
+                                    <th>Joueur</th>
+                                    <th>Points</th>
+                                    <th>Victoires</th>
+                                    <th>Défaites</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ranking in rankings %}
+                                    {% set rank = rank + 1 %}
+                                    {% set wincounter = 0 %}
+                                    {% set lostcounter = 0 %}
+                                    {% for game in games %}
+                                        {% if ranking.user_id.id == game.idwinner.id %}
+                                            {% set wincounter = wincounter + 1 %}
+                                        {% elseif ranking.user_id.id == game.idlooser.id %}
+                                            {% set lostcounter = lostcounter + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <tr>
+                                        <td>{{rank}}</td>
+                                        <td><a href="{{ path('app_user_displayinfo', {"id" : ranking.user_id.id}) }}" title="Profil de {{ranking.user_id.username}}" target="_blanck">{{ranking.user_id.username}}</a></td>
+                                        <td>{{ranking.points}}</td>
+                                        {#{% if ranking.competition_id.id == gameswon.id_competition.id%}#}
+                                        <td>{{wincounter}}</td>
+                                        <td>{{lostcounter}}</td>
+                                        {#{% endif %}#}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>{# END RANKING #}
+        </div>
+    </div>
     {% endif %}
 {% endblock %}
