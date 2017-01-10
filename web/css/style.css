@@ -9,8 +9,8 @@ font-family: 'Noto Sans', sans-serif;
 */
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
-body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: rgb(252,251,249);}
-main {background-color:rgb(252,251,249);}
+body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: #eee;}
+main {background-color:white; min-height:100vh; padding:30px 20px;}
 
 img {max-width:100%; height:auto;}
 
@@ -20,12 +20,15 @@ h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
-h1 {font-size: 2.2em; font-weight:700}
-h2 {font-size: 1.8em; font-weight:700}
-h3 {font-size: 1.15em; font-weight:700;}
+h1 {font-size: 2.2em; font-weight:700;}
+h2 {font-size: 1.8em; font-weight:700; margin:10px 0;}
+h3 {font-size: 1.15em; font-weight:700; margin-bottom: 10px;}
 h4 {font-size: 1.10em; font-weight:700;}
 
 section, aside{margin-top:20px;}
+
+ul li {list-style-type: none;}
+ul {padding:0; margin:0;}
 
 .btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default {border-radius: 0px!important;}
 
@@ -39,7 +42,14 @@ section, aside{margin-top:20px;}
 
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {background-color: #474644; color:white;}
 
-
+.navbar-avatar {
+    max-height: 50px;
+    min-height: 40px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    filter: grayscale(100%);
+    
+}
 
 /********************** VIEWS > DEFAULT > INDEX  **********************/
 .bg-cover-home {
@@ -47,7 +57,7 @@ section, aside{margin-top:20px;}
     min-height:400px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
 }
-.bloc-connexion {margin-top: 140px;}
+.bloc-connexion {margin-top: 110px; padding-right: 20px; }
 .players-online {margin-bottom:15px; font-size:1.2em;}
 .bloc-cover-home {
     position:absolute;
@@ -57,26 +67,34 @@ section, aside{margin-top:20px;}
 
 .h1-cavachess {
     padding-top: 20px;
-    margin-left:35px;
+    margin-left:25px;
     font-size:3.5em;
 }
 
 .slogan {
-    font-size: 1.6em;
+    font-size: 1.4em;
     margin-top:20px;
+    padding-left:25px;
+    padding-top:20px;
     padding-right:10px;
     text-shadow:1px 1px 1px white;
 }
 .posts-index {
     margin-top:20px;
 }
+.comment-index {
+    margin-bottom: 10px;
+}
 .jeu-index {
     margin-top:20px;
+/*    text-align: center;*/
 }
 .competitions-index {
     margin-top:10px; 
 }
-
+#partie-rapide {
+    margin-bottom: 55px;
+}
 #board-index {width:200px;}
 
 /********************** VIEWS > SECURITY > LOGIN **********************/ 
@@ -86,16 +104,33 @@ section, aside{margin-top:20px;}
     font-style:italic; 
 } 
 .register-on-login a, a:hover {color:blue;} 
+.formconnexion {
+    margin-top:50px;
+    padding: 35px;
+    background-color: #eee; 
+    border-radius:6px;
+}
+.blueviolet {
+    padding-bottom:20px;
+    text-align:center;
+}
 
 /********************** VIEWS > GAME > DISPLAY  **********************/
 section#jeu .toggle-display { display:none;} 
 #jeu #board {width:400px; float:left;}
-#jeu .chrono {padding-left: 30px; float:left;}
-#chat-output {height:320px; margin-bottom:20px; border:1px solid black;}
-#chat-input #chat-textarea {height:60px; width:calc(80% - 20px); resize:none;}
-#chat-submit {width:20%; height:60px; margin-left:20px;}
-#chat-textarea, #chat-submit {float:left;}
-
+#jeu .chrono {float:left; width: calc(100% - 405px); height:394px; border:1px solid #4F4A47;  position:relative;}
+#chat-output {height:295px; margin-bottom:4px; border:1px solid #4F4A47; padding:5px; overflow-y: scroll;}
+#chat-input #chat-textarea {height:60px; width:100%; resize:none; border:1px solid #4F4A47;}
+#chat-submit {border:1px solid #4F4A47; padding:4px 12px;}
+#jeu #board .board-b72b1 {border:1px solid #4F4A47;}
+#jeu .player2-infos {background-color:#f6f6f6; color:black; padding: 4px 5px;}
+#jeu .player1-infos {background-color:#4F4A47; color:white; padding: 4px 5px; position: absolute; width: 100%; bottom: 28px; left: 0;}
+#jeu #clockdivp1 {padding: 4px 5px; position: absolute; width: 100%; bottom: 0px; left: 0;}
+#jeu #clockdivp2 {padding: 4px 5px;}
+#game-status {padding: 4px 5px; margin-top:3px; font-weight:700;}
+#game-history {padding: 4px 5px; margin-top:3px;}
+#adversaire, #info {margin-top:10px;}
+@-moz-document url-prefix(){#chat-submit {margin-top:5px;}}
 
 /********************** VIEWS > POST > PREVIEW  **********************/
 .category-tag {
@@ -107,11 +142,26 @@ section#jeu .toggle-display { display:none;}
     font-size: 10px;
 }
 
+/********************** VIEWS > RANKING > DISPLAY  **********************/
+#ranking-statistics h2 {margin-bottom:20px;}
+#ranking-statistics .div-stats1 {box-shadow:1px 1px 1px black; margin-left:-15px; padding:5px 5px 5px 15px;}
+#ranking-statistics .div-stats2 {box-shadow:1px 1px 1px black; margin-right:-15px; padding:5px 5px 5px 15px;}
 
 /********************** MEDIA QUERY **********************/
-@media screen and (max-width:768px) {
+@media screen and (max-width:767px) {
+    /* Menu color smartphone (xs)*/
     .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, .navbar-default .navbar-nav .open .dropdown-menu>li>a {color:white;}
     .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {background-color:#474644}    
+    
+    /* Page game */
+    #jeu #board {width:200px; float:none;}
+    #jeu .chrono {height:160px; width:194px; float:none; margin-top:10px; }
+}
+
+@media screen and (min-width:992px) {
+    .game-padding-md {padding-right:0px;} /* Affichage du jeu page game en md */
+    .chat-padding-md {padding-left:0px;} /* Affichage du chat page game en md */
+    #jeu .chrono {padding-left:0; margin-left:-5px; width: calc(100% - 396px);}
 }
 
 
@@ -119,13 +169,13 @@ section#jeu .toggle-display { display:none;}
 /* REDEFINITION DES BOUTONS BOOTSTRAP */
 .btn-ok {
   color: #fff;
-  background-color: #619E53; /* vert */
+  background-color: darkslategray; /* vert */
   border-color: #559247; /* Darken 5% */
 }
 
 .btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
   color: #fff;
-  background-color: #559247; /* Darken 10% */
+  background-color: grey; /* Darken 10% */
   border-color: #3B782D; /* Darken 15% */
 }
 

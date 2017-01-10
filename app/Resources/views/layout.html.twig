@@ -38,16 +38,23 @@
                   </ul>
                 </li>
                 <li><a href="#">Membres</a></li>
-            {% if app.user is not null %}
+      {#      {% if app.user is not null %}
                 <li {% if app.request.get('_route') == 'app_user_displayinfo' %}class="active"{% endif %}>
                     <a href="{{ path('app_user_displayinfo', {"id" : app.user.id}) }}" title="Voir mon profil">Mon profil</a>
                 </li>
-             {% endif %}         
+             {% endif %}   #}      
                 <li><a href="#">Contact</a></li>      
               </ul>
   
-        
             <ul class="nav navbar-nav navbar-right">
+                 {% if app.user is not null %}
+                     <li class="hidden-xs">
+                       <img class="navbar-avatar" src="{{ asset('upload/' ~ app.user.avatar) }}"/>
+                     </li>
+                     <li {% if app.request.get('_route') == 'app_user_displayinfo' %}class="active"{% endif %}> 
+                         <a href="{{ path('app_user_displayinfo', {"id" : app.user.id}) }}"> {{ app.user.username }}</a>
+                     </li>
+                {% endif %}                
                 {% if is_granted('ROLE_ADMIN') %}{# NAV ADMIN #}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration <span class="caret"></span></a>
@@ -77,6 +84,7 @@
                     </ul>
                 </li>
                 {% endif %}{# END NAV ADMIN #}
+
                 {% if app.user %}
                 <li><a href="{{path('logout')}}" title="Se déconnecter">Se déconnecter</a></li>
                 {% endif %}

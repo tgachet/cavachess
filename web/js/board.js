@@ -5,7 +5,7 @@ var board,
   pgnEl = $('#pgn');
 
 /* Initialization */
-statusEl.text('White to move');
+statusEl.text('Tour de jeu des blancs');
 /* Cases d'aide */
 var removeGreySquares = function() {
   $('#board .square-55d63').css('background', '');
@@ -120,7 +120,7 @@ var updateStatus = function() {
 
   // checkmate?
   if (game.in_checkmate() === true) {
-    status = 'Game over, ' + moveColor + ' is in checkmate.';
+    status = 'Echec et mat pour ' + moveColor;
     if(moveColor !== player) {
         gameisover = 'youwin';
         opponentcontent.html("Partie terminée, vous avez gagné");
@@ -152,11 +152,16 @@ var updateStatus = function() {
 
   // game still on
   else {
-    status = moveColor + ' to move';
+      if (moveColor === 'white'){
+          status = 'Tour de jeu des blancs';
+      }
+      else{
+          status = 'Tour de jeu des noirs';
+      }
 
     // check?
     if (game.in_check() === true) {
-      status += ', ' + moveColor + ' is in check';
+      status += ', ' + moveColor + ' est en échec';
     }
   }
 

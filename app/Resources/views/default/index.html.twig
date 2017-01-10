@@ -7,16 +7,20 @@
             </div>
         </div>
         <div class='col-sm-12 bloc-cover-home hidden-xs'>            
-            <div class ="col-sm-9" >
+            <div class ="col-sm-8" >
+                <div class="col-sm-5">
                     <h1 class="h1-cavachess">CAVACHESS</h1> 
-                    <p class="slogan text-right"> <b>Jouez</b> aux échecs en ligne contre les meilleurs ! </p>
+                </div>
+                <div class="col-sm-7">
+                    <p class="slogan"> <b>Jouez</b> aux échecs en ligne entre amis ! </p>
+                </div>
             </div>                
-            <div class="bloc-connexion col-sm-3"  >
+            <div class="bloc-connexion col-sm-4"  >
                 <p class="players-online text-center">Joueur(s) en ligne : <b>{{ cons | length + 138}}</b></p>                  
-                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-ok">Se connecter</a>
-                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block btn-primary">S'inscrire</a>
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-primary">Se connecter</a>
+                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block btn-ok">S'inscrire</a>
                 
-                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-danger">Jouer NOW !</a>
+                <a href="{{ path('login') }}" class="btn playbutton btn-default btn-lg btn-block btn-secondary">JOUER</a>
                 
                 
             </div>
@@ -29,8 +33,7 @@
         <div class="posts-index col-sm-8">{# SECTIONS #}
             <section id="top-post">{# TOP POST #}
                 {% if comments != '' %}    
-                    <h2>Blog</h2> 
-                    <h3>Article le plus populaire</h2>
+                    <h2>ACTUALITE DU MOMENT </h2>
                     {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
                 {% endif %}
             </section>{# END TOP POST #}
@@ -43,11 +46,13 @@
             </section>{# END SECTION POSTS #}
         </div>{# END SECTIONS #}
         
-        <div class="col-sm-4">{# ASIDES #}
-            <aside id="random-game" class="hidden-xs">{# PARTIE ALEATOIRE #}
-                <div id="board-index" class="center-block"></div>
-            </aside>{# END PARTIE ALEATOIRE #}
-            
+        <div class="jeu-index col-sm-4">{# ASIDES #}
+            <section id="partie-rapide">
+                <h2> PARTIE RAPIDE </h2>
+                <aside  id="random-game" class="hidden-xs">{# PARTIE ALEATOIRE #}
+                    <div id="board-index" class="center-block"></div>
+                </aside>{# END PARTIE ALEATOIRE #}
+            </section>
             <aside id="users-connected">{# UTILISATEURS CONNECTES #}
             {% if app.user is not null %} 
                 <div style="background-color: moccasin; padding: 1em;">
@@ -66,7 +71,7 @@
             </aside>{# END UTILISATEURS CONNECTES #}
             
             <aside id="games-list">{# LISTE JEUX #}
-                <h2>Jouer</h2> 
+                <h2>COMPETITIONS</h2> 
                 <div class="competitions-index col-sm-12">
                     {% for competition in competitions|slice(0, 4) %}
                         <div class="panel panel-default">
@@ -91,7 +96,8 @@
     <script>
         var cfg = {
         pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
-        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R'
+        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
+        showNotation: false,
       };
         var board = ChessBoard('board-index', cfg);
     </script>
