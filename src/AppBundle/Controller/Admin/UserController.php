@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -54,21 +55,34 @@ class UserController extends Controller
             }
         }
         
-        $roles = $this->getUser()->getRoles();
-        $form = $this->createForm(UserType::class, $user, ['role' => $roles]);
+        // Vérification user connecté pour afficher le formulaire complet si il est admin
+        $statut = null;
+        if ($id == $this->getUser()->getId())
+        {
+        $statut = 'logged_user';
+        }
         
+        $roles = $this->getUser()->getRoles();
+        $isFormAdmin = $statut != 'logged_user' && in_array('ROLE_ADMIN', $roles);
+        $prevAvatar = $user->getAvatar();
+        
+        $form = $this->createForm(UserType::class, $user, ['role' => $roles, 'statut' => $statut]);
+              
         $form->handleRequest($request); // le formulaire analyse la requête HTTP 
         
         if ($form->isSubmitted()) { // si le formulaire a été envoyé
             if ($form->isValid()) { // s'il n'y a pas eu d'erreur de validation du formulaire
-                $passwordEncoder = $this->get('security.password_encoder');
-                $user->setPassword(
-                    $passwordEncoder->encodePassword($user, $user->getPlainPassword())
-                );
+                if (!empty($user->getPlainPassword())) {// si le mdp existe: pas besoin de le retaper pour valider le form
+                    $passwordEncoder = $this->get('security.password_encoder');
+                    $user->setPassword(
+                        $passwordEncoder->encodePassword($user, $user->getPlainPassword())
+                    );
+                }
                 /** @var Symfony\Component\HttpFondation\UploadedFile|null */
                 $avatar = $user->getAvatar();
                 
-                if (!is_null($avatar)) {
+                if ($avatar instanceof UploadedFile) {
+                    if (!is_string($avatar)){// évite guessExtension() error
                     // on donne un nom unique au fichier que l'on va enregistrer
                     $fileName = md5(uniqid()) . '.' . $avatar->guessExtension();
                     
@@ -80,6 +94,9 @@ class UserController extends Controller
                     
                     // on va stocker le nom du fichier en bdd pour notre User
                     $user->setAvatar($fileName);
+                    }
+                } else {
+                    $user->setAvatar($prevAvatar);
                 }
                 
                 $em->persist($user); //prépare l'enregistrement de l'object en bdd
@@ -103,6 +120,7 @@ class UserController extends Controller
                 'user' => $user,
                 'new' => $new,
                 'form' => $form->createView(),
+                'form_admin' => $isFormAdmin,
             ]
         );
     }
