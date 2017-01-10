@@ -2,6 +2,7 @@
 
        
 {% block content %}
+    
     <h1>{{ post.title }}</h1>
     <hr>
     <post>
@@ -15,8 +16,9 @@
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
                 {{ post.author.username }}
             </a>
-        <p>{{ post.description }}</p>
-        <div>{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
+            
+        <p> <br/> <b>{{ post.description }}</b></p>
+        <div class="post-article">{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
     </post>
         
     <h2>Commentaires</h2>
