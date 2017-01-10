@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,6 +46,13 @@ class PostType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
 //                'placeholder' => 'Choisissez une catégorie' // Pour avoir une première option vide
+            ])
+            ->add('picture',
+            FileType::class, // <input type="file">
+            [
+                'label' => 'Image',
+                'required' => false, // pour rendre le champ optionnel
+                'data_class' => null,
             ])
         ;
     }

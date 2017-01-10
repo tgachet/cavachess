@@ -23,9 +23,9 @@
                 <td>{{ user.email }}</td>
                 <td>
                     {% if user.avatar %}
-                        <img src="{{ asset('upload/' ~ user.avatar) }}"/>
+                        <img src="{{ asset('upload/avatar/' ~ user.avatar) }}" style="max-height:40px; margin-bottom: 5px;"/>
                     {% else %}
-                        <img src="{{ asset('img/default_avatar.png') }}"/>
+                        <img src="{{ asset('img/default_avatar.png') }}" style="max-height:40px; margin-bottom: 5px;"/>
                     {% endif %}
                 </td>
                 <td>

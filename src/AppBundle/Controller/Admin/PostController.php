@@ -62,6 +62,27 @@ class PostController extends Controller
         {
             if($form->isValid())
             {
+                // upload de l'image "picture"
+                // nécessite qu'existe le paramètre "upload_dir_picture"
+                // et que le répertoire web/upload/picture soit créé
+                // Le commentaire qui suit est indicatif,
+                // il précise qu'on a dans $avatar une instance de "UploadedFile" ou null
+                /** @var Symfony\Component\HttpFondation\UploadedFile|null */
+                $picture = $post->getPicture();
+                
+                if (!is_null($picture)) {
+                    // on donne un nom unique au fichier que l'on va enregistrer
+                    $fileName = md5(uniqid()) . '.' . $picture->guessExtension();
+                    
+                    // gère le move_uploaded_file() vers notre répertoire d'upload
+                    $picture->move(
+                        $this->getParameter('upload_dir_picture'), // répertoire destination
+                        $fileName // nom du fichier dans le répertoire destination
+                    );
+                    
+                    // on va stocker le nom du fichier en bdd pour notre User
+                    $post->setPicture($fileName);
+                }
                 $em->persist($post);
                 $em->flush();
                 
