@@ -9,14 +9,14 @@ font-family: 'Noto Sans', sans-serif;
 */
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
-/* RESET / GLOBAL */
-body {font-family: 'Noto Sans', sans-serif; font-weight:400;}
+body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: #eee;}
+main {background-color:white;}
 
 img {max-width:100%; height:auto;}
 
 a, a:hover {text-decoration: none; color:inherit;}
 
-h1, h2, h3, h4, h5, h6, p {margin:0;}
+h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
@@ -29,9 +29,6 @@ section, aside{margin-top:20px;}
 
 .btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default {border-radius: 0px!important;}
 
-/********************** END **********************/
-
-
 /********************** MAIN LAYOUT **********************/
 /* NAV */
 .navbar-default {background-color:#4F4A47; border:none;}
@@ -43,7 +40,49 @@ section, aside{margin-top:20px;}
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {background-color: #474644; color:white;}
 
 
-/********************** END **********************/
+
+/********************** VIEWS > DEFAULT > INDEX  **********************/
+.bg-cover-home {
+    background-image: url("../../web/img/coverfonthome7.jpg");
+    min-height:400px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
+}
+.bloc-connexion {margin-top: 90px;}
+.players-online {margin-bottom:20px;}
+.bloc-cover-home {
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+.h1-cavachess {
+    padding-top: 20px;
+    margin-left:35px;
+    font-size:3.5em;
+}
+
+.slogan {
+    font-size: 1.6em;
+    margin-top:20px;
+    padding-right:20px;
+    text-shadow:1px 1px 1px white;
+}
+.posts-index {
+    margin-top:20px;
+}
+.jeu-index {
+    margin-top:20px;
+}
+.competitions-index {
+    margin-top:10px; 
+}
+
+/********************** VIEWS > GAME > DISPLAY  **********************/
+section#jeu .toggle-display { display:none;} 
+#jeu #board {max-width:100%}
+
+
+/********************** VIEWS > POST > PREVIEW  **********************/
 .category-tag {
     background-color: darkslategrey;
     color: white;
@@ -52,25 +91,7 @@ section, aside{margin-top:20px;}
     padding-left:5px;
     font-size: 10px;
 }
-/* BODY */
-body {
-    background-color: rgb(252,251,249);
-}
-/* NAVBAR */
 
-.navbar {
-    margin-bottom: 0;
-}
-
-/*BLOC WELCOME CAVACHESS */
-.coverhome {
-    background-image: url("../../web/img/coverfonthome7.jpg");
-    min-height:400px;
-}
-
-/********************** VIEWS > GAME > DISPLAY  **********************/
-section#jeu .toggle-display { display:none;} 
-#jeu #board {max-width:100%}
 
 /********************** MEDIA QUERY **********************/
 @media screen and (max-width:768px) {
@@ -78,49 +99,39 @@ section#jeu .toggle-display { display:none;}
     .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {background-color:#474644}    
 }
 
-/********************** END **********************/
 
 
-.bloc-cover-home {
-    position:absolute;
-    top:0;
-    left:0;
-}
-.cavachess {
-    padding-top: 20px;
-    margin-left:35px;
-    font-size:3.5em;
+/* REDEFINITION DES BOUTONS BOOTSTRAP */
+.btn-ok {
+  color: #fff;
+  background-color: #619E53; /* vert */
+  border-color: #559247; /* Darken 5% */
 }
 
-.headline {
-    margin-top: 20px;
-    padding-left:20px;
-}
-.soustitre-cavachess {
-    font-size: 1.4em;
-    font-weight:400;
-    margin-left:10px;
-    padding-top:15px;
-    
-}
-.onlineplayer{
-
-    font-size: 15pt;
-}
-.boutonshome {
-    padding-top: 100px;
-    padding-left: 0;
-    padding-right:0;
-    margin-bottom: 10px;
+.btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
+  color: #fff;
+  background-color: #559247; /* Darken 10% */
+  border-color: #3B782D; /* Darken 15% */
 }
 
-/* BLOC CAVABLOG HOMEPAGE */
-.cavablog {
-    margin-top:20px;
+.btn-ok:active:hover,
+.open > .dropdown-toggle.btn-ok:hover,
+.btn-ok:active:focus,
+.open > .dropdown-toggle.btn-ok:focus {
+  color: #fff;
+  background-color: #559247; /* Darken 5% */
+  border-color: #559247; /* Darken 10% */
 }
-.jeuhomepage {
-    margin-top:20px;
+.btn-ok:active, .open > .dropdown-toggle.btn-ok {background-image: none;}
+
+.btn-ok[disabled] {
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */	
 }
-.competitions {
-    margin-top:10px; 
+
+.btn-ok[disabled]:hover,
+.btn-ok[disabled]:focus
+{
+  background-color: #B9596B; /* Lighten 5% */
+  border-color: #AC4C5E; /* rouge */
 }
