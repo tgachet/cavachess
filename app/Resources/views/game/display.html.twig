@@ -2,9 +2,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
-    <style>
-        
-    </style>
 {% endblock %}
 
 {% block header %}{% endblock %}
@@ -43,8 +40,8 @@
                 <div id="chat-output">
                 </div>
                 <form id="chat-input">
-                    <textarea id ="message" name="message"></textarea>
-                    <input type="submit" value="envoyer" class="btn btn-default" />
+                    <textarea id="chat-textarea" name="message"></textarea>
+                    <input type="submit" id="chat-submit" value="Envoyer" class="btn btn-default" />
                 </form>
             </aside>
         </div>
