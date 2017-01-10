@@ -2,8 +2,6 @@
 
 {% block page_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
 {% block content %}   
-{{ dump(app.user) }}
-{{ dump(users) }}
     <table class="table">
             <th>Prénom</th>
             <th>Nom</th>
@@ -21,7 +19,11 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    <img src="{{ asset('upload/' ~ user.avatar) }}" width="10%"/>
+                    {% if user.avatar %}
+                        <img src="{{ asset('upload/' ~ user.avatar) }}"/>
+                    {% else %}
+                        <img src="{{ asset('img/default_avatar.png') }}"/>
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}" class="btn btn-info">

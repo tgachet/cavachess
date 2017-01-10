@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use DateTime;
 
 
 /**
@@ -113,6 +113,11 @@ class UserController extends Controller
             /* GET RANKINGS */
             $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('user_id' => $id));
         }
+        
+        /* Variable pour la gestion du STATUT (En ligne / Hors-ligne) */
+        $delay = new DateTime();
+        $delay->setTimestamp(strtotime('5 minutes ago'));
+        
         /* RENDER */
         return $this->render(
             'user/profile.html.twig',
@@ -122,33 +127,10 @@ class UserController extends Controller
                 'posts' =>$posts,
                 'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
                 'rankings' => $rankings,
+                'delay' => $delay,
             ]
         );
     }
-    
-    /**
-     * @param int $id
-     * @Route("/delete/{id}")
-     */
-    public function deleteUserAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->find('AppBundle:User', $id);
-         
-        if(is_null($user))
-        {
-            // On redirige vers la route de la liste s'il n'y a pas de post
-            return $this->redirectToRoute('app_admin_user_listusers');
-        } 
-        $em->remove($user);
-        $em->flush();
-         
-        $this->addFlash('success', 'Le joueur a bien été supprimé');
-         
-        return $this->redirectToRoute('app_admin_user_listusers');
-    }
-    
-    
 //    /**
 //     * @param Request $request
 //     * 
