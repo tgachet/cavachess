@@ -2,8 +2,8 @@
 
 {% block page_title %}{% endblock %}
 
-{% block content %}
-   
+
+   {% block header %}
     <div class="row" style="position:relative;">
         <div class='col-sm-12 hidden-xs'>
             <div class="bg-cover-home">
@@ -14,14 +14,15 @@
                     <h1 class="h1-cavachess">CAVACHESS</h1> 
                     <p class="slogan text-right"> Jouez aux échecs en ligne contre les meilleurs ! </p>
             </div>                
-            <div class="bloc-connexion col-sm-3"  >
+            <div class="bloc-connexion col-sm-3">
                 <p class="players-online text-center">Joueur(s) en ligne : {{ cons | length + 817}}</p>                  
-                <button class="btn btn-default btn-lg btn-block btn-ok" ><a href="{{ path('login') }}">Se connecter</a></button>
-                <button class="btn btn-default btn-lg btn-block" ><a href="{{ path('app_security_register') }}">S'inscrire</a></button>
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-ok">Se connecter</a>
+                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block">S'inscrire</a>
             </div>
         </div>             
     </div>
-
+    {% endblock %}
+    {% block content %}
     {% if comments != '' %}
     <div class="row">
         <div class="posts-index col-sm-8">

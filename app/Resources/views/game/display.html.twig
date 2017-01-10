@@ -7,7 +7,7 @@
     </style>
 {% endblock %}
 
-
+{% block header %}{% endblock %}
 {% block content %}
     <h1>Cavachess</h1>
     
@@ -23,8 +23,8 @@
         {# BOARD #}
         <div class="col-sm-7">
             <section id="jeu">
-                <div id="board" class='col-sm-8'></div>
-                <div class="chrono toggle-display col-sm-4">
+                <div id="board"></div>
+                <div class="chrono toggle-display">
                     <div id="clockdivp1">
                         <p><span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
                     </div>
@@ -34,20 +34,20 @@
                     <div id="game-status"><p><span id="status"></span></p></div>
                     <div id="game-history"><p><span id="pgn"></span></p></div>
                 </div>
+                <div class="clearfix"></div>
             </section>
         </div>
         {# CHAT #}
         <div class="col-sm-5">
             <aside id="chat">
-                <div id="chat-output" style="width: 400px; height : 400px; border: 1px solid black; margin-bottom:20px;">
+                <div id="chat-output">
                 </div>
                 <form id="chat-input">
-                    <textarea id ="message" name="message" style="width: 400px; height : 150px;"></textarea>
-                    <input type="submit" value="envoyer" style="display:block;" />
+                    <textarea id ="message" name="message"></textarea>
+                    <input type="submit" value="envoyer" class="btn btn-default" />
                 </form>
             </aside>
         </div>
-        <div class="clearfix"></div>
     </div>
     
     <div

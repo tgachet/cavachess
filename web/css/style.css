@@ -10,7 +10,7 @@ font-family: 'Noto Sans', sans-serif;
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
 body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: #eee;}
-main {background-color:white;}
+main {background-color:white; min-height:100vh; padding:0px 20px;}
 
 img {max-width:100%; height:auto;}
 
@@ -79,7 +79,10 @@ section, aside{margin-top:20px;}
 
 /********************** VIEWS > GAME > DISPLAY  **********************/
 section#jeu .toggle-display { display:none;} 
-#jeu #board {max-width:100%}
+#jeu #board {width:400px; float:left;}
+#jeu .chrono {padding-left: 30px; float:left;}
+#chat-output {height:300px; margin-bottom:20px; border:1px solid black;}
+#chat-input #message {height:80px; width:100%; resize:none;}
 
 
 /********************** VIEWS > POST > PREVIEW  **********************/
