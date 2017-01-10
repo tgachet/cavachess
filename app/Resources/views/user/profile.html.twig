@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-sm-3">
             {% if user.avatar %}
-                <img src="{{ asset('upload/' ~ user.avatar) }}" width="100%"/>
+                <img src="{{ asset('upload/avatar/' ~ user.avatar) }}" width="100%"/>
             {% else %}
                 <img src="{{ asset('img/default_avatar.png') }}" width="100%"/>
             {% endif %}
@@ -61,7 +61,9 @@
                     {% endfor %}
                    
                 </ul>
-            <br/>
+                    <div class="col-sm-3 col-sm-offset-9">
+                        <a href="{{ path('app_user_editusers', {"id": user.id}) }}" class="btn btn-info">Modifier mon profil</a>
+                    </div>
         </div>
         <div class="col-sm-3">
             <strong>Contacts de {{ user.username }}:</strong>

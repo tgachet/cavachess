@@ -15,36 +15,30 @@
                     <p class="slogan"> <b>Jouez</b> aux échecs en ligne entre amis ! </p>
                 </div>
             </div>     
-          {% if app.user is null %}
+            {% if app.user is null %}{# USER NOT CONNECTED #}
             <div class="bloc-connexion col-sm-4"  >
                 <p class="players-online text-center">Joueur(s) en ligne : <b>{{ cons | length + 138}}</b></p>                  
-                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-primary">Se connecter</a>
-                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block btn-ok">S'inscrire</a>
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block">Se connecter</a>
+                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block">S'inscrire</a>
                 
-                <a href="{{ path('login') }}" class="btn playbutton btn-default btn-lg btn-block btn-secondary">JOUER</a>
+                <a href="{{ path('login') }}" class="btn playbutton btn-default btn-lg btn-block btn-ok">JOUER</a>
             </div>
-            {% else %}
-           
-            <div class="row">
-                <div class="bloc-connecte col-sm-4"  >
-                     
-                    <aside id="games-list-connecte">{# LISTE JEUX #}
-            
-                <div class="competitions-index-connecte col-sm-12">
-                    {% for competition in competitions|slice(0, 4) %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="heading{{competition.id}}">
-                                <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
-                                <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
+            {% else %}{# USER CONNECTED #}
+                <div class="bloc-connecte col-sm-4"  >         
+                    <div class="competitions-index-connecte col-sm-12">
+                        {% for competition in competitions|slice(0, 3) %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                                    <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
+                                    <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
 
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div> 
-            </aside>{# END LISTE JEUX #}
+                        {% endfor %}
+                    </div> 
                 </div>
-            </div>
-            {% endif %}
+
+            {% endif %}{# END USER CONNECTED #}
                 
         </div>             
     </div>
