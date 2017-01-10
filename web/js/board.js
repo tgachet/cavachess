@@ -2,9 +2,10 @@
 var board,
   game = new Chess(),
   statusEl = $('#status'),
-  fenEl = $('#fen'),
   pgnEl = $('#pgn');
 
+/* Initialization */
+statusEl.text('White to move');
 /* Cases d'aide */
 var removeGreySquares = function() {
   $('#board .square-55d63').css('background', '');
@@ -28,7 +29,7 @@ var onDragStart = function(source, piece, position, orientation) {
       (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
       (game.turn() === 'b' && piece.search(/^w/) !== -1) ||
       (game.turn() === 'w' && player === 'black') ||
-      (game.turn() === 'b' && player === 'white') || timeisover )
+      (game.turn() === 'b' && player === 'white') || timeisover || gameisstarted === false)
   {
     return false;
   }
@@ -94,11 +95,11 @@ var updateStatus = function() {
   if(timeisover){
       if(player === timeisover){
           gameisover = 'youloose';
-          $("#adversaire").html("Partie terminée, vous avez perdu");
+          opponentcontent.html("Partie terminée, vous avez perdu");
       }
       else{
             gameisover = 'youwin';
-            $("#adversaire").html("Partie terminée, vous avez gagné");
+            opponentcontent.html("Partie terminée, vous avez gagné");
 
           /* Registering game info when game ended */
            totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
@@ -122,7 +123,7 @@ var updateStatus = function() {
     status = 'Game over, ' + moveColor + ' is in checkmate.';
     if(moveColor !== player) {
         gameisover = 'youwin';
-        $("#adversaire").html("Partie terminée, vous avez gagné");
+        opponentcontent.html("Partie terminée, vous avez gagné");
         
         /* Registering game info when game ended */
         totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
@@ -145,7 +146,7 @@ var updateStatus = function() {
   // draw?
   else if (game.in_draw() === true) {
     status = 'Game over, drawn position';
-    $("#adversaire").html("Partie terminée, match nul");
+    opponentcontent.html("Partie terminée, match nul");
     gameisover = 'draw';
   }
 
@@ -170,7 +171,6 @@ var updateStatus = function() {
 }
 
   statusEl.html(status);
-  fenEl.html(game.fen());
   pgnEl.html(game.pgn());
 
   /* Mise à jour des chronomètres */
@@ -195,7 +195,6 @@ var updateStatus = function() {
 
   var message = {
     turn : status,
-    fen : game.fen(),
     history : game.pgn(),
   };
   socket.emit('gameturninfo', message);
@@ -224,7 +223,6 @@ socket.on('gameturninfo', function(data)
    /* Mise à jour des infos partie */
   game.load_pgn(data.history);
   statusEl.html(data.turn);
-  fenEl.html(data.fen);
   pgnEl.html(data.history);
   board.position(game.fen());
   nbplays +=1 ;
