@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 <li {% if app.request.requestUri == '/cavachess/web/competition' %}class="active"{% endif %}><a href="{{path('app_competition_displaycompetitions')}}" title="Jouer">Jouer</a></li>
-                <li><a href="#">Articles</a></li>
+                <li {% if app.request.get('_route') == 'app_post_displayall' %}active{% endif %}><a href="{{path('app_post_displayall')}}">Articles</a></li>
                 <li class="dropdown {% if app.request.get('_route') == 'app_ranking_displayranking' %}active{% endif %}">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Classements <span class="caret"></span></a>
                   <ul class="dropdown-menu">

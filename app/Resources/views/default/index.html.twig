@@ -3,8 +3,7 @@
 {% block page_title %}{% endblock %}
 
 {% block content %}
-    {% if app.user is null %}
-      
+   
         <div class="row" style="position:relative;">
             <div class='col-sm-12 hidden-xs'>
                 <div class="coverhome">
@@ -33,32 +32,10 @@
                             <button type="button" class="btn btn-info btn-lg btn-block">S'inscrire</button>
                         </a>
                    </div>
-            </div>
-            </div>
-                        
+                </div>
+            </div>             
         </div>
-    {% else %}    <h1> Jouer en Ligne  </h1>
-        <div class="row">
-            <div class="competitions col-sm-9">
-                {% for competition in competitions %}
-                        <div class="col-sm-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="heading{{competition.id}}">
-                                    <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
-                                    <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
-                                    {#<p>Rejoindre</p>#}
-                                </div>
-                            </div>
-                        </div>
-                        {% if loop.index is divisible by(3) %}
-            </div>
-        <div class="row">
-                        {% endif %}                    
-                    {% endfor %}
-            </div>
-        </div>
-        
-    {% endif %}
+
     {% if comments != '' %}
     <div class="row">
         <div class="cavablog col-sm-8">
