@@ -9,9 +9,7 @@
         </small>
     
     </h3>
-    <div class ="well">{{ post.description }}</div>
-    </a>
-    <p class="comment-index">Dans 
+         <p class="comment-index">Dans 
         {% for category in post.categories %}
         <span class="category-tag"> 
             {{ category }}
@@ -25,6 +23,9 @@
             </a>
         {% endif %}
     </p>
+    <div class ="well">{{ post.description }}</div>
+    </a>
+   
     {% for comment in comments %}
         <div class="well well-sm">
             <h4>
