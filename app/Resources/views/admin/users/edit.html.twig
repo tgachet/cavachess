@@ -1,15 +1,14 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title %}
+{% block content %}
     <h1>
     {% if new %}
         Création d'un compte utilisateur
     {% else %}
         Modification des droits de {{ user.username }}
     {% endif %}
-    </h1><br>
-{% endblock %}
-{% block content %}
+    </h1>
+    <hr>    
     {{ form_start(form) }} {# ouvre la balise <form> #}
     {{ form_row(form.role) }}
     <div class="form-btn-group pull-right">
