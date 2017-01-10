@@ -79,6 +79,14 @@ section, aside{margin-top:20px;}
 
 #board-index {width:200px;}
 
+/********************** VIEWS > SECURITY > LOGIN **********************/ 
+.register-on-login { 
+    font-size:0.8em; 
+    margin-top:5px; 
+    font-style:italic; 
+} 
+.register-on-login a, a:hover {color:blue;} 
+
 /********************** VIEWS > GAME > DISPLAY  **********************/
 section#jeu .toggle-display { display:none;} 
 #jeu #board {width:400px; float:left;}
