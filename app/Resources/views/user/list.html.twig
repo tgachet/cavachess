@@ -36,12 +36,14 @@
                     </a>
                 </td>
                 <td>
-                    {#{% for friend in app.user.allfriends %}
-                        {% set compteur = 0 %}
+                    {% set list = [] %}
+                    {% for friend in app.user.allfriends %}
+                        {% set list = list|merge([friend.id]) %}
+                    {% endfor %}
+                    {#{ dump(list) }#}
 
-                      {% for friend in app.user.allfriends %}
 
-                        {% if user.id == app.user.allfriends[compteur].id %}
+                        {% if user.id in list %}
                             <a class="btn btn-success">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
                             </a>
@@ -50,14 +52,12 @@
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
                             </a>
                         {% endif %}
-                        {% set compteur = compteur +1 %}
-                    {% endfor %}#}
                 </td>
             </tr>
-        {% else %}
+        {#{% else %}
             <tr>
                 <td colspan="3" align="center">Aucun résultat</td>
-            </tr>
+            </tr>#}
         {% endfor %}
     </table>
 {% endblock %}

@@ -45,11 +45,18 @@ class UserController extends Controller
     public function displayInfo($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        
+        foreach ($users as $user){ 
+            $user = $user->setAllFriends();  
+        }
         
         /* USER INFOS FROM USER */
         $user = $em->find('AppBundle:User', $id);
         $friends = $user->setAllFriends();
-        
+         
+         
+        $user->setAllFriends(); 
         if(!$user){ 
             return $this->redirectToRoute('app_user_displayall');
         }
