@@ -35,11 +35,11 @@
                         <a href="#" class="btn btn-success">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
                         </a>
-                    {#% else %#}
-                        <a href="{#{ path('app_user_addfriend', {"id": user.id}) }#}" class="btn btn-success">
+                    {#{% else %}#}
+                        <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
                         </a>
-                    {#% endif %#}    
+                    {#{% endif %}  #}  
                 </td>
             </tr>
         {% else %}

@@ -26,7 +26,6 @@ class Comment
      *
      * @var string
      * @ORM\Column(type="text")
-     * @Assert\NotBlank() 
      */
     private $title;
     
@@ -98,14 +97,8 @@ class Comment
     public function getUser() {
         return $this->user;
     }
-    
-    
+        
     /****** SETTERS *****/
-    public function setTitle($title) {
-        $this->title = $title;
-        return $this;
-    }
-
     public function setContent($content) {
         $this->content = $content;
         return $this;
@@ -125,7 +118,18 @@ class Comment
         $this->user = $user;
         return $this;
     }
-
-
+    
+    /*
+     * To get the fisrt three sets of characters from content and use it as a title
+     */
+    public function get_words($sentence, $count = 3) {
+        preg_match("/(?:[^\s,\.;\?\!]+(?:[\s,\.;\?\!]+|$)){0,$count}/", $sentence, $matches);
+        return $matches[0];
+    }
+    public function setTitle($title) {
+        $words = $this->get_words($title, 3);
+        $this->title = $words;
+        return $this;
+    }
 }
 

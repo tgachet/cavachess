@@ -3,6 +3,7 @@
 
 {% block content %}
     <div class="row">
+        {{ dump (user) }}
         <div class="col-sm-3">
             <strong> Statut : </strong>
             {% if user.lastActivity > delay %}
@@ -31,9 +32,15 @@
                         <li><strong>Prénom: </strong>{{ user.firstname|title}}</li>
                         <li><strong>Email: </strong><em>{{ user.email }}</em></li>
                         {% endif %}
-                    {% endif %}
+            {% endif %}
+                <li>
+                    <strong>Amis: </strong>
+                    {% for friend in user.allfriends %}
+                        <em>{{ friend.username }},&nbsp</em>
+                    {% endfor %}
+                </li>
                 <li>Membre depuis le <em> {{ user.date|date('d-m-Y') }}</em></li>
-                <li>Dernière connexion  à <em>{{ user.lastActivity|date('H:i')}} le  {{user.lastActivity|date('d-m-Y') }}</em></li>
+                <li>Dernière connexion  à <em>{{ user.lastActivity|date('H:i')}} le {{user.lastActivity|date('d-m-Y') }}</em></li>
                     {% if games.played != 0%}
                     <li>
                         <strong> Nombre parties jouées : </strong> <em>{{games.played}} ({{games.won}} victoires, {{games.lost}} défaites)</em>
