@@ -37,13 +37,8 @@
                     {{render(controller('AppBundle:Ranking:menu'))}}
                   </ul>
                 </li>
-                <li><a href="#">Membres</a></li>
-      {#      {% if app.user is not null %}
-                <li {% if app.request.get('_route') == 'app_user_displayinfo' %}class="active"{% endif %}>
-                    <a href="{{ path('app_user_displayinfo', {"id" : app.user.id}) }}" title="Voir mon profil">Mon profil</a>
-                </li>
-             {% endif %}   #}      
-                <li><a href="#">Contact</a></li>      
+                <li><a href="#">Membres</a></li>    
+                <li {% if app.request.get('_route') == 'app_contact_index' %}class="active"{% endif %}><a href="{{path('app_contact_index')}}">Contact</a></li>      
               </ul>
   
             <ul class="nav navbar-nav navbar-right">

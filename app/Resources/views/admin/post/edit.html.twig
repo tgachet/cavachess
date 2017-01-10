@@ -1,16 +1,15 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title %}
+
+{% block content %}
     <h1>
     {% if new %} 
         Nouveau post 
     {% else %} 
         Modification de post 
     {% endif %}
-    </h1>
-{% endblock %}
-
-{% block content %}
+    </h1>    
+    <hr>
     {{ form_start(form) }} 
     {{ form_row(form.title) }} 
     {{ form_row(form.content) }} 
