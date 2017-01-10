@@ -50,8 +50,8 @@ ul {padding:0; margin:0;}
     min-height:400px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
 }
-.bloc-connexion {margin-top: 90px;}
-.players-online {margin-bottom:20px;}
+.bloc-connexion {margin-top: 140px;}
+.players-online {margin-bottom:15px; font-size:1.2em;}
 .bloc-cover-home {
     position:absolute;
     top:0;
@@ -67,7 +67,7 @@ ul {padding:0; margin:0;}
 .slogan {
     font-size: 1.6em;
     margin-top:20px;
-    padding-right:20px;
+    padding-right:10px;
     text-shadow:1px 1px 1px white;
 }
 .jeu-index {
@@ -78,6 +78,14 @@ ul {padding:0; margin:0;}
 }
 
 #board-index {width:200px;}
+
+/********************** VIEWS > SECURITY > LOGIN **********************/ 
+.register-on-login { 
+    font-size:0.8em; 
+    margin-top:5px; 
+    font-style:italic; 
+} 
+.register-on-login a, a:hover {color:blue;} 
 
 /********************** VIEWS > GAME > DISPLAY  **********************/
 section#jeu .toggle-display { display:none;} 

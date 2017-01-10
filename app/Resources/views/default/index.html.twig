@@ -8,13 +8,17 @@
         </div>
         <div class='col-sm-12 bloc-cover-home hidden-xs'>            
             <div class ="col-sm-9" >
-                <h1 class="h1-cavachess">CAVACHESS</h1> 
-                <p class="slogan text-right"> Jouez aux échecs en ligne contre les meilleurs ! </p>
+                    <h1 class="h1-cavachess">CAVACHESS</h1> 
+                    <p class="slogan text-right"> <b>Jouez</b> aux échecs en ligne contre les meilleurs ! </p>
             </div>                
-            <div class="bloc-connexion col-sm-3">
-                <p class="players-online text-center">Joueur(s) en ligne : {{ cons | length + 817}}</p>                  
+            <div class="bloc-connexion col-sm-3"  >
+                <p class="players-online text-center">Joueur(s) en ligne : <b>{{ cons | length + 138}}</b></p>                  
                 <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-ok">Se connecter</a>
-                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block">S'inscrire</a>
+                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block btn-primary">S'inscrire</a>
+                
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-danger">Jouer NOW !</a>
+                
+                
             </div>
         </div>             
     </div>
@@ -33,7 +37,7 @@
             
             <section id="top-post">{# LASTS POSTS #}
                 <h2>Derniers articles</h2>                  
-                {% for post in posts %}
+                {% for post in posts if post != top_article %}
                     {% include 'post/preview.html.twig' with {"post" : post} %}
                 {% endfor %}
             </section>{# END SECTION POSTS #}
