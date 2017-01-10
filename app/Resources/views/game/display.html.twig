@@ -2,48 +2,51 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
-    <style>
-        #jeu, #chat {float:left;}
-    </style>
 {% endblock %}
 
-{% block page_title %}
-    <h1>
-        Ma partie
-    </h1>
-{% endblock %}
-
+{% block header %}{% endblock %}
 {% block content %}
-    {#    {{dump(app.user)}}
-        {{dump(app.request)}}
-        {{dump(app.session)}}#}
-    <h3 id="adversaire"></h3>
-    <p id="info"></p>
-    <div id="clockdivp1">
-        <p>
-            <span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
-        </p>
-    </div>
-    <div id="clockdivp2">
-        <p>
-            <span id="player2username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> 
-        </p>
-    </div>
-    <section id="jeu">
-        <div id="board" style="width: 400px"></div>
-        <p>Status: <span id="status"></span></p>
-        <p>FEN: <span id="fen"></span></p>
-        <p>PGN: <span id="pgn"></span></p>           
-    </section>
-    <section id="chat" style="margin: 0px 0px 20px 40px">
-        <div id="chat-output" style="width: 400px; height : 400px; border: 1px solid black; margin-bottom:20px;">
+    <h1>Cavachess</h1>
+    
+    <div class="row">
+        {# GAME INFO #}
+        <div id="info" class='col-sm-12'>
+            <p>En attente d'un adversaire...</p>
         </div>
-        <form id="chat-input">
-            <textarea id ="message" name="message" style="width: 400px; height : 150px;"></textarea>
-            <input type="submit" value="envoyer" style="display:block;" />
-        </form>
-    </section>
-    <div class="clearfix"></div>
+        <div class='col-sm-12'>
+            <h3 id="adversaire"></h3>
+        </div>
+        
+        {# BOARD #}
+        <div class="col-sm-7">
+            <section id="jeu">
+                <div id="board"></div>
+                <div class="chrono toggle-display">
+                    <div id="clockdivp1">
+                        <p><span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
+                    </div>
+                    <div id="clockdivp2">
+                        <p><span id="player2username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
+                    </div>
+                    <div id="game-status"><p><span id="status"></span></p></div>
+                    <div id="game-history"><p><span id="pgn"></span></p></div>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+        </div>
+        {# CHAT #}
+        <div class="col-sm-5">
+            <aside id="chat">
+                <div id="chat-output">
+                </div>
+                <form id="chat-input">
+                    <textarea id="chat-textarea" name="message"></textarea>
+                    <input type="submit" id="chat-submit" value="Envoyer" class="btn btn-default" />
+                </form>
+            </aside>
+        </div>
+    </div>
+    
     <div
         id="js-vars"
         data-vars="{{ js_vars|json_encode|e('html_attr') }}">
@@ -56,6 +59,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>				
     <script src="{{ asset('js/countdown.js')}}"></script>				
+    <script src="{{ asset('js/gamecontent.js')}}"></script>				
     <script>
      
         // Getting data from service js_vars
@@ -65,6 +69,7 @@
 
         /* Initialization */
         var connected = false; // not connected
+        var gameisstarted = false; // game not started
         var username = chartData.user; // player username
         var competition = chartData.competition; // game competition
         var gametime = chartData.gametime; // game time limit
@@ -88,6 +93,11 @@
         var urlajax = "{{ path('app_game_registergame')}}";
         var urlajaxrank = "{{ path('app_game_updaterank')}}";
         
+        /* DOM elements */
+        var gamecontent = $("#jeu");
+        var infocontent = $("#info");
+        var opponentcontent = $("#adversaire");
+        
         /* Connexion au serveur */
         // fire un événement 'connection' coté serveur et 'connect' coté client
         var socket = io("http://localhost:3000");
@@ -100,6 +110,7 @@
         
         /* Websocket server 'gameStart' event response, initializing game */
         socket.on('gameStart', function(data) {
+            gameisstarted = true;
             room = data.room;
             player = data.color;   
             opponent = data.name;
@@ -115,6 +126,9 @@
                 $("#player2username").text(username);
             }
             
+            /* Display */
+            gamecontent.find(".chrono").removeClass('toggle-display');
+            infocontent.text('');
             
             /* Initializing timers */
             var clock = Date.parse(new Date(Date.parse(new Date()) + ((ingameclock.hours*60*60) + (ingameclock.minutes * 60) + ingameclock.seconds) * 1000));
@@ -125,13 +139,13 @@
         
         /* Websocket server 'endGame' event response, disconnecting user when opponent has left */
         socket.on('gameEnd', function(data) {
-            $('#info').append($('<p>').text("Votre adversaire a quitté, vous serez déconnecté automatiquement dans 5 secondes !"));
+            infocontent.text("Votre adversaire a quitté la partie");
             //setTimeout(setLocation, 5000);
             
             if(!gameisover){
                 clearInterval(timeintervalp2);
                 clearInterval(timeintervalp1);
-                $("#adversaire").html("Partie terminée, vous avez gagné");
+                opponentcontent.html("Partie terminée, vous avez gagné");
                 gameisover = 'youwin';
                 /* Registering game info when game ended */
                 totalgamelength = gamelength(ingameclock, getClockp1(), getClockp2(), 'total');
@@ -157,11 +171,11 @@
             clearInterval(timeintervalp1);
             if (data === 'youwin'){
                 gameisover = 'youloose';
-                $("#adversaire").html("Partie terminée, vous avez perdu");
+                opponentcontent.html("Partie terminée, vous avez perdu");
             }
             else if (data === 'draw'){
                 gameisover = 'draw';
-                $("#adversaire").html("Partie terminée, match nul");
+                opponentcontent.html("Partie terminée, match nul");
             }          
             room = '';
         });
