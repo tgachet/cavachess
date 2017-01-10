@@ -1,0 +1,4 @@
+/* DOM CONTENT */
+var main_content = '<h3 id="adversaire"></h3><p id="info"></p><div id="clockdivp1"><p><span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> </p></div><div id="clockdivp2"><p><span id="player2username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span> </p></div><section id="jeu"><div id="board" style="width: 400px"></div><p>Status: <span id="status"></span></p><p>FEN: <span id="fen"></span></p><p>PGN: <span id="pgn"></span></p>           </section><section id="chat" style="margin: 0px 0px 20px 40px"><div id="chat-output" style="width: 400px; height : 400px; border: 1px solid black; margin-bottom:20px;"></div><form id="chat-input"><textarea id ="message" name="message" style="width: 400px; height : 150px;"></textarea><input type="submit" value="envoyer" style="display:block;" /></form></section><div class="clearfix"></div>';
+
+

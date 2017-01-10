@@ -3,32 +3,35 @@ primary : #FBFAF8 (white)
 secondary : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
 Third : #4F4A47 (grey) 
 */
+/* FONT
+font-family: 'Noto Sans', sans-serif;
+
+*/
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
-/* RESET / GLOBAL */
+body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: #eee;}
+main {background-color:white; min-height:100vh; padding:0px 20px;}
+
 img {max-width:100%; height:auto;}
 
 a, a:hover {text-decoration: none; color:inherit;}
 
-h1, h2, h3, h4, h5, h6, p {margin:0;}
+h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
-h1 {font-size: 2.2em;}
-h2 {font-size: 1.8em; margin: 18px 0 6px 0;}
+h1 {font-size: 2.2em; font-weight:700}
+h2 {font-size: 1.8em; font-weight:700}
 h3 {font-size: 1.15em; font-weight:700;}
 h3 {font-size: 1.10em; font-weight:700;}
 
 section, aside{margin-top:20px;}
 
-.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a {border-radius: 0px!important;}
-
-/********************** END **********************/
-
+.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default {border-radius: 0px!important;}
 
 /********************** MAIN LAYOUT **********************/
 /* NAV */
-.navbar-default {background-color:#4F4A47; border:none; border-radius: 0px;}
+.navbar-default {background-color:#4F4A47; border:none;}
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {color:white;}
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {background-color:#141311;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .active.navbar-brand {background-color:#141311;}
@@ -38,14 +41,100 @@ section, aside{margin-top:20px;}
 
 
 
-/********************** END **********************/
+/********************** VIEWS > DEFAULT > INDEX  **********************/
+.bg-cover-home {
+    background-image: url("../../web/img/coverfonthome7.jpg");
+    min-height:400px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
+}
+.bloc-connexion {margin-top: 90px;}
+.players-online {margin-bottom:20px;}
+.bloc-cover-home {
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+.h1-cavachess {
+    padding-top: 20px;
+    margin-left:35px;
+    font-size:3.5em;
+}
+
+.slogan {
+    font-size: 1.6em;
+    margin-top:20px;
+    padding-right:20px;
+    text-shadow:1px 1px 1px white;
+}
+.posts-index {
+    margin-top:20px;
+}
+.jeu-index {
+    margin-top:20px;
+}
+.competitions-index {
+    margin-top:10px; 
+}
+
+/********************** VIEWS > GAME > DISPLAY  **********************/
+section#jeu .toggle-display { display:none;} 
+#jeu #board {width:400px; float:left;}
+#jeu .chrono {padding-left: 30px; float:left;}
+#chat-output {height:300px; margin-bottom:20px; border:1px solid black;}
+#chat-input #message {height:80px; width:100%; resize:none;}
+
+
+/********************** VIEWS > POST > PREVIEW  **********************/
 .category-tag {
     background-color: darkslategrey;
     color: white;
     font-style: italic;
-    padding: 5px;
+    padding: 2px;
+    padding-left:5px;
+    font-size: 10px;
 }
 
-.coverhome {
-    background-image: url("../../web/img/coverfonthome.jpg");
+
+/********************** MEDIA QUERY **********************/
+@media screen and (max-width:768px) {
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, .navbar-default .navbar-nav .open .dropdown-menu>li>a {color:white;}
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {background-color:#474644}    
+}
+
+
+
+/* REDEFINITION DES BOUTONS BOOTSTRAP */
+.btn-ok {
+  color: #fff;
+  background-color: #619E53; /* vert */
+  border-color: #559247; /* Darken 5% */
+}
+
+.btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
+  color: #fff;
+  background-color: #559247; /* Darken 10% */
+  border-color: #3B782D; /* Darken 15% */
+}
+
+.btn-ok:active:hover,
+.open > .dropdown-toggle.btn-ok:hover,
+.btn-ok:active:focus,
+.open > .dropdown-toggle.btn-ok:focus {
+  color: #fff;
+  background-color: #559247; /* Darken 5% */
+  border-color: #559247; /* Darken 10% */
+}
+.btn-ok:active, .open > .dropdown-toggle.btn-ok {background-image: none;}
+
+.btn-ok[disabled] {
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */	
+}
+
+.btn-ok[disabled]:hover,
+.btn-ok[disabled]:focus
+{
+  background-color: #B9596B; /* Lighten 5% */
+  border-color: #AC4C5E; /* rouge */
 }
