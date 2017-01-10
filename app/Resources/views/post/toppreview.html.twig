@@ -9,8 +9,24 @@
         </small>
     
     </h3>
-    <div class ="well">{{ post.description }}</div>
-    </a>
+
+    <div>
+        <div class="well well-sm">
+            <div class="row">
+                <div class="col-sm-4">
+                    {% if post.picture %}
+                        <img src="{{ asset('upload/picture/' ~ post.picture) }}" style="max-height:120px">
+                    {% else %} 
+                        <img src="{{ asset('upload/picture/default_picture.jpg') }}" style="max-height:120px;">
+                    {% endif %}
+                </div>
+                <div class="col-sm-8">
+                    {{ post.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <p class="comment-index">Dans 
         {% for category in post.categories %}
         <span class="category-tag"> 
@@ -27,22 +43,26 @@
     </p>
     {% for comment in comments %}
         <div class="well well-sm">
-            <h4>
-                {% if comment.user.avatar %}
-                    <img src="{{ asset('upload/' ~ comment.user.avatar) }}" style="max-height:40px; margin-bottom: 5px;">
-                {% else %} 
-                    <img src="{{ asset('img/default_avatar.png') }}" style="max-height:40px; margin-bottom: 5px;"/> 
-                {% endif %} 
-                {{ comment.user.username }}
-            </h4>
-            <h5>
-                <small>
-                    <p> {{ comment.date | date('d-m-Y H:i:s')}} </p>
-                </small>
-                {{ comment.title }}
-                
-            </h5>
-            <p>{{ comment.content | nl2br }}</p>     
+            <div class="row">
+                <div class="col-sm-1">
+                    {% if comment.user.avatar %}
+                        <img src="{{ asset('upload/avatar/' ~ comment.user.avatar) }}" style="max-height:60px;"/>
+                    {% else %}
+                        <img src="{{ asset('img/default_avatar.png') }}" style="max-height:60px;"/>
+                    {% endif %}
+                </div>
+                <div class="col-sm-11">
+                    <h4>
+                        <a href="{{ path('app_user_displayinfo', {"id": comment.user.id}) }}">
+                            <strong>{{ comment.user.username }}</strong>
+                        <a/>
+                        <small>
+                            {{ comment.date | date('d-m-Y H:i:s')}}
+                        </small>
+                    </h4>
+                    {{ comment.content | nl2br }}
+                </div>
+            </div>
         </div>
         
     {% endfor %}

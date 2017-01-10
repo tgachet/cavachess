@@ -8,7 +8,8 @@ imports:
 parameters:
     locale: en
      # répertoire d'upload de fichiers
-    upload_dir: "%kernel.root_dir%/../web/upload"
+    upload_dir_avatar: "%kernel.root_dir%/../web/upload/avatar"
+    upload_dir_picture: "%kernel.root_dir%/../web/upload/picture"
 
 framework:
     #esi:             ~

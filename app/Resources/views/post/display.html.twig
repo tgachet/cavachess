@@ -15,6 +15,13 @@
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
                 {{ post.author.username }}
             </a>
+        <p>
+            {% if post.picture %}
+                <img src="{{ asset('upload/picture/' ~ post.picture) }}" style="max-height:480px">
+            {% else %} 
+                <img src="{{ asset('upload/picture/default_picture.jpg') }}" style="max-height:480px;"/>
+            {% endif %}
+        </p>
         <p>{{ post.description }}</p>
         <div>{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
     </post>
@@ -40,37 +47,26 @@
     {% endif %}
     
     {% for comment in comments %}
-        <div class="media">
-            {% if comment.user.avatar %}
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="{{ asset('upload/' ~ comment.user.avatar) }}" style="width: 64px; height: 64px;" data-holder-rendered="true">
-                    </a>
+        <div class="well well-sm">
+            <div class="row">
+                <div class="col-sm-1">
+                    {% if comment.user.avatar %}
+                        <img src="{{ asset('upload/avatar/' ~ comment.user.avatar) }}" style="max-height:60px;"/>
+                    {% else %}
+                        <img src="{{ asset('img/default_avatar.png') }}" style="max-height:60px;"/>
+                    {% endif %}
                 </div>
-            {% endif %}    
-            <div class="media-body">
-                <h4 class="media-heading">{{ comment.user.username }}
-                    <small>
-                        {{ comment.date | date('d-m-Y H:i:s')}}
-                    </small>
-                </h4>
-                {{ comment.content | nl2br }}
-            </div>
-        </div>
-        <div class="media well well-sm">
-                <div class="/*media-left*/">
-
-                    <img class="media-object" src="{{ asset('upload/' ~ comment.user.avatar) }}" alt="avatar">
-
+                <div class="col-sm-11">
+                    <h4>
+                        <a href="{{ path('app_user_displayinfo', {"id": comment.user.id}) }}">
+                            <strong>{{ comment.user.username }}</strong>
+                        <a/>
+                        <small>
+                            {{ comment.date | date('d-m-Y H:i:s')}}
+                        </small>
+                    </h4>
+                    {{ comment.content | nl2br }}
                 </div>
-            <div class="media-body">
-                <h4 class="media-heading">
-                    {{ comment.user.username }}
-                    <small>
-                        {{ comment.date | date('d-m-Y H:i:s')}}
-                    </small>
-                </h4>
-                {{ comment.content | nl2br }}
             </div>
         </div>
         

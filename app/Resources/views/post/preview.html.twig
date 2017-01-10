@@ -1,11 +1,12 @@
 <article>
     <h3>
-        {{ post.title }}
-        <small>
-            <a href="{{ path('app_post_display', {"id": post.id}) }}">
+        <a href="{{ path('app_post_display', {"id": post.id}) }}">
+            {{ post.title }}
+            <small>
                 <i class="glyphicon glyphicon-share"></i>
-            </a>
-        </small>
+            </small>
+        </a>
+        
     
     </h3>
     <div class ="well">{{ post.description }}</div>

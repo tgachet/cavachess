@@ -45,7 +45,7 @@
                  {% if app.user is not null %}
                      <li class="hidden-xs">
                         {% if app.user.avatar %} 
-                            <img src="{{ asset('upload/' ~ app.user.avatar) }}" class="navbar-avatar"/> 
+                            <img src="{{ asset('upload/avatar/' ~ app.user.avatar) }}" class="navbar-avatar"/> 
                         {% else %} 
                             <img src="{{ asset('img/default_avatar.png') }}" class="navbar-avatar"/> 
                         {% endif %} 
