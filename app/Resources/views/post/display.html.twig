@@ -56,11 +56,11 @@
                 {{ comment.content | nl2br }}
             </div>
         </div>
-        <div class=" media">
-                <div class=""media-left">
-                {% if comment.user.avatar %}
+        <div class="media well well-sm">
+                <div class="/*media-left*/">
+
                     <img class="media-object" src="{{ asset('upload/' ~ comment.user.avatar) }}" alt="avatar">
-                {% endif %}
+
                 </div>
             <div class="media-body">
                 <h4 class="media-heading">

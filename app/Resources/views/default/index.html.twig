@@ -37,7 +37,7 @@
             
             <section id="top-post">{# LASTS POSTS #}
                 <h2>Derniers articles</h2>                  
-                {% for post in posts %}
+                {% for post in posts if post != top_article %}
                     {% include 'post/preview.html.twig' with {"post" : post} %}
                 {% endfor %}
             </section>{# END SECTION POSTS #}
