@@ -48,13 +48,20 @@ class GameMode
      */
     private $gametime;
     
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     */
+    private $description;
+    
     /***** CONSTRUCT *****/
     public function __construct()
     {
         $this->competitions = new ArrayCollection();
     }  
 
-
+    
     /***** GETTERS *****/
     /**
      * Get id
@@ -74,9 +81,15 @@ class GameMode
         return $this->competitions;
     }
 
-    public function getGametime() {
+        public function getGametime() {
         return $this->gametime;
     }
+    
+    public function getDescription() {
+        return $this->description;
+    }
+
+
 
     /***** SETTERS *****/
     public function setName($name) {
@@ -88,6 +101,12 @@ class GameMode
         $this->gametime = $gametime;
         return $this;
     }
+    
+        public function setDescription($description) {
+        $this->description = $description;
+        return $this;
+    }
+
 
         /***** OTHER *****/
     /**

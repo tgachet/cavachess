@@ -1,16 +1,166 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+/* COLORS
+primary : #FBFAF8 (white)
+secondary : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
+Third : #4F4A47 (grey) 
 */
-/* 
-    Created on : 2 janv. 2017, 18:49:44
-    Author     : Etudiant
+/* FONT
+font-family: 'Noto Sans', sans-serif;
+
 */
 
-.category-tag{
+/********************** GLOBAL / RESETS / DEBUG / INFO **********************/
+body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: #eee;}
+main {background-color:white; min-height:100vh; padding:30px 20px;}
+
+img {max-width:100%; height:auto;}
+
+a, a:hover {text-decoration: none; color:inherit;}
+
+h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
+
+hr {margin-top:10px; margin-bottom: 8px;}
+
+h1 {font-size: 2.2em; font-weight:700;}
+h2 {font-size: 1.8em; font-weight:700;}
+h3 {font-size: 1.15em; font-weight:700;}
+h4 {font-size: 1.10em; font-weight:700;}
+
+section, aside{margin-top:20px;}
+
+ul li {list-style-type: none;}
+ul {padding:0; margin:0;}
+
+.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default {border-radius: 0px!important;}
+
+/********************** MAIN LAYOUT **********************/
+/* NAV */
+.navbar-default {background-color:#4F4A47; border:none;}
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {color:white;}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {background-color:#141311;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .active.navbar-brand {background-color:#141311;}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover  {color:white;}
+
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {background-color: #474644; color:white;}
+
+
+
+/********************** VIEWS > DEFAULT > INDEX  **********************/
+.bg-cover-home {
+    background-image: url("../../web/img/coverfonthome7.jpg");
+    min-height:400px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
+}
+.bloc-connexion {margin-top: 90px;}
+.players-online {margin-bottom:20px;}
+.bloc-cover-home {
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+.h1-cavachess {
+    padding-top: 20px;
+    margin-left:35px;
+    font-size:3.5em;
+}
+
+.slogan {
+    font-size: 1.6em;
+    margin-top:20px;
+    padding-right:20px;
+    text-shadow:1px 1px 1px white;
+}
+.jeu-index {
+    margin-top:20px;
+}
+.competitions-index {
+    margin-top:10px; 
+}
+
+#board-index {width:200px;}
+
+/********************** VIEWS > GAME > DISPLAY  **********************/
+section#jeu .toggle-display { display:none;} 
+#jeu #board {width:400px; float:left;}
+#jeu .chrono {float:left; width: calc(100% - 405px); height:394px; border:1px solid #4F4A47;  position:relative;}
+#chat-output {height:295px; margin-bottom:4px; border:1px solid #4F4A47; padding:5px; overflow-y: scroll;}
+#chat-input #chat-textarea {height:60px; width:100%; resize:none; border:1px solid #4F4A47;}
+#chat-submit {border:1px solid #4F4A47; padding:4px 12px;}
+#jeu #board .board-b72b1 {border:1px solid #4F4A47;}
+#jeu .player2-infos {background-color:#f6f6f6; color:black; padding: 4px 5px;}
+#jeu .player1-infos {background-color:#4F4A47; color:white; padding: 4px 5px; position: absolute; width: 100%; bottom: 28px; left: 0;}
+#jeu #clockdivp1 {padding: 4px 5px; position: absolute; width: 100%; bottom: 0px; left: 0;}
+#jeu #clockdivp2 {padding: 4px 5px;}
+#game-status {padding: 4px 5px; margin-top:3px; font-weight:700;}
+#game-history {padding: 4px 5px; margin-top:3px;}
+#adversaire, #info {margin-top:10px;}
+@-moz-document url-prefix(){#chat-submit {margin-top:5px;}}
+
+/********************** VIEWS > POST > PREVIEW  **********************/
+.category-tag {
     background-color: darkslategrey;
     color: white;
     font-style: italic;
-    padding: 5px;
+    padding: 2px;
+    padding-left:5px;
+    font-size: 10px;
+}
+
+/********************** VIEWS > RANKING > DISPLAY  **********************/
+#ranking-statistics h2 {margin-bottom:20px;}
+#ranking-statistics .div-stats1 {box-shadow:1px 1px 1px black; margin-left:-15px; padding:5px 5px 5px 15px;}
+#ranking-statistics .div-stats2 {box-shadow:1px 1px 1px black; margin-right:-15px; padding:5px 5px 5px 15px;}
+
+/********************** MEDIA QUERY **********************/
+@media screen and (max-width:767px) {
+    /* Menu color smartphone (xs)*/
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, .navbar-default .navbar-nav .open .dropdown-menu>li>a {color:white;}
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {background-color:#474644}    
+    
+    /* Page game */
+    #jeu #board {width:200px; float:none;}
+    #jeu .chrono {height:160px; width:194px; float:none; margin-top:10px; }
+}
+
+@media screen and (min-width:992px) {
+    .game-padding-md {padding-right:0px;} /* Affichage du jeu page game en md */
+    .chat-padding-md {padding-left:0px;} /* Affichage du chat page game en md */
+    #jeu .chrono {padding-left:0; margin-left:-5px; width: calc(100% - 396px);}
+}
+
+
+
+/* REDEFINITION DES BOUTONS BOOTSTRAP */
+.btn-ok {
+  color: #fff;
+  background-color: #619E53; /* vert */
+  border-color: #559247; /* Darken 5% */
+}
+
+.btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
+  color: #fff;
+  background-color: #559247; /* Darken 10% */
+  border-color: #3B782D; /* Darken 15% */
+}
+
+.btn-ok:active:hover,
+.open > .dropdown-toggle.btn-ok:hover,
+.btn-ok:active:focus,
+.open > .dropdown-toggle.btn-ok:focus {
+  color: #fff;
+  background-color: #559247; /* Darken 5% */
+  border-color: #559247; /* Darken 10% */
+}
+.btn-ok:active, .open > .dropdown-toggle.btn-ok {background-image: none;}
+
+.btn-ok[disabled] {
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */	
+}
+
+.btn-ok[disabled]:hover,
+.btn-ok[disabled]:focus
+{
+  background-color: #B9596B; /* Lighten 5% */
+  border-color: #AC4C5E; /* rouge */
 }

@@ -23,6 +23,33 @@ class PostRepository extends EntityRepository
                        
         return $qb->getQuery()->getResult();
     }
+//    
+//    public function findByCategory($category)
+//    {
+//        $query = $this->createQueryBuilder('p')
+//                      ->select('p')
+//                      ->leftJoin('p.categories', 'c')
+//                      ->addSelect('c');
+// 
+//        $query = $query->add('where', $query->expr()->in('c', ':c'))
+//                      ->setParameter('c', $category)
+//                      ->getQuery()
+//                      ->getResult();
+//          
+//        return $query;
+//    }
+    
+    public function findByCategory($category)
+    {
+        $query = $this->createQueryBuilder('p')
+                      ->leftJoin('p.categories', 'c')
+                      ->where('c.id = :c')
+                      ->setParameter('c', $category)
+                      ->getQuery()
+                      ->getResult();
+          
+        return $query;
+    }
     
 //    public function findByAuthor($id)
 //    {

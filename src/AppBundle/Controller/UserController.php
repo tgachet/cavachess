@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use DateTime;
 
 
 /**
@@ -40,19 +40,97 @@ class UserController extends Controller
     public function displayInfo($id)
     {
         $em = $this->getDoctrine()->getManager();
+        
+        /* USER INFOS FROM USER */
         $user = $em->find('AppBundle:User', $id);
-        $posts = $em->getRepository('AppBundle:Post')->findByAuthor($id);
+        
+        if(!$user){ 
+            return $this->redirectToRoute('app_user_displayall');
+        }
+        else{
+            $gameswon = count($user->getGamewinner());
+            $gameslost = count($user->getGamelooser());
+            $gamesplayed = $gameswon + $gameslost;
 
+            /* USER POSTS INFO FROM POST */
+            $posts = $em->getRepository('AppBundle:Post')->findByAuthor($id);
+
+
+            /* GET GAMES WON AND GAMES LOST */
+            $gamewon = $em->getRepository('AppBundle:GamesFinished')->findBy(array('idwinner' => $id));
+            $gamelost = $em->getRepository('AppBundle:GamesFinished')->findBy(array('idlooser' => $id));
+
+            $times = [];
+            $opponents = [];
+            $competitions = [];
+            foreach ($gamewon as $game){
+                $times[] = $game->getGamelength()->format('H:i:s');
+                $opponents[] = $game->getIdlooser()->getUsername();
+                $competitions[] = $game->getId_competition()->getName();
+            }
+            foreach ($gamelost as $game) {
+                $times[] = $game->getGamelength()->format('H:i:s');
+                $opponents[] = $game->getIdwinner()->getUsername();
+                $competitions[] = $game->getId_competition()->getName();
+            }
+
+            /* TIME PLAYED FOR GAMES WON AND LOST */
+            $seconds = 0;
+            foreach ($times as $value) {
+               list($hour,$minute,$second) = explode(':', $value);
+                $seconds += $hour*3600;
+                $seconds += $minute*60;
+                $seconds += $second;
+            }
+            $hours = floor($seconds/3600);
+            $seconds -= $hours*3600;
+            $minutes  = floor($seconds/60);
+            $seconds -= $minutes*60;
+            /* Time played */
+            $totaltime = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+
+            /* MOST PLAYED OPPONENT */
+            if (!empty($opponents))
+            {
+                $countPerOpponent = array_count_values($opponents);
+                $playermostplayed = array_search(max($countPerOpponent),$countPerOpponent); 
+            }
+            else
+            {
+                $playermostplayed ='';
+            }
+            
+            /* MOST PLAYED COMPETITION */
+            if (!empty($opponents))
+            {
+                $countPerCompetition = array_count_values($competitions);
+                $competitionmostplayed = array_search(max($countPerCompetition),$countPerCompetition); 
+            }
+            else {
+                $competitionmostplayed ='';
+            }
+            
+            /* GET RANKINGS */
+            $rankings = $em->getRepository('AppBundle:Ranking')->findBy(array('user_id' => $id));
+        }
+        
+        /* Variable pour la gestion du STATUT (En ligne / Hors-ligne) */
+        $delay = new DateTime();
+        $delay->setTimestamp(strtotime('5 minutes ago'));
+        
+        /* RENDER */
         return $this->render(
             'user/profile.html.twig',
             [
                 'user' => $user,
                 'id' => $id,
                 'posts' =>$posts,
+                'games' => array('played' => $gamesplayed, 'won' => $gameswon, 'lost' => $gameslost, 'timeplayed' => $totaltime, 'playermostplayed' => $playermostplayed, 'competitionmostplayed' => $competitionmostplayed),
+                'rankings' => $rankings,
+                'delay' => $delay,
             ]
         );
     }
-    
 //    /**
 //     * @param Request $request
 //     * 

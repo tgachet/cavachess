@@ -52,7 +52,7 @@ class Post
      *
      * @var User
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $author;
     
@@ -62,8 +62,8 @@ class Post
      * 
      * @ORM\ManyToMany(targetEntity="Category", inversedBy="posts", cascade={"persist", "merge"})
      * @ORM\JoinTable(name="posts_categories",
-     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete ="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete ="CASCADE")}
      *      ))
      * @Assert\NotBlank()
      */

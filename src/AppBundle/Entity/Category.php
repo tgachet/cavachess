@@ -38,7 +38,6 @@ class Category
      * @var ArrayCollection Post $posts
      * 
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="categories", cascade={"persist", "merge"})
-     * 
      */
     private $posts;
     

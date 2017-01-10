@@ -41,5 +41,5 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
  
         return $qb->getQuery()->getResult();
     }
-
+        
 }

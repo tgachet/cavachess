@@ -8,12 +8,59 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/post")
+ */
 class PostController extends Controller
 {
     /**
      * 
+     * @param Request $request
+     * @Route("/list")
+     */
+    public function displayAllAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $categories = $em->getRepository('AppBundle:Category')->findAll();
+        $category = '';
+        
+        return $this->render(
+            'post/list.html.twig',
+            [
+                'posts' => $posts,
+                'categories' => $categories,
+                'category' => $category,
+            ]
+        );
+    }
+    
+    /**
+     * 
      * @param int $id
-     * @Route("/article/{id}")
+     * @Route("/list/{id}")
+     */
+    public function displayByCategoryAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $posts = $em->getRepository('AppBundle:Post')->findByCategory($id);
+        $category = $em->getRepository('AppBundle:Category')->find($id);
+        $categories = '';
+        
+        return $this->render(
+            'post/list.html.twig',
+            [
+                'posts' => $posts,
+                'categories' => $categories,
+                'category' => $category,
+            ]
+        );
+    }
+    
+    /**
+     * 
+     * @param int $id
+     * @Route("/{id}")
      */
     public function displayAction(Request $request, $id)
     {
