@@ -1,8 +1,10 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}<h1>Connexion</h1>{% endblock %}
+{% block page_title %}{% endblock %}
         
 {% block content %}
+    <h1>Connexion</h1>
+    <hr>
     {% if error %}
         <div class="alert alert-danger">
             {{ error.messageKey|trans(error.messageData, 'security') }}

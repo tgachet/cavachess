@@ -1,7 +1,10 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
-{% block content %}   
+{% block page_title %}{% endblock %}
+{% block content %}
+    <h1>Liste des utilisateurs</h1>
+    <hr>
+    
     <table class="table">
             <th>Prénom</th>
             <th>Nom</th>
@@ -35,11 +38,11 @@
                         <a href="#" class="btn btn-success">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
                         </a>
-                    {#% else %#}
-                        <a href="{#{ path('app_user_addfriend', {"id": user.id}) }#}" class="btn btn-success">
+                    {#{% else %}#}
+                        <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
                         </a>
-                    {#% endif %#}    
+                    {#{% endif %}  #}  
                 </td>
             </tr>
         {% else %}

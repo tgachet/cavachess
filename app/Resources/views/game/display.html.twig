@@ -4,47 +4,52 @@
     <link rel="stylesheet" type="text/css" href={{ asset('css/chessboard-0.3.0.css')}}>
 {% endblock %}
 
-{% block header %}{% endblock %}
 {% block content %}
     <h1>Cavachess</h1>
-    
+    <hr>
     <div class="row">
         {# GAME INFO #}
+        <div class='col-sm-12'>
+            <h3 id="adversaire"></h3>
+        </div>        
         <div id="info" class='col-sm-12'>
             <p>En attente d'un adversaire...</p>
         </div>
-        <div class='col-sm-12'>
-            <h3 id="adversaire"></h3>
-        </div>
+        {# END GAME INFO #}
         
         {# BOARD #}
-        <div class="col-sm-7">
+        <div class="col-md-8 col-sm-12 game-padding-md">
             <section id="jeu">
                 <div id="board"></div>
                 <div class="chrono toggle-display">
-                    <div id="clockdivp1">
-                        <p><span id="player1username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
-                    </div>
+                    <div class="player2-infos text-center"><span class="glyphicon glyphicon-king"></span>&nbsp;&nbsp;<span id="player2username"></span></div>
                     <div id="clockdivp2">
-                        <p><span id="player2username"></span> <span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
+                        <p class="text-center"><span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
                     </div>
-                    <div id="game-status"><p><span id="status"></span></p></div>
-                    <div id="game-history"><p><span id="pgn"></span></p></div>
+                    <div id="game-status" class="text-center"><p><span id="status"></span></p></div>
+                    <div id="game-history hidden-xs"><p><span id="pgn"></span></p></div>
+                    
+                    <div class="player1-infos text-center"><span class="glyphicon glyphicon-king"></span>&nbsp;&nbsp;<span id="player1username"></span></div>
+                    <div id="clockdivp1">
+                        <p class="text-center"><span class="hours"></span>:<span class="minutes"></span>:<span class="seconds"></span></p>
+                    </div>                    
                 </div>
                 <div class="clearfix"></div>
             </section>
         </div>
+        {# END BOARD #}
         {# CHAT #}
-        <div class="col-sm-5">
+        <div class="col-md-4 col-sm-12 chat-padding-md hidden-xs">
             <aside id="chat">
                 <div id="chat-output">
                 </div>
                 <form id="chat-input">
                     <textarea id="chat-textarea" name="message"></textarea>
-                    <input type="submit" id="chat-submit" value="Envoyer" class="btn btn-default" />
+                    <input type="submit" id="chat-submit" value="Envoyer" class="btn btn-default btn-block" />
                 </form>
             </aside>
         </div>
+        {# END CHAT #}
     </div>
     
     <div
@@ -61,7 +66,7 @@
     <script src="{{ asset('js/countdown.js')}}"></script>				
     <script src="{{ asset('js/gamecontent.js')}}"></script>				
     <script>
-     
+
         // Getting data from service js_vars
         var JsVars = $('#js-vars').data('vars');    
         // var obj from service js_vars
@@ -97,7 +102,10 @@
         var gamecontent = $("#jeu");
         var infocontent = $("#info");
         var opponentcontent = $("#adversaire");
-        
+        var chatoutput = $("#chat-output");
+        var chatinput = $("#chat-input");
+        var chattextarea = $("#chat-textarea");
+                   
         /* Connexion au serveur */
         // fire un événement 'connection' coté serveur et 'connect' coté client
         var socket = io("http://localhost:3000");
@@ -115,15 +123,15 @@
             player = data.color;   
             opponent = data.name;
             rankopponent = data.rank;
-            $("#adversaire").html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
+            opponentcontent.html(username+" ("+rank+" points), joue en "+ data.color +" contre "+data.name+" ("+data.rank+" points)");
             /* Nom des joueurs pour le chronomètre */
             if(player === 'white'){
-                $("#player1username").text(username);
-                $("#player2username").text(data.name);
+                $("#player1username").text(username +" "+ rank + " points");
+                $("#player2username").text(data.name + " "+ data.rank +" points");
             }
             else{
-                $("#player1username").text(data.name);
-                $("#player2username").text(username);
+                $("#player1username").text(data.name + " "+ data.rank +" points");
+                $("#player2username").text(username +" "+ rank + " points");
             }
             
             /* Display */
@@ -186,18 +194,27 @@
             window.location.assign("{{path('app_competition_displaycompetitions')}}");
         }
         
+        /* Function scrolltobottom for chat */
+        function scrollToBottom () {
+            var wtf = $("#chat-output");
+            var height = wtf[0].scrollHeight;
+            wtf.scrollTop(height);
+        };
+        
         /* Chat emit */
-        $("#chat-input").on("submit", function(e) {
+        chatinput.on("submit", function(e) {
             e.preventDefault();
-            var message = $("#message").val();
+            var message = chattextarea.val();
             socket.emit('chatmessage', {'message' : message, 'username' : username});
-            $("#message").val("");
+            chattextarea.val("");
+            scrollToBottom();
         });
         
         /* Chat server response */
         socket.on('receptionmessage', function(data) {
             var message = $('<p>').text(data);
-            $("#chat-output").append(message);
+            chatoutput.append(message);
+            scrollToBottom();
         });
         
 

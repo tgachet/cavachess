@@ -384,62 +384,62 @@ class User implements UserInterface, Serializable
      * Add User Friend
      * @param User $user
      */
-//    public function addFriendWithMe(User $user)
-//    {
-//        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
-//        if (!$this->friendsWithMe->contains($user)) { 
+    public function addFriendsWithMe(User $user)
+    {
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
+        if (!$this->friendsWithMe->contains($user)) { 
 //            if (!$user->getMyFriends()->contains($this)) { 
-//                $user->addMyFriend($this);  // Lie l'utilisateur à la liste d'amis. 
+//                $user->addMyFriends($this);  // Lie l'utilisateur à la liste d'amis. 
 //            } 
-//            $this->friendsWithMe->add($user); 
-//        } 
-//    }
-//    
+            $this->friendsWithMe->add($user); 
+        } 
+    }
+    
 //    public function setFriendsWithMe($friends) 
 //    { 
 //        if ($friends instanceof ArrayCollection || is_array($friends)) { 
 //            foreach ($friends as $friend) { 
-//                $this->addFriendWithMe($friend); 
+//                $this->addFriendsWithMe($friend); 
 //            } 
 //        } elseif ($friends instanceof User) { 
-//            $this->addFriendWithMe($friends); 
+//            $this->addFriendsWithMe($friends); 
 //        } else { 
 //            throw new Exception("$friends must be an instance of User or ArrayCollection"); 
 //        } 
 //    } 
-//
-//    /**
-//     * Add User Friend
-//     * @param User $user
-//     */
-//    public function addMyFriend(User $user)
-//    {
-//        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
-//        if (!$this->myFriends->contains($user)) { 
+
+    /**
+     * Add User Friend
+     * @param User $user
+     */
+    public function addMyFriends(User $user)
+    {
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas 
+        if (!$this->myFriends->contains($user)) { 
 //            if (!$user->getFriendsWithMe()->contains($this)) { 
-//                $user->addFriendWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
+//                $user->addFriendsWithMe($this);  // Lie l'utilisateur à la liste d'amis. 
 //            } 
-//            $this->myFriends->add($user); 
-//        } 
-//    }
-//    
+            $this->myFriends->add($user); 
+        } 
+    }
+    
 //    public function setMyFriends($users) 
 //    { 
 //        if ($friends instanceof ArrayCollection || is_array($friends)) { 
 //            foreach ($friends as $friend) { 
-//                $this->addMyFriend($friend); 
+//                $this->addMyFriends($friend); 
 //            } 
 //        } elseif ($friends instanceof User) { 
-//            $this->addMyFriend($friends); 
+//            $this->addMyFriends($friends); 
 //        } else { 
 //            throw new Exception("$friends must be an instance of User or ArrayCollection"); 
 //        } 
 //    }
     
-//    public function setAllFriends($friendswithme, $myfriends){
-//        $this->allfriends = new ArrayCollection(
-//                            array_merge($friendswithme->toArray(), $myfriends->toArray())
-//                            ); 
-//        return $this;
-//    }
+    public function setAllFriends(){
+        $this->allfriends = new ArrayCollection(
+                            array_merge($this->friendsWithMe->toArray(), $this->myFriends->toArray()    )
+                            ); 
+        return $this;
+    }
 }

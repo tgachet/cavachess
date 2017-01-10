@@ -1,11 +1,10 @@
 {% extends "layout.html.twig" %}
 
-{% block page_title %}
-    <h1>Inscription joueur</h1>
-{% endblock %}
 
 {% block content %}
-   {{ form_start(form) }}
+    <h1>Inscription joueur</h1>
+    <hr>
+    {{ form_start(form) }}
     {{ form_row(form.firstname) }}
     {{ form_row(form.lastname) }}
     {{ form_row(form.username) }}
