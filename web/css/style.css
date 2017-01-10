@@ -110,7 +110,7 @@ ul {padding:0; margin:0;}
     margin-top:5px; 
     font-style:italic; 
 } 
-.register-on-login a, .register-on-login a:hover {color:blue;} 
+.register-on-login a, .register-on-login a:hover {color:#34495E;} 
 .formconnexion {
     margin-top:50px;
     padding: 35px;
