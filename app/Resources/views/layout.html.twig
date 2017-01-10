@@ -37,7 +37,7 @@
                     {{render(controller('AppBundle:Ranking:menu'))}}
                   </ul>
                 </li>
-                <li><a href="#">Membres</a></li>    
+                <li {% if app.request.get('_route') == 'app_user_displayall' %}class="active"{% endif %}><a href="{{path('app_user_displayall')}}">Membres</a></li>    
                 <li {% if app.request.get('_route') == 'app_contact_index' %}class="active"{% endif %}><a href="{{path('app_contact_index')}}">Contact</a></li>      
               </ul>
   
