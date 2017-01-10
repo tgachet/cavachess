@@ -20,9 +20,9 @@ h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
-h1 {font-size: 2.2em; font-weight:700}
-h2 {font-size: 1.8em; font-weight:700}
-h3 {font-size: 1.15em; font-weight:700;}
+h1 {font-size: 2.2em; font-weight:700;}
+h2 {font-size: 1.8em; font-weight:700; margin:10px 0;}
+h3 {font-size: 1.15em; font-weight:700; margin-bottom: 10px;}
 h3 {font-size: 1.10em; font-weight:700;}
 
 section, aside{margin-top:20px;}
@@ -39,7 +39,14 @@ section, aside{margin-top:20px;}
 
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {background-color: #474644; color:white;}
 
-
+.navbar-avatar {
+    max-height: 50px;
+    min-height: 40px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    filter: grayscale(100%);
+    
+}
 
 /********************** VIEWS > DEFAULT > INDEX  **********************/
 .bg-cover-home {
@@ -47,7 +54,7 @@ section, aside{margin-top:20px;}
     min-height:400px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
 }
-.bloc-connexion {margin-top: 140px;}
+.bloc-connexion {margin-top: 110px; padding-right: 20px; }
 .players-online {margin-bottom:15px; font-size:1.2em;}
 .bloc-cover-home {
     position:absolute;
@@ -57,26 +64,34 @@ section, aside{margin-top:20px;}
 
 .h1-cavachess {
     padding-top: 20px;
-    margin-left:35px;
+    margin-left:25px;
     font-size:3.5em;
 }
 
 .slogan {
-    font-size: 1.6em;
+    font-size: 1.4em;
     margin-top:20px;
+    padding-left:25px;
+    padding-top:20px;
     padding-right:10px;
     text-shadow:1px 1px 1px white;
 }
 .posts-index {
     margin-top:20px;
 }
+.comment-index {
+    margin-bottom: 10px;
+}
 .jeu-index {
     margin-top:20px;
+/*    text-align: center;*/
 }
 .competitions-index {
     margin-top:10px; 
 }
-
+#partie-rapide {
+    margin-bottom: 55px;
+}
 #board-index {width:200px;}
 
 /********************** VIEWS > SECURITY > LOGIN **********************/ 
@@ -86,6 +101,16 @@ section, aside{margin-top:20px;}
     font-style:italic; 
 } 
 .register-on-login a, a:hover {color:blue;} 
+.formconnexion {
+    margin-top:50px;
+    padding: 35px;
+    background-color: #eee; 
+    border-radius:6px;
+}
+.blueviolet {
+    padding-bottom:20px;
+    text-align:center;
+}
 
 /********************** VIEWS > GAME > DISPLAY  **********************/
 section#jeu .toggle-display { display:none;} 
@@ -119,13 +144,13 @@ section#jeu .toggle-display { display:none;}
 /* REDEFINITION DES BOUTONS BOOTSTRAP */
 .btn-ok {
   color: #fff;
-  background-color: #619E53; /* vert */
+  background-color: darkslategray; /* vert */
   border-color: #559247; /* Darken 5% */
 }
 
 .btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
   color: #fff;
-  background-color: #559247; /* Darken 10% */
+  background-color: grey; /* Darken 10% */
   border-color: #3B782D; /* Darken 15% */
 }
 
