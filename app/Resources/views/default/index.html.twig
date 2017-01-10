@@ -4,41 +4,27 @@
 
 {% block content %}
    
-        <div class="row" style="position:relative;">
-            <div class='col-sm-12 hidden-xs'>
-                <div class="coverhome">
+    <div class="row" style="position:relative;">
+        <div class='col-sm-12 hidden-xs'>
+            <div class="bg-cover-home">
             </div>
-           </div>
-            <div class='col-sm-12 bloc-cover-home hidden-xs'>
-
-                <div class ="col-sm-9" >
-                    <div class="col-sm-5">
-                        <h1 class="cavachess">CAVACHESS</h1> 
-                    </div>
-                    <div class="headline col-sm-7">
-                        <p class="soustitre-cavachess"> Jouez aux échecs en ligne contre les meilleurs ! </p>
-                    </div>
-                </div>
-
-                <div class="blocrightfront col-sm-3"  >
-                    <div class="boutonshome col-sm-12" style="margin-top:50px;">
-                        <div style="background-color: rgb(252,251,249); ">
-                            <p class="onlineplayer"> <b> Joueur(s) en ligne : {{ cons | length + 817}} </b> </p>
-                        </div><br>
-                        <a href="{{ path('login') }}">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" >Se connecter</button>
-                        </a>
-                        <a href="{{ path('app_security_register') }}">
-                            <button type="button" class="btn btn-info btn-lg btn-block">S'inscrire</button>
-                        </a>
-                   </div>
-                </div>
-            </div>             
         </div>
+        <div class='col-sm-12 bloc-cover-home hidden-xs'>            
+            <div class ="col-sm-9" >
+                    <h1 class="h1-cavachess">CAVACHESS</h1> 
+                    <p class="slogan text-right"> Jouez aux échecs en ligne contre les meilleurs ! </p>
+            </div>                
+            <div class="bloc-connexion col-sm-3"  >
+                <p class="players-online text-center">Joueur(s) en ligne : {{ cons | length + 817}}</p>                  
+                <button class="btn btn-default btn-lg btn-block btn-ok" ><a href="{{ path('login') }}">Se connecter</a></button>
+                <button class="btn btn-default btn-lg btn-block" ><a href="{{ path('app_security_register') }}">S'inscrire</a></button>
+            </div>
+        </div>             
+    </div>
 
     {% if comments != '' %}
     <div class="row">
-        <div class="cavablog col-sm-8">
+        <div class="posts-index col-sm-8">
             <h2> CAVABLOG</h2> 
             <h3> Article le plus populaire</h2>
             <div class="row">
@@ -77,9 +63,9 @@
                 </div>
             </div>
       
-            <div class="jeuhomepage col-sm-4">
+            <div class="jeu-index col-sm-4">
                 <h2> JOUER </h2>
-                    <div class="competitions col-sm-12">
+                    <div class="competitions-index col-sm-12">
                         {% for competition in competitions %}
                                 <div class="col-sm-9">
                                     <div class="panel panel-default">
