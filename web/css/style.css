@@ -170,7 +170,8 @@ section#jeu .toggle-display { display:none;}
 #competitions-list h3.panel-title { padding:12px 15px; }
 #competitions-list p.panel-title { padding:10px 15px; }
 #competitions-list .ranking {background-color:white;}
-.ui-accordion .ui-accordion-header:hover {background-color:#34495E; color:white;}
+.ui-accordion .ui-accordion-header:hover, .ui-accordion .ui-accordion-header:focus {background-color:#34495E; color:white;}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {background-color:#34495E!important; color:white!important; border:1px solid #34495E!important;}
 
 /********************** VIEWS > RANKING > DISPLAY  **********************/
 #ranking-statistics h2 {margin-bottom:20px; background-image:url('../../web/img/bg-classement.jpg'); background-repeat: no-repeat; padding:6px 5px; color:white; text-shadow : 1px 1px 1px black}

@@ -95,7 +95,7 @@
                 <div id="list-connected">
                     <ul>
                         {% if cons|length == 0 %}
-                        <li>{{ cons | length  }} Aucun joueur connecté</li>
+                        <li>Aucun joueur connecté</li>
                         {% else %}
                         {% for con in cons %}
                             <li><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}"><span class="glyphicon glyphicon-user"></span> {{con.username}}</a></li>
