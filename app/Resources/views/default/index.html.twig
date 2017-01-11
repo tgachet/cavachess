@@ -48,6 +48,9 @@
     <div class="row">{# CONTENT #}      
         <div class="col-sm-8">{# SECTIONS #}
             <section id="top-post">{# TOP POST #}
+                {{ dump(mostcommented)}}
+                {{ dump(top_article)}}
+                {{ dump(comments)}}
                 {% if comments != '' %}    
                     <h2>ACTUALITE</h2>
                     {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}

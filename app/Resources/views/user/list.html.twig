@@ -4,8 +4,8 @@
 {% block content %}
     <h1>Liste des utilisateurs</h1>
     <hr>
-    
     <table class="table">
+        <tr>
             <th>Prénom</th>
             <th>Nom</th>
             <th>Pseudo</th>
@@ -13,10 +13,9 @@
             <th>Avatar</th>
             <th>Voir le profil</th>
             <th>Ajouter aux amis</th>
-            <th width="100px"></th>
         </tr>
         {{ dump(app.user)}}
-        {{ dump(app.user.allfriends)}}
+        {#{{ dump(app.user.allfriends)}}#}
         {% for user in users if user.id != app.user.id %}
             <tr>
                 <td>{{ user.firstname }}</td>
@@ -36,28 +35,26 @@
                     </a>
                 </td>
                 <td>
+                    {# Création d'un tableau avec la liste de tous les amis de l'utilisateur connecté #}
                     {% set list = [] %}
                     {% for friend in app.user.allfriends %}
                         {% set list = list|merge([friend.id]) %}
                     {% endfor %}
-                    {#{ dump(list) }#}
-
-
-                        {% if user.id in list %}
-                            <a class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
-                            </a>
-                        {% else %}
-                            <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
-                            </a>
-                        {% endif %}
+                    {% if user.id in list %}
+                        <a class="btn btn-success">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
-        {#{% else %}
+        {% else %}
             <tr>
                 <td colspan="3" align="center">Aucun résultat</td>
-            </tr>#}
+            </tr>
         {% endfor %}
     </table>
 {% endblock %}

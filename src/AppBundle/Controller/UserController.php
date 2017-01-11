@@ -29,7 +29,7 @@ class UserController extends Controller
             $user = $user->setAllFriends(); 
         }
         
-        $user->setAllFriends();
+//        $user->setAllFriends();
         return $this->render(
             'user/list.html.twig',
             [
