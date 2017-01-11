@@ -78,7 +78,7 @@
             
             <section id="lasts-post">{# LASTS POSTS #} 
                 <h2 class="visible-xs">DERNIERES ACTUALITES</h2>                
-                {% for post in posts|slice(0,3) if post != top_article %}
+                {% for post in posts if post != top_article %}
                     {% include 'post/preview.html.twig' with {"post" : post} %}
                 {% endfor %}
             </section>{# END SECTION POSTS #}
