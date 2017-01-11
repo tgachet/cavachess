@@ -15,7 +15,9 @@
             <th>Ajouter aux amis</th>
             <th width="100px"></th>
         </tr>
-        {% for user in users %}
+        {{ dump(app.user)}}
+        {{ dump(app.user.allfriends)}}
+        {% for user in users if user.id != app.user.id %}
             <tr>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
@@ -34,21 +36,28 @@
                     </a>
                 </td>
                 <td>
-                    {#% if (user.id in app.user.friendsWithMe) or (user.id in app.user.myFriends) %#}
-                        <a href="#" class="btn btn-success">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
-                        </a>
-                    {#{% else %}#}
-                        <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
-                        </a>
-                    {#{% endif %}  #}  
+                    {% set list = [] %}
+                    {% for friend in app.user.allfriends %}
+                        {% set list = list|merge([friend.id]) %}
+                    {% endfor %}
+                    {#{ dump(list) }#}
+
+
+                        {% if user.id in list %}
+                            <a class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
+                            </a>
+                        {% endif %}
                 </td>
             </tr>
-        {% else %}
+        {#{% else %}
             <tr>
                 <td colspan="3" align="center">Aucun résultat</td>
-            </tr>
+            </tr>#}
         {% endfor %}
     </table>
 {% endblock %}

@@ -88,7 +88,7 @@ class UserController extends Controller
                     
                     // gère le move_uploaded_file() vers notre répertoire d'upload
                     $avatar->move(
-                        $this->getParameter('upload_dir'), // répertoire destination
+                        $this->getParameter('upload_dir_avatar'), // répertoire destination
                         $fileName // nom du fichier dans le répertoire destination
                     );
                     
