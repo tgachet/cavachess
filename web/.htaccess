@@ -1,7 +1,7 @@
 # Use the front controller as index file. It serves as a fallback solution when
 # every other rewrite/redirect fails (e.g. in an aliased environment without
 # mod_rewrite). Additionally, this reduces the matching process for the
-# start page (path "/") because otherwise Apache will apply the rewriting rules
+# start page (path "/") because otherwise Apache will app_devly the rewriting rules
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex app_dev.php
 
