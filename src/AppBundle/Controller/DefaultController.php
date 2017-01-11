@@ -27,10 +27,10 @@ class DefaultController extends Controller
         $comments = '';
    
         
-        $mostcommented = $em->createQuery("SELECT c, max(c.post) FROM AppBundle\Entity\Comment c")->getResult();
-        if (!is_null($mostcommented[0][0]))
+        $mostcommented = $em->createQuery("SELECT max(c.post) FROM AppBundle\Entity\Comment c")->getResult();
+        if (!is_null($mostcommented[0][1]))
         {
-            $top_article = $mostcommented[0][0]->getPost();
+            $top_article = $em->getRepository('AppBundle:Post')->find($mostcommented[0][1]);
         
         // Requête des trois derniers commentaires du post le plus commenté
             $comments = $em->getRepository('AppBundle:Comment')->findLatestByPost($top_article, 3);
