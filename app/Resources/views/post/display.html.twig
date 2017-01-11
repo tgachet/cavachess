@@ -2,14 +2,15 @@
 
        
 {% block content %}
+    
     <h1>{{ post.title }}</h1>
     <hr>
-    <post>
+    <article>
         <p>Dans 
             {% for category in post.categories %}
                 <span class="category-tag"> 
                     {{ category }}
-                </span>&nbsp
+                </span>
             {% endfor %} 
         par 
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
@@ -24,7 +25,7 @@
         </p>
         <p>{{ post.description }}</p>
         <div>{{ post.content | raw }}</div> {# le filtre raw permet d'afficher le HTML #}
-    </post>
+    </article>
         
     <h2>Commentaires</h2>
     
@@ -35,7 +36,7 @@
                 {{ form_start(form) }}
                 {{ form_row(form.content) }}
                 <div class="form-btn-group pull-right">
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <button type="submit" class="btn btn-default btn-ok">Enregistrer</button>
                 </div>
                 <div class="clearfix"></div>
                 {{ form_end(form) }}

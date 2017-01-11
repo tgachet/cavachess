@@ -1,46 +1,37 @@
 <article>
-    <h3>
+    <h2>
         <a href="{{ path('app_post_display', {"id": post.id}) }}">
-        {{ post.title }}
-        <small>
-            
-                <i class="glyphicon glyphicon-share"></i>
-            
-        </small>
-    
-    </h3>
-
-    <div>
-        <div class="well well-sm">
-            <div class="row">
-                <div class="col-sm-4">
-                    {% if post.picture %}
-                        <img src="{{ asset('upload/picture/' ~ post.picture) }}" style="max-height:120px">
-                    {% else %} 
-                        <img src="{{ asset('upload/picture/default_picture.jpg') }}" style="max-height:120px;">
-                    {% endif %}
-                </div>
-                <div class="col-sm-8">
-                    {{ post.description }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <p class="comment-index">Dans 
+            {{ post.title }}
+            <small><i class="glyphicon glyphicon-share"></i></small>
+        </a>
+    </h2>
+    <p class="article-infos">Dans 
         {% for category in post.categories %}
-        <span class="category-tag"> 
-            {{ category }}
-        </span>&nbsp
+        <span class="category-tag"> {{ category }}</span>,
         {% endfor %} 
         
         {% if app.request.get('_route') != 'app_user_displayinfo' %}
             par 
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
-                {{ post.author.username }}
+                <strong>{{ post.author.username }}</strong>
             </a>
         {% endif %}
     </p>
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-4">
+                {% if post.picture %}
+                    <img src="{{ asset('upload/picture/' ~ post.picture) }}" style="max-height:120px">
+                {% else %} 
+                    <img src="{{ asset('upload/picture/default_picture.jpg') }}" style="max-height:120px;">
+                {% endif %}
+            </div>
+            <div class="col-sm-8">
+                {{ post.description }}
+            </div>
+        </div>
+    </div>
+    <h4 class="article-infos">Commentaires</h4>
     {% for comment in comments %}
         <div class="well well-sm">
             <div class="row">

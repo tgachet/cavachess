@@ -14,72 +14,83 @@
                 <div class="col-sm-7">
                     <p class="slogan"> <b>Jouez</b> aux échecs en ligne entre amis ! </p>
                 </div>
-            </div>                
+            </div>     
+            {% if app.user is null %}{# USER NOT CONNECTED #}
             <div class="bloc-connexion col-sm-4"  >
                 <p class="players-online text-center">Joueur(s) en ligne : <b>{{ cons | length + 138}}</b></p>                  
-                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-primary">Se connecter</a>
-                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block btn-ok">S'inscrire</a>
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block">Se connecter</a>
+                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block">S'inscrire</a>
                 
-                <a href="{{ path('login') }}" class="btn playbutton btn-default btn-lg btn-block btn-secondary">JOUER</a>
-                
-                
+                <a href="{{ path('login') }}" class="btn playbutton btn-default btn-lg btn-block btn-ok">JOUER</a>
             </div>
+            {% else %}{# USER CONNECTED #}
+                <div class="bloc-connecte col-sm-4"  >         
+                    <div class="competitions-index-connecte col-sm-12">
+                        {% for competition in competitions|slice(0, 3) %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                                    <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
+                                    <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div> 
+                </div>
+
+            {% endif %}{# END USER CONNECTED #}
+                
         </div>             
     </div>
 {% endblock %}{# END HEADER #}
     
 {% block content %}
     <div class="row">{# CONTENT #}      
-        <div class="posts-index col-sm-8">{# SECTIONS #}
+        <div class="col-sm-8">{# SECTIONS #}
             <section id="top-post">{# TOP POST #}
                 {% if comments != '' %}    
-                    <h2>ACTUALITE DU MOMENT </h2>
+                    <h2>ACTUALITE</h2>
                     {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
                 {% endif %}
             </section>{# END TOP POST #}
             
-            <section id="top-post">{# LASTS POSTS #}
-                <h2>Derniers articles</h2>                  
+            <section id="lasts-post">{# LASTS POSTS #}                 
                 {% for post in posts if post != top_article %}
                     {% include 'post/preview.html.twig' with {"post" : post} %}
                 {% endfor %}
             </section>{# END SECTION POSTS #}
         </div>{# END SECTIONS #}
         
-        <div class="jeu-index col-sm-4">{# ASIDES #}
-            <section id="partie-rapide">
+        <div class="col-sm-4">{# ASIDES #}
+            <aside id="partie-rapide">{# PARTIE ALEATOIRE #}
                 <h2> PARTIE RAPIDE </h2>
-                <aside  id="random-game" class="hidden-xs">{# PARTIE ALEATOIRE #}
-                    <div id="board-index" class="center-block"></div>
-                </aside>{# END PARTIE ALEATOIRE #}
-            </section>
-            <aside id="users-connected">{# UTILISATEURS CONNECTES #}
-            {% if app.user is not null %} 
-                <div style="background-color: moccasin; padding: 1em;">
-                    <b>{{ cons | length }} joueur(s) connecté(s)</b>
-                </div>
-                <div style="background-color: lemonchiffon; text-align: center;">
-                    {% for con in cons %}
-                        {% if app.user.id == con.id %}
-                            <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">---- Moi ----</a>
+                <div id="board-index" class="center-block hidden-xs"></div>
+            </aside>{# END PARTIE ALEATOIRE #}
+                    
+            <aside id="users-connected hidden-xs">{# UTILISATEURS CONNECTES #}
+                <h2> EN LIGNE </h2>
+                <div id="list-connected">
+                    <ul>
+                        {% if cons|length == 0 %}
+                        <li>{{ cons | length  }} Aucun joueur connecté</li>
                         {% else %}
-                            <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">{{con.username}}</a>
+                        {% for con in cons %}
+                            <li><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}"><span class="glyphicon glyphicon-user"></span> {{con.username}}</a></li>
+                        {% endfor %}
                         {% endif %}
-                    {% endfor %}
+                    </ul>
                 </div>
-            {% endif %} 
             </aside>{# END UTILISATEURS CONNECTES #}
             
             <aside id="games-list">{# LISTE JEUX #}
                 <h2>COMPETITIONS</h2> 
-                <div class="competitions-index col-sm-12">
-                    {% for competition in competitions|slice(0, 4) %}
+                <div class="competitions-index">
+                    {% for competition in competitions %}
                         <div class="panel panel-default">
                             <div class="panel-heading" role="tab" id="heading{{competition.id}}">
-                                <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
-                                <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
-
-                            </div>
+                               <h3 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h3>
+                               <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Jouer</a></strong></p>
+                           </div>
                         </div>
                     {% endfor %}
                 </div> 
