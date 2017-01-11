@@ -8,9 +8,9 @@
         <div class="col-sm-3">
             <strong> Statut : </strong>
             {% if user.lastActivity > delay %}
-                <em style='color: #6d6'>** EN LIGNE **</em>
+                <p style='color: #6d6'><b>ONLINE</b></p>
             {% else %}
-                <em style='color: crimson'>** hors-ligne **</em>
+                <em style='color: crimson'>offline</em>
             {% endif %}
         </div>
     </div>
