@@ -61,7 +61,7 @@
         <aside>
             <div class="col-sm-3">
                 <h2>Amis</h2>
-                    {% for friend in user.allfriends %}
+                    {% for friend in user.allfriends|slice(0,5) %}
                         {% include 'user/preview.html.twig' with {"user" : friend} %}
                     {% endfor %}
             </div>
