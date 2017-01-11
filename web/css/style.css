@@ -11,7 +11,7 @@ main {background-color:white; min-height:100vh; padding:30px 20px;}
 
 img {max-width:100%; height:auto;}
 
-a, a:hover {text-decoration: none; color:inherit;}
+a, a:focus, a:hover {text-decoration: none; color:inherit;}
 a:hover {color:#34495E;}
 
 h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
@@ -28,7 +28,9 @@ section, aside{margin-top:20px;}
 ul li {list-style-type: none;}
 ul {padding:0; margin:0;}
 
-.btn, .btn-default, .btn-ok, .btn-play, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default, .panel, .ui-accordion-header {border-radius: 0px!important;}
+.alert {margin-bottom:0px;}
+
+.btn, .btn-default, .btn-ok, .btn-play, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default, .panel, .ui-accordion-header, .well, .list-group-item, .badge, .alert {border-radius: 0px!important;}
 
 /********************** MAIN LAYOUT **********************/
 /* NAV */
@@ -48,6 +50,7 @@ ul {padding:0; margin:0;}
     filter: grayscale(100%);
 }
 
+article + article {margin-top:20px;}
 /********************** VIEWS > DEFAULT > INDEX  **********************/
 .bg-cover-home {
     background-image: url("../../web/img/coverfonthome7.jpg");
@@ -57,17 +60,9 @@ ul {padding:0; margin:0;}
 }
 .bloc-connexion {margin-top: 110px; padding-right: 20px; }
 .players-online {margin-bottom:15px; font-size:1.2em;}
-.bloc-cover-home {
-    position:absolute;
-    top:0;
-    left:0;
-}
+.bloc-cover-home {position:absolute;top:0;left:0;}
 
-.h1-cavachess {
-    padding-top: 20px;
-    margin-left:25px;
-    font-size:3.5em;
-}
+.h1-cavachess {padding-top: 20px; margin-left:25px;font-size:3.5em;}
 
 .slogan {
     font-size: 1.4em;
@@ -77,49 +72,32 @@ ul {padding:0; margin:0;}
     padding-right:10px;
     text-shadow:1px 1px 1px white;
 }
-.posts-index {
-    margin-top:20px;
-}
-.comment-index {
-    margin-bottom: 10px;
-}
-.article-index {
-    margin-top:10px;
-}
-.jeu-index {
-    margin-top:20px;
-/*    text-align: center;*/
-}
-.competitions-index {
-    margin-top:10px; 
-}
-.competitions-index-connecte {
-    margin-top:50px; 
-}
-#partie-rapide {
-    margin-bottom: 55px;
-    padding:10px;
+.competitions-index-connecte {margin-top:50px; }
 
-    
-}
 #board-index {width:200px;}
 
+#lasts-post {margin-top:40px;}
+
+.competitions-index h3.panel-title {background-image:url('../../web/img/competion-bg.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 1px black}
+.competitions-index .panel-heading { padding:0;}
+.competitions-index h3.panel-title { padding:12px 15px; }
+.competitions-index p.panel-title { padding:10px 15px; }
+
+#list-connected ul {padding: 8px;}
+#list-connected {box-shadow:0px 0px 1px #4F4A47; background-color: #f5f5f5;}
 /********************** VIEWS > SECURITY > LOGIN **********************/ 
 .register-on-login { 
-    font-size:0.8em; 
-    margin-top:5px; 
+    font-size:0.9em; 
+    margin-top:14px; 
     font-style:italic; 
 } 
-.register-on-login a, .register-on-login a:hover {color:#34495E;} 
-.formconnexion {
+.register-on-login a {color:#34495E; } 
+.register-on-login a:hover {font-weight:700;} 
+.form-connexion {
     margin-top:50px;
-    padding: 35px;
+    padding: 30px 35px;
     background-color: #eee; 
     border-radius:6px;
-}
-.blueviolet {
-    padding-bottom:20px;
-    text-align:center;
 }
 
 /********************** VIEWS > GAME > DISPLAY  **********************/
@@ -140,28 +118,23 @@ section#jeu .toggle-display { display:none;}
 @-moz-document url-prefix(){#chat-submit {margin-top:5px;}}
 
 /********************** VIEWS > POST > DISPLAY **********************/
-.post-article {
-    margin-top:15px;
-    font-size:1.2em;
-}
 
-.list-group {
-    margin-top: 30px;
-    padding-left:10px;
-}
+.list-group-item.active {background-color: #34495E; border-color:#273C51;}
+.list-group-item.active:focus, .list-group-item.active:hover {background-color: #4E6378; border-color:#34495E;}
 
-.list-post {
-    margin-top: 30px;
-}
+
 /********************** VIEWS > POST > PREVIEW  **********************/
 .category-tag {
-    background-color: darkslategrey;
-    color: white;
+    font-weight:700;
+    color: #34495E;
     font-style: italic;
-    padding: 2px;
-    padding-left:5px;
-    font-size: 10px;
 }
+.category-tag:hover {color: #4E6378;}
+.article-infos {margin-bottom: 10px;}
+/********************** VIEWS > POST > LIST  **********************/
+
+/********************** VIEWS > POST > TOPPREVIEW  **********************/
+
 
 /********************** VIEWS > COMPETITION > DISPLAY  **********************/
 #competitions-list h3.panel-title {background-image:url('../../web/img/competion-bg.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 1px black}
