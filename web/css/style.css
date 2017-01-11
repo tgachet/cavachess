@@ -141,6 +141,10 @@ section#jeu .toggle-display { display:none;}
 
 .list-group-item.active {background-color: #34495E; border-color:#273C51;}
 .list-group-item.active:focus, .list-group-item.active:hover {background-color: #4E6378; border-color:#34495E;}
+.bloc-article-display {margin-top: -10px;}
+.picture-display {padding-top: 5px; padding-bottom: 5px;}
+.article-description-display {font-size:1.4em;}
+.article-content-display {margin-bottom: 10px;}
 
 
 /********************** VIEWS > POST > PREVIEW  **********************/
