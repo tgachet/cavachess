@@ -157,7 +157,10 @@ section#jeu .toggle-display { display:none;}
 .article-infos {margin-bottom: 10px;}
 /********************** VIEWS > POST > LIST  **********************/
 
-/********************** VIEWS > POST > TOPPREVIEW  **********************/
+/********************** VIEWS > USER > PROFILE  **********************/
+#info-user ul{margin-top: 8px;}
+#info-user h4{font-weight:700;}
+#modifier-profil {margin-top:10px; margin-bottom:20px;}
 
 
 /********************** VIEWS > COMPETITION > DISPLAY  **********************/

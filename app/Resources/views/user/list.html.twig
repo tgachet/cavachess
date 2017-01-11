@@ -14,8 +14,6 @@
             <th>Voir le profil</th>
             <th>Ajouter aux amis</th>
         </tr>
-        {{ dump(app.user)}}
-        {#{{ dump(app.user.allfriends)}}#}
         {% for user in users if user.id != app.user.id %}
             <tr>
                 <td>{{ user.firstname }}</td>
