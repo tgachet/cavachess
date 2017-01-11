@@ -155,7 +155,8 @@ section#jeu .toggle-display { display:none;}
 }
 .category-tag:hover {color: #4E6378;}
 .article-infos {margin-bottom: 10px;}
-/********************** VIEWS > POST > LIST  **********************/
+/********************** VIEWS > USER > LIST  **********************/
+.info-online {font-weight:700; color:#34495E;}
 
 /********************** VIEWS > USER > PROFILE  **********************/
 #info-user ul{margin-top: 8px;}

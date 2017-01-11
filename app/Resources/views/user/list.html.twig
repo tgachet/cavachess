@@ -4,65 +4,63 @@
 {% block content %}
     <h1>Liste des utilisateurs</h1>
     <hr>
-    <table class="table">
-        <tr>
-            <th>Avatar</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Pseudo</th>
-            <th>E-Mail</th>
-            <th>Voir le profil</th>
-            <th>Ajouter aux amis</th>
-            <th>Statut</th>
-            <th width="100px"></th>
-        </tr>
-        {% for user in users if user.id != app.user.id %}
-            <tr>
-                <td>
-                    {% if user.avatar %}
-                        <img src="{{ asset('upload/avatar/' ~ user.avatar) }}" style="max-height:40px; margin-bottom: 5px;"/>
+    <div class="row">
+        <div class='col-md-8 col-md-offset-2 col-sm-12'>
+            <section>
+                <table class="table table-striped table-hover">
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Pseudo</th>
+                        <th>Voir le profil</th>
+                        <th>Ami</th>
+                        <th>Statut</th>
+                    </tr>
+                    {% for user in users if user.id != app.user.id %}
+                        <tr>
+                            <td>
+                                {% if user.avatar %}
+                                    <img src="{{ asset('upload/avatar/' ~ user.avatar) }}" style="max-height:40px; margin-bottom: 5px;"/>
+                                {% else %}
+                                    <img src="{{ asset('img/default_avatar.png') }}" style="max-height:40px; margin-bottom: 5px;"/>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.username }}</td>
+                            <td>
+                                <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true" title="Voir le profil"></span>
+                                </a>
+                            </td>
+                            <td>
+                                {# Création d'un tableau avec la liste de tous les amis de l'utilisateur connecté #}
+                                {% set list = [] %}
+                                {% for friend in app.user.allfriends %}
+                                    {% set list = list|merge([friend.id]) %}
+                                {% endfor %}
+                                {% if user.id in list %}
+                                    <a class="btn btn-default btn-ok">
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-default btn-ok">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                            {% if user.lastActivity > delay %}
+                                <p class="info-online">En ligne</p>
+                            {% else %}
+                                <p>Hors ligne</p>
+                            {% endif %}
+                            </td>
+                        </tr>
                     {% else %}
-                        <img src="{{ asset('img/default_avatar.png') }}" style="max-height:40px; margin-bottom: 5px;"/>
-                    {% endif %}
-                </td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}" class="btn btn-info">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true" title="Voir le profil"></span>
-                    </a>
-                </td>
-                <td>
-                    {# Création d'un tableau avec la liste de tous les amis de l'utilisateur connecté #}
-                    {% set list = [] %}
-                    {% for friend in app.user.allfriends %}
-                        {% set list = list|merge([friend.id]) %}
+                        <tr>
+                            <td colspan="3" align="center">Aucun résultat</td>
+                        </tr>
                     {% endfor %}
-                    {% if user.id in list %}
-                        <a class="btn btn-success">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true" title="Déjà ami"></span>
-                        </a>
-                    {% else %}
-                        <a href="{{ path('app_user_addfriend', {"id": user.id}) }}" class="btn btn-success">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
-                        </a>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if user.lastActivity > delay %}
-                        <p style='color: #6d6'><b>ONLINE</b></p>
-            {% else %}
-                <em style='color: crimson'>offline</em>
-            {% endif %}
-                    
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3" align="center">Aucun résultat</td>
-            </tr>
-        {% endfor %}
-    </table>
+                </table>
+            </section>
+        </div>
+    </div>
 {% endblock %}
