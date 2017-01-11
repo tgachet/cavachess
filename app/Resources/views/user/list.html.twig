@@ -6,20 +6,18 @@
     <hr>
     <table class="table">
         <tr>
+            <th>Avatar</th>
             <th>Prénom</th>
             <th>Nom</th>
             <th>Pseudo</th>
             <th>E-Mail</th>
-            <th>Avatar</th>
             <th>Voir le profil</th>
             <th>Ajouter aux amis</th>
+            <th>Statut</th>
+            <th width="100px"></th>
         </tr>
         {% for user in users if user.id != app.user.id %}
             <tr>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
                 <td>
                     {% if user.avatar %}
                         <img src="{{ asset('upload/avatar/' ~ user.avatar) }}" style="max-height:40px; margin-bottom: 5px;"/>
@@ -27,6 +25,10 @@
                         <img src="{{ asset('img/default_avatar.png') }}" style="max-height:40px; margin-bottom: 5px;"/>
                     {% endif %}
                 </td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
                 <td>
                     <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}" class="btn btn-info">
                         <span class="glyphicon glyphicon-search" aria-hidden="true" title="Voir le profil"></span>
@@ -47,6 +49,14 @@
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
                         </a>
                     {% endif %}
+                </td>
+                <td>
+                    {% if user.lastActivity > delay %}
+                        <p style='color: #6d6'><b>ONLINE</b></p>
+            {% else %}
+                <em style='color: crimson'>offline</em>
+            {% endif %}
+                    
                 </td>
             </tr>
         {% else %}

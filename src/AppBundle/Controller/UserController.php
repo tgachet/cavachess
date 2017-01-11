@@ -24,6 +24,9 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('AppBundle:User')->findAll();
+          /* Variable pour la gestion du STATUT (En ligne / Hors-ligne) */
+        $delay = new DateTime();
+        $delay->setTimestamp(strtotime('5 minutes ago'));
         
         foreach ($users as $user){
             $user = $user->setAllFriends(); 
@@ -34,6 +37,8 @@ class UserController extends Controller
             'user/list.html.twig',
             [
                 'users' => $users,
+                'delay' => $delay,
+                
             ]
         );
     }
