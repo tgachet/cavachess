@@ -13,6 +13,8 @@
             <th>E-Mail</th>
             <th>Voir le profil</th>
             <th>Ajouter aux amis</th>
+            <th>Statut</th>
+            <th width="100px"></th>
         </tr>
         {% for user in users if user.id != app.user.id %}
             <tr>
@@ -47,6 +49,14 @@
                             <span class="glyphicon glyphicon-plus" aria-hidden="true" title="Ajouter"></span>
                         </a>
                     {% endif %}
+                </td>
+                <td>
+                    {% if user.lastActivity > delay %}
+                        <p style='color: #6d6'><b>ONLINE</b></p>
+            {% else %}
+                <em style='color: crimson'>offline</em>
+            {% endif %}
+                    
                 </td>
             </tr>
         {% else %}

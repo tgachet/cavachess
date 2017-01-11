@@ -35,6 +35,7 @@ class PostType extends AbstractType
             TextareaType::class,        
             [
                 'label' => 'Description',
+                'attr' => array('maxlength' => 150)
             ])
 //            ->add('author')
             ->add('categories',

@@ -7,7 +7,9 @@
     </h2>
     <p class="article-infos">Dans 
         {% for category in post.categories %}
-        <span class="category-tag"> {{ category }}</span>,
+            <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}">
+                <span class="category-tag"> {{ category }}</span>,
+            </a>
         {% endfor %} 
         
         {% if app.request.get('_route') != 'app_user_displayinfo' %}

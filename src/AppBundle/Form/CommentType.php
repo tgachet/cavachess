@@ -20,7 +20,7 @@ class CommentType extends AbstractType
                     'content',
                     TextareaType::class,
                     [
-                       'label' => 'Contenu',
+                       'label' => ' ',
                     ]
                 )
                 ;
