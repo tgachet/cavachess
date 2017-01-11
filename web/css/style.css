@@ -32,6 +32,8 @@ ul {padding:0; margin:0;}
 
 .btn, .btn-default, .btn-ok, .btn-play, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default, .panel, .ui-accordion-header, .well, .list-group-item, .badge, .alert {border-radius: 0px!important;}
 
+.panel-heading {border-bottom:none;}
+
 /********************** MAIN LAYOUT **********************/
 /* NAV */
 .navbar-default {background-color:#4F4A47; border:none;}
@@ -58,11 +60,19 @@ article + article {margin-top:20px;}
     min-height:400px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
 }
-.bloc-connexion {margin-top: 110px; padding-right: 20px; }
-.players-online {margin-bottom:15px; font-size:1.2em;}
+.bg-cover-home-mobile {
+    background-image: url("../../web/img/bg-mobile-index.jpg");
+    background-repeat: no-repeat;
+    height:70px;
+    max-width:100%;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);    
+}
+.bloc-connexion {margin-top: 80px; padding-right: 20px; }
+.btn-jouer {margin-top:40px!important;}
 .bloc-cover-home {position:absolute;top:0;left:0;}
 
 .h1-cavachess {padding-top: 20px; margin-left:25px;font-size:3.5em;}
+.h1-cavachess-mobile {padding:14px 6px 6px 20px; font-size:2.4em; color:#f6f6f6;}
 
 .slogan {
     font-size: 1.4em;
@@ -72,11 +82,18 @@ article + article {margin-top:20px;}
     padding-right:10px;
     text-shadow:1px 1px 1px white;
 }
-.competitions-index-connecte {margin-top:50px; }
+.competition-header {margin-top:50px; }
+.competition-header  h2.panel-compet {background-image:url('../../web/img/bg-competition-highlight.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 5px black; filter:grayscale(100%)}
+.competition-header  h2.panel-players {background-image:url('../../web/img/bg-find-player.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 5px black;}
+.competition-header  .panel-heading { padding:0;}
+.competition-header  h2.panel-title { padding:22px 15px; font-size: 1.5em; }
+.competition-header  h2.panel-title:hover { opacity:0.8; }
+.competition-header .panel{margin-bottom:40px;}
 
 #board-index {width:200px;}
 
 #lasts-post {margin-top:40px;}
+#lasts-post h2, #top-post h2 {font-size:1.6em;}
 
 .competitions-index h3.panel-title {background-image:url('../../web/img/competion-bg.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 1px black}
 .competitions-index .panel-heading { padding:0;}
@@ -85,6 +102,9 @@ article + article {margin-top:20px;}
 
 #list-connected ul {padding: 8px;}
 #list-connected {box-shadow:0px 0px 1px #4F4A47; background-color: #f5f5f5;}
+
+#games-list-mobile {margin-top:0px;}
+
 /********************** VIEWS > SECURITY > LOGIN **********************/ 
 .register-on-login { 
     font-size:0.9em; 

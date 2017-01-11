@@ -22,7 +22,7 @@
                 <td>{{ user.role }}</td>
                 <td class='admin-img-user-list'>
                     {% if user.avatar %}
-                        <img src="{{ asset('upload/' ~ user.avatar) }}"/>
+                        <img src="{{ asset('upload/avatar/' ~ user.avatar) }}"/>
                     {% else %}
                         <img src="{{ asset('img/default_avatar.png') }}"/>
                     {% endif %}

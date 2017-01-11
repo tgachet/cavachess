@@ -25,6 +25,11 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('AppBundle:User')->findAll();
         
+        foreach ($users as $user){
+            $user = $user->setAllFriends(); 
+        }
+        
+        $user->setAllFriends();
         return $this->render(
             'user/list.html.twig',
             [
@@ -42,13 +47,18 @@ class UserController extends Controller
     public function displayInfo($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        
+        foreach ($users as $user){ 
+            $user = $user->setAllFriends();  
+        }
         
         /* USER INFOS FROM USER */
         $user = $em->find('AppBundle:User', $id);
         $friends = $user->setAllFriends();
-//        $friends2 = $user->getFriendsWithMe();
-//        $allfriends 
-        
+         
+         
+        $user->setAllFriends(); 
         if(!$user){ 
             return $this->redirectToRoute('app_user_displayall');
         }

@@ -29,12 +29,13 @@ class PostType extends AbstractType
             [
                 'label' => 'Post',
                 'required' => false, // On enlève required parce que ça pose pb avec la surcouche
-                'attr' => array('rows' => 10, 'class' => 'wysiwyg'),
+                'attr' => array('rows' => 10, 'class' => 'wysiwyg',),
             ])
             ->add('description',
             TextareaType::class,        
             [
                 'label' => 'Description',
+                'attr' => array('maxlength' => 150,)
             ])
 //            ->add('author')
             ->add('categories',
