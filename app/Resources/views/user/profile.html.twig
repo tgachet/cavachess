@@ -11,7 +11,9 @@
                 {% else %}
                     <img src="{{ asset('img/default_avatar.png') }}" width="100%"/>
                 {% endif %}
-                <div id='modifier-profil'><a href="{{ path('app_user_editusers', {"id": user.id}) }}" class="btn btn-default btn-ok">Modifier mon profil</a></div>
+                {% if user.id == app.user.id %}
+                    <div id='modifier-profil'><a href="{{ path('app_user_editusers', {"id": user.id}) }}" class="btn btn-default btn-ok">Modifier mon profil</a></div>
+                {% endif %}
             </div>        
             <div class="col-sm-6" id="info-user">            
                 {% if app.user %}
