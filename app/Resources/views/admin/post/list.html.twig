@@ -1,23 +1,18 @@
 {% extends 'layout.html.twig' %}
-    
-{% block page_title %}
-    <h1>
-        Gestion des posts
-    </h1>
-{% endblock %}
-    
+      
 {% block content %}
+    <h1>Gestion des posts</h1>
     <hr>
-    <p><a href="{{path('app_admin_post_edit')}}" title="Ajouter post" class="btn btn-primary">Ajouter un post</a></p>
+    <p><a href="{{path('app_admin_post_edit')}}" title="Ajouter post" class="btn btn-default btn-ok">Ajouter un post</a></p>
     <section>
-        {{dump(posts)}}
-        <table class="table">
+        <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Titre</th>
                     <th>Auteur</th>
                     <th>Catégorie</th>
+                    <th width="100px"></th>
                     <th width="100px"></th>
                     <th width="100px"></th>
                 </tr>

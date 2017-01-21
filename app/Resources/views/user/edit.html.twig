@@ -1,0 +1,26 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    
+    <h1>Modification du compte {{ user.username }}</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <section>
+                {{ form_start(form) }}
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword) }}
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+                {{ form_row(form.avatar) }}
+                <div class="form-btn-group pull-right">
+                    <button type="submit" class="btn btn-default btn-ok">Enregistrer</button>
+                    <a href="{{ path('app_user_displayinfo', {'id':user.id}) }}" class="btn btn-default">Annuler</a>
+                </div>
+                {{ form_end(form) }} {# ferme la balise <form> #}
+            </section>
+        </div>
+    </div>
+{% endblock %}

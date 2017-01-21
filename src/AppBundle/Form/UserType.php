@@ -4,7 +4,6 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -20,38 +19,17 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // dump($options['roles']);
-        if (in_array('ROLE_ADMIN', $options['role'])) {
+        $new = empty($options['data']->getId());
+        
+        if (in_array('ROLE_ADMIN', $options['role']) && $options['statut'] != 'logged_user') {
             // do as you want if admin
             $builder
-                    ->add(
-                            'firstname',
-                            TextType::class,
-                            [
-                                'label' => 'Prénom',
-                            ]
-                    )
-                    ->add(
-                            'lastname',
-                            TextType::class,
-                            [
-                                'label' => 'Nom',
-                            ]
-                    )
                     ->add(
                             'username',
                             TextType::class,
                             [
                                 'label' => 'Pseudo',
-                            ]
-                    )
-                    ->add(
-                            'plainPassword', // le mot de passe en clair, qu'on ne va pas enregistrer en bdd
-                            RepeatedType::class, // 2 champs qui doivent être identiques
-                            [
-                                'type' => PasswordType::class, // ... de type password
-                                'first_options' => ['label' => 'Mot de passe'],
-                                'second_options' => ['label' => 'Confirmez le mot de passe'],
+                                'disabled' => 'disabled',
                             ]
                     )
                     ->add(
@@ -59,6 +37,7 @@ class UserType extends AbstractType
                             EmailType::class,
                             [
                                 'label' => 'Email',
+                                'disabled' => 'disabled',
                             ]
                     )
                     ->add(
@@ -73,18 +52,18 @@ class UserType extends AbstractType
                                 )    
                             )
                     )
-                    ->add(
-                            'avatar',
-                            FileType::class, // <input type="file">
-                            [
-                                'label' => 'Avatar',
-                                'required' => false, // pour rendre le champ optionnel
-                                'data_class' => null,
-                            ]
-                    )
             ;
-        } else {
-        
+        }else{
+            $passwordOptions = [
+                'type' => PasswordType::class, // ... de type password
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmez le mot de passe'],
+            ];
+            
+            if (!$new) {
+                $passwordOptions['required'] = false;
+            }
+            
             $builder
                     ->add(
                             'firstname',
@@ -110,25 +89,7 @@ class UserType extends AbstractType
                     ->add(
                             'plainPassword', // le mot de passe en clair, qu'on ne va pas enregistrer en bdd
                             RepeatedType::class, // 2 champs qui doivent être identiques
-                            [
-                                'type' => PasswordType::class, // ... de type password
-                                'first_options' => ['label' => 'Mot de passe'],
-                                'second_options' => ['label' => 'Confirmez le mot de passe'],
-                            ]
-                    )
-                    ->add(
-                            'date',
-                            DateType::class,
-                            [
-                                'label' => 'Date d\'enregistrement',
-                            ]
-                    )
-                    ->add(
-                            'lastActivity',
-                            DateType::class,
-                            [
-                                'label' => 'Dernière activité',
-                            ]
+                            $passwordOptions
                     )
                     ->add(
                             'email',
@@ -158,7 +119,8 @@ class UserType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\User',
             'validation_groups' => ['create'],
-            'role' => ['ROLE_USER']
+            'role' => ['ROLE_USER'],
+            'statut' => null,
         ));
     }
 

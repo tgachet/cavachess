@@ -1,26 +1,24 @@
 <article>
     <h3>
-        {{ post.title }}
-        <small>
-            <a href="{{ path('app_post_display', {"id": post.id}) }}">
-                <i class="glyphicon glyphicon-share"></i>
-            </a>
-        </small>
-    
+        <a href="{{ path('app_post_display', {"id": post.id}) }}">
+            {{ post.title }}
+            <small><i class="glyphicon glyphicon-share"></i></small>
+        </a>   
     </h3>
-    <div class ="well">{{ post.description }}</div>
-    <p>Dans 
+    <p class="article-infos">Dans 
         {% for category in post.categories %}
-        <span class="category-tag"> 
-            {{ category }}
-        </span>&nbsp
+            <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}">
+                <span class="category-tag">{{category }}</span>,
+            </a>
         {% endfor %} 
-        
         {% if app.request.get('_route') != 'app_user_displayinfo' %}
             par 
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
-                {{ post.author.username }}
+                <strong>{{ post.author.username }}</strong>
             </a>
         {% endif %}
     </p>
+    <div class ="well article-index">{{ post.description }}</div>
+    <hr/>
+            
 </article>

@@ -1,22 +1,33 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}<h1>Connexion</h1>{% endblock %}
+{% block page_title %}{% endblock %}
         
 {% block content %}
+    <h1>Espace Membre</h1>
+    <hr>
     {% if error %}
         <div class="alert alert-danger">
             {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
     {% endif %}
-    <form method="post">
-        <div class="form-group">
-            <label>Pseudo ou email</label>
-            <input type="text" class="form-control" name="_username" value="{{ last_username }}">
+
+        <div class="row">
+            <div class="form-connexion col-sm-6 col-sm-offset-3">
+            <h2><span class="glyphicon glyphicon-knight"></span> Connexion</h2> 
+                <form method="post">
+                    <div class="form-group">
+                        <label>Pseudo ou email</label>
+                        <input type="text" class="form-control" name="_username" value="{{ last_username }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <input type="password" class="form-control" name="_password">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-ok">Se connecter</button>
+                    <p class="register-on-login"><a href="{{ path('app_security_register') }}"> Pas encore inscrit? Inscrivez vous ! </a></p> 
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Mot de passe</label>
-            <input type="password" class="form-control" name="_password">
-        </div>
-        <button type="submit" class="btn btn-primary">Se connecter</button>
-    </form>
+                
+                
 {% endblock %}

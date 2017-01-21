@@ -1,126 +1,138 @@
 {% extends 'layout.html.twig' %}
 
-{% block page_title %}{% endblock %}
-
-{% block content %}
-    {% if app.user is null %}
-      
-        <div class="row" style="position:relative;">
-            <div class='col-sm-12 hidden-xs'>
-                <div class="coverhome">
+{% block header %}{# HEADER #}
+    <div class="row" style="position:relative;">
+        <div class='col-sm-12 hidden-xs'>{# HOME DESKTOP TABLET #}
+            <div class="bg-cover-home">
             </div>
-           </div>
-            <div class='col-sm-12 bloc-cover-home hidden-xs'>
-
-                <div class ="col-sm-9" >
-                    <div class="col-sm-5">
-                        <h1 class="cavachess">CAVACHESS</h1> 
-                    </div>
-                    <div class="headline col-sm-7">
-                        <p class="soustitre-cavachess"> Jouez aux échecs en ligne contre les meilleurs ! </p>
-                    </div>
-                </div>
-
-                <div class="blocrightfront col-sm-3"  >
-                    <div class="boutonshome col-sm-12" style="margin-top:50px;">
-                        <div style="background-color: rgb(252,251,249); ">
-                            <p class="onlineplayer"> <b> Joueur(s) en ligne : {{ cons | length + 817}} </b> </p>
-                        </div><br>
-                        <a href="{{ path('login') }}">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" >Se connecter</button>
-                        </a>
-                        <a href="{{ path('app_security_register') }}">
-                            <button type="button" class="btn btn-info btn-lg btn-block">S'inscrire</button>
-                        </a>
-                   </div>
-            </div>
-            </div>
-                        
         </div>
-    {% else %}    <h1> Jouer en Ligne  </h1>
-        <div class="row">
-            <div class="competitions col-sm-9">
-                {% for competition in competitions %}
-                        <div class="col-sm-6">
+        <div class='col-sm-12 bloc-cover-home hidden-xs'>            
+            <div class ="col-sm-8" >
+                <div class="col-sm-5">
+                    <h1 class="h1-cavachess">CAVACHESS</h1> 
+                </div>
+                <div class="col-sm-7">
+                    <p class="slogan"> <b>Jouez</b> aux échecs en ligne entre amis ! </p>
+                </div>
+            </div>     
+            {% if app.user is null %}{# USER NOT CONNECTED #}
+            <div class="bloc-connexion col-sm-4"  >                
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block">Se connecter</a>
+                <a href="{{ path('app_security_register') }}" class="btn btn-default btn-lg btn-block">S'inscrire</a>
+                
+                <a href="{{ path('login') }}" class="btn btn-default btn-lg btn-block btn-ok btn-jouer">JOUER</a>
+            </div>
+            {% else %}{# USER CONNECTED #}
+                <div class="bloc-connecte col-sm-4"  >         
+                    <div class="competition-header col-sm-12">
+                        {% for competition in competitions|slice(0, 2) %}
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="heading{{competition.id}}">
-                                    <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
-                                    <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
-                                    {#<p>Rejoindre</p>#}
-                                </div>
+                                   <a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title=""><h2 class="panel-title comp-name text-center text-uppercase panel-compet">{{competition.name}}</h2></a>
+                               </div>
                             </div>
-                        </div>
-                        {% if loop.index is divisible by(3) %}
-            </div>
-        <div class="row">
-                        {% endif %}                    
-                    {% endfor %}
-            </div>
-        </div>
+                        {% endfor %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="find-friends">
+                                   <a href="{{path('app_user_displayall')}}" title=""><h2 class="panel-title comp-name text-center text-uppercase panel-players">Trouver des joueurs</h2></a>
+                               </div>
+                            </div>
+                    </div> 
+                </div>
+            {% endif %}{# END USER CONNECTED #}     
+        </div> {# END HOME DESKTOP TABLET #}
         
-    {% endif %}
-    {% if comments != '' %}
-    <div class="row">
-        <div class="cavablog col-sm-8">
-            <h2> CAVABLOG</h2> 
-            <h3> Article le plus populaire</h2>
-            <div class="row">
-                <div class="col-sm-12">
-                    {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
-                </div>
-            </div>
-        {% endif %}
-                <h2>Derniers articles</h2>
-            <div class="row">
-                <div class="col-sm-12">
-                    {% for post in posts %}
-                        {% include 'post/preview.html.twig' with {"post" : post} %}
-                    {% endfor %}
-                </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        {% if app.user is not null %}
-                        <div class="col-sm-11 col-sm-offset-1">
-                            <div style="background-color: moccasin; padding: 1em;">
-                                <b>{{ cons | length }} joueur(s) connecté(s)</b>
-                            </div>
-                            <div style="background-color: lemonchiffon; text-align: center;">
-                            {#{{ dump(cons) }}#}
-                            {% for con in cons %}
-                                {% if app.user.id == con.id %}
-                                    <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">---- Moi ----</a>
-                                {% else %}
-                                <br/><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}">{{con.username}}</a>
-                                {% endif %}
-                            {% endfor %}
-                            </div>
-                        {% endif %}
-                        </div>
-                     </div>
-                </div>
-            </div>
-      
-            <div class="jeuhomepage col-sm-4">
-                <h2> JOUER </h2>
-                    <div class="competitions col-sm-12">
-                        {% for competition in competitions %}
-                                <div class="col-sm-9">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="heading{{competition.id}}">
-                                            <h4 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h4>
-                                            <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Rejoindre</a></strong></p>
-                                            {#<p>Rejoindre</p>#}
-                                        </div>
-                                    </div>
-                                </div>
-                                {% if loop.index is divisible by(3) %}
-                    </div>
-                    <div class="row">
-                            {% endif %}                    
-                            {% endfor %}
-                    </div>
-            </div>
+        <div class="visible-xs col-sm-12">{# HOME MOBILE #}
+            <div class="bg-cover-home-mobile"></div>
         </div>
+        <div class="bloc-cover-home col-sm-12 visible-xs">
+            <h1 class="h1-cavachess-mobile">CAVACHESS</h1> 
+        </div>{# END HOME MOBILE #}
     </div>
+{% endblock %}{# END HEADER #}
+    
+{% block content %}
+    <div class="row">{# CONTENT #}
+        <div class="col-sm-12 visible-xs">
+            <aside id="games-list-mobile">
+                <h2>JOUER</h2> 
+                <div class="competitions-index">
+                    {% for competition in competitions|slice(0,4) %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                               <a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title=""><h3 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h3></a>
+                           </div>
+                        </div>
+                    {% endfor %}
+                </div> 
+            </aside>
+        </div>
+            
+        <div class="col-sm-8">{# SECTIONS #}
+            <section id="top-post" class="hidden-xs">{# TOP POST DESKTOP TABLET #}
+                {% if comments != '' %}    
+                    <h2>ACTUALITES</h2>
+                    {% include 'post/toppreview.html.twig' with {"post" : top_article, "comments" : comments} %}
+                {% endif %}
+            </section>{# END TOP POST DESKTOP TABLET #}
+            
+            <section id="lasts-post">{# LASTS POSTS #} 
+                <h2 class="visible-xs">DERNIERES ACTUALITES</h2>                
+                {% for post in posts if post != top_article %}
+                    {% include 'post/preview.html.twig' with {"post" : post} %}
+                {% endfor %}
+            </section>{# END SECTION POSTS #}
+        </div>{# END SECTIONS #}
+        
+        <div class="col-sm-4">{# ASIDES #}
+            <aside id="partie-rapide" class="hidden-xs">{# PARTIE ALEATOIRE #}
+                <h2>PARTIE RAPIDE</h2>
+                <div id="board-index" class="center-block"></div>
+            </aside>{# END PARTIE ALEATOIRE #}
+                    
+            <aside id="users-connected">{# UTILISATEURS CONNECTES #}
+                <h2> EN LIGNE </h2>
+                <div id="list-connected">
+                    <ul>
+                        {% if cons|length == 0 %}
+                        <li>Aucun joueur connecté</li>
+                        {% else %}
+                        {% for con in cons %}
+                            <li><a href="{{ path('app_user_displayinfo', {"id": con.id}) }}"><span class="glyphicon glyphicon-user"></span> {{con.username}}</a></li>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </aside>{# END UTILISATEURS CONNECTES #}
+            
+            <aside id="games-list" class="hidden-xs">{# LISTE JEUX DESKTOP TABLET #}
+                <h2>COMPETITIONS</h2> 
+                <div class="competitions-index">
+                    {% for competition in competitions %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading{{competition.id}}">
+                               <h3 class="panel-title comp-name text-center text-uppercase">{{competition.name}}</h3>
+                               <p class="panel-title play text-center"><strong><a href="{{path('app_game_displaygame', {'competition' : competition.id})}}" title="">Jouer</a></strong></p>
+                           </div>
+                        </div>
+                    {% endfor %}
+                </div> 
+            </aside>{# END LISTE JEUX DESKTOP TABLET #}
+        </div>{# END ASIDES #}      
+        
+    </div>{# END CONTENT #}     
                 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/chessboard-0.3.0.js')}}"></script>
+    <script>
+        var cfg = {
+        pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
+        position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
+        showNotation: false,
+      };
+        var board = ChessBoard('board-index', cfg);
+    </script>
 {% endblock %}

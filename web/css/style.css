@@ -1,40 +1,42 @@
 /* COLORS
 primary : #FBFAF8 (white)
-secondary : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
-Third : #4F4A47 (grey) 
-*/
-/* FONT
-font-family: 'Noto Sans', sans-serif;
-
+secondary #4F4A47 (grey) 
+complementaire : #141311 (black) / light 10% = #2E2D2B, 20% = #474644
+complementaire : #34495E (gris bleu)
 */
 
 /********************** GLOBAL / RESETS / DEBUG / INFO **********************/
-/* RESET / GLOBAL */
-body {font-family: 'Noto Sans', sans-serif; font-weight:400;}
+body {font-family: 'Noto Sans', sans-serif; font-weight:400; background-color: #eee;}
+main {background-color:white; min-height:100vh; padding:30px 20px;}
 
 img {max-width:100%; height:auto;}
 
-a, a:hover {text-decoration: none; color:inherit;}
+a, a:focus, a:hover {text-decoration: none; color:inherit;}
+a:hover {color:#34495E;}
 
-h1, h2, h3, h4, h5, h6, p {margin:0;}
+h1, h2, h3, h4, h5, h6, p, .navbar {margin:0;}
 
 hr {margin-top:10px; margin-bottom: 8px;}
 
-h1 {font-size: 2.2em; font-weight:700}
-h2 {font-size: 1.8em; font-weight:700}
-h3 {font-size: 1.15em; font-weight:700;}
-h3 {font-size: 1.10em; font-weight:700;}
+h1 {font-size: 2.2em; font-weight:700;}
+h2 {font-size: 1.8em; font-weight:700; margin:10px 0; color:#34495E;}
+h3 {font-size: 1.15em; font-weight:700; margin-bottom: 10px;}
+h4 {font-size: 1.10em; font-weight:400;}
 
 section, aside{margin-top:20px;}
 
-.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a {border-radius: 0px!important;}
+ul li {list-style-type: none;}
+ul {padding:0; margin:0;}
 
-/********************** END **********************/
+.alert {margin-bottom:0px;}
 
+.btn, .btn-default, .btn-ok, .btn-play, .form-control, .input-group-addon, .pagination > li > a, .dropdown-menu, .navbar-default, .panel, .ui-accordion-header, .well, .list-group-item, .badge, .alert {border-radius: 0px!important;}
+
+.panel-heading {border-bottom:none;}
 
 /********************** MAIN LAYOUT **********************/
 /* NAV */
-.navbar-default {background-color:#4F4A47; border:none; border-radius: 0px;}
+.navbar-default {background-color:#4F4A47; border:none;}
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {color:white;}
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {background-color:#141311;}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .active.navbar-brand {background-color:#141311;}
@@ -42,76 +44,230 @@ section, aside{margin-top:20px;}
 
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {background-color: #474644; color:white;}
 
-
-
-/********************** END **********************/
-.category-tag {
-    background-color: darkslategrey;
-    color: white;
-    font-style: italic;
-    padding: 5px;
-}
-/* BODY */
-body {
-    background-color: rgb(252,251,249);
-}
-/* NAVBAR */
-
-.navbar {
-    margin-bottom: 0;
+.navbar-avatar {
+    max-height: 50px;
+    min-height: 40px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    filter: grayscale(100%);
 }
 
-/*BLOC WELCOME CAVACHESS */
-.coverhome {
-    background-image: url("../../web/img/coverfonthome6.jpg");
-    min-height:540px;
+article + article {margin-top:20px;}
+/********************** VIEWS > DEFAULT > INDEX  **********************/
+.bg-cover-home {
+    background-image: url("../../web/img/coverfonthome7.jpg");
+    background-repeat: no-repeat;
+    min-height:400px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);
 }
+.bg-cover-home-mobile {
+    background-image: url("../../web/img/bg-mobile-index.jpg");
+    background-repeat: no-repeat;
+    height:70px;
+    max-width:100%;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.18);    
+}
+.bloc-connexion {margin-top: 80px; padding-right: 20px; }
+.btn-jouer {margin-top:40px!important;}
+.bloc-cover-home {position:absolute;top:0;left:0;}
 
-.bloc-cover-home {
-    position:absolute;
-    top:0;
-    left:0;
-}
-.cavachess {
-    padding-top: 20px;
-    margin-left:35px;
-    font-size:3.5em;
-}
+.h1-cavachess {padding-top: 20px; margin-left:25px;font-size:3.5em;}
+.h1-cavachess-mobile {padding:14px 6px 6px 20px; font-size:2.4em; color:#f6f6f6;}
 
-.headline {
-    margin-top: 20px;
-    padding-left:20px;
-}
-.soustitre-cavachess {
+.slogan {
     font-size: 1.4em;
-    font-weight:400;
-    margin-left:10px;
-    padding-top:15px;
+    margin-top:20px;
+    padding-left:25px;
+    padding-top:20px;
+    padding-right:10px;
+    text-shadow:1px 1px 1px white;
+}
+.competition-header {margin-top:50px; }
+.competition-header  h2.panel-compet {background-image:url('../../web/img/bg-competition-highlight.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 5px black; filter:grayscale(100%)}
+.competition-header  h2.panel-players {background-image:url('../../web/img/bg-find-player.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 5px black;}
+.competition-header  .panel-heading { padding:0;}
+.competition-header  h2.panel-title { padding:22px 15px; font-size: 1.5em; }
+.competition-header  h2.panel-title:hover { opacity:0.8; }
+.competition-header .panel{margin-bottom:40px;}
+
+#board-index {width:200px;}
+
+#lasts-post {margin-top:40px;}
+#lasts-post h2, #top-post h2 {font-size:1.6em;}
+
+.competitions-index h3.panel-title {background-image:url('../../web/img/competion-bg.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 1px black}
+.competitions-index .panel-heading { padding:0;}
+.competitions-index h3.panel-title { padding:12px 15px; }
+.competitions-index p.panel-title { padding:10px 15px; }
+
+#list-connected ul {padding: 8px;}
+#list-connected {box-shadow:0px 0px 1px #4F4A47; background-color: #f5f5f5;}
+
+#games-list-mobile {margin-top:0px;}
+
+/********************** VIEWS > SECURITY > LOGIN **********************/ 
+.register-on-login { 
+    font-size:0.9em; 
+    margin-top:14px; 
+    font-style:italic; 
+} 
+.register-on-login a {color:#34495E; } 
+.register-on-login a:hover {font-weight:700;} 
+.form-connexion {
+    margin-top:50px;
+    padding: 30px 35px;
+    background-color: #eee; 
+    border-radius:6px;
+}
+
+/********************** VIEWS > GAME > DISPLAY  **********************/
+section#jeu .toggle-display { display:none;} 
+#jeu #board {width:400px; float:left;}
+#jeu .chrono {float:left; width: calc(100% - 405px); height:394px; border:1px solid #4F4A47;  position:relative;}
+#chat-output {height:295px; margin-bottom:4px; border:1px solid #4F4A47; padding:5px; overflow-y: scroll;}
+#chat-input #chat-textarea {height:60px; width:100%; resize:none; border:1px solid #4F4A47;}
+#chat-submit {border:1px solid #4F4A47; padding:4px 12px;}
+#jeu #board .board-b72b1 {border:1px solid #4F4A47;}
+#jeu .player2-infos {background-color:#f6f6f6; color:black; padding: 4px 5px;}
+#jeu .player1-infos {background-color:#4F4A47; color:white; padding: 4px 5px; position: absolute; width: 100%; bottom: 28px; left: 0;}
+#jeu #clockdivp1 {padding: 4px 5px; position: absolute; width: 100%; bottom: 0px; left: 0;}
+#jeu #clockdivp2 {padding: 4px 5px;}
+#game-status {padding: 4px 5px; margin-top:3px; font-weight:700;}
+#game-history {padding: 4px 5px; margin-top:3px;}
+#adversaire, #info {margin-top:10px;}
+@-moz-document url-prefix(){#chat-submit {margin-top:5px;}}
+
+/********************** VIEWS > POST > DISPLAY **********************/
+
+.list-group-item.active {background-color: #34495E; border-color:#273C51;}
+.list-group-item.active:focus, .list-group-item.active:hover {background-color: #4E6378; border-color:#34495E;}
+.bloc-article-display {margin-top: -10px;}
+.picture-display {padding-top: 5px; padding-bottom: 5px;}
+.article-description-display {font-size:1.4em;}
+.article-content-display {margin-bottom: 10px;}
+
+
+/********************** VIEWS > POST > PREVIEW  **********************/
+.category-tag {
+    font-weight:700;
+    color: #34495E;
+    font-style: italic;
+}
+.category-tag:hover {color: #4E6378;}
+.article-infos {margin-bottom: 10px;}
+/********************** VIEWS > USER > LIST  **********************/
+.info-online {font-weight:700; color:#34495E;}
+
+/********************** VIEWS > USER > PROFILE  **********************/
+#info-user ul{margin-top: 8px;}
+#info-user h4{font-weight:700;}
+#modifier-profil {margin-top:10px; margin-bottom:20px;}
+
+
+/********************** VIEWS > COMPETITION > DISPLAY  **********************/
+#competitions-list h3.panel-title {background-image:url('../../web/img/competion-bg.jpg'); background-repeat: no-repeat; color:white; text-shadow : 1px 1px 1px black}
+#competitions-list .panel-heading { padding:0;}
+#competitions-list h3.panel-title { padding:12px 15px; }
+#competitions-list p.panel-title { padding:10px 15px; }
+#competitions-list .ranking {background-color:white;}
+.ui-accordion .ui-accordion-header:hover, .ui-accordion .ui-accordion-header:focus {background-color:#34495E; color:white;}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {background-color:#34495E!important; color:white!important; border:1px solid #34495E!important;}
+
+/********************** VIEWS > RANKING > DISPLAY  **********************/
+#ranking-statistics h2 {margin-bottom:20px; background-image:url('../../web/img/bg-classement.jpg'); background-repeat: no-repeat; padding:6px 5px; color:white; text-shadow : 1px 1px 1px black}
+#ranking-list h2 {margin-bottom:20px; background-image:url('../../web/img/bg-classement.jpg'); background-repeat: no-repeat; padding:6px 5px; color:white; text-shadow : 1px 1px 1px black}
+#ranking-statistics .div-stats1, #ranking-statistics .div-stats2 {box-shadow:0px 1px 1px #4F4A47; padding:7px 5px 7px 15px; margin-bottom: 10px;}
+#ranking-statistics li {padding-bottom:2px;}
+#ranking-list .panel-body {box-shadow:0px 0px 1px #4F4A47; margin:15px;}
+
+/********************** VIEWS > ADMIN > USER > LIST  **********************/
+.admin-img-user-list img {height:30px; max-width:100%;}
+
+/********************** MEDIA QUERY **********************/
+@media screen and (max-width:767px) {
+    /* Menu color smartphone (xs)*/
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover, .navbar-default .navbar-nav .open .dropdown-menu>li>a {color:white;}
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {background-color:#474644}    
     
-}
-.onlineplayer{
-
-    font-size: 15pt;
-}
-.boutonshome {
-    padding-top: 100px;
-    padding-left: 0;
-    padding-right:0;
-    margin-bottom: 10px;
+    /* Page game */
+    #jeu #board {width:200px; float:none;}
+    #jeu .chrono {height:160px; width:194px; float:none; margin-top:10px; }
 }
 
-.btn, .btn-default, .btn-ok, .form-control, .input-group-addon, .pagination > li > a
+@media screen and (min-width:992px) {
+    .game-padding-md {padding-right:0px;} /* Affichage du jeu page game en md */
+    .chat-padding-md {padding-left:0px;} /* Affichage du chat page game en md */
+    #jeu .chrono {padding-left:0; margin-left:-5px; width: calc(100% - 396px);} /* Chrono page game*/
+}
+
+
+
+/* REDEFINITION DES BOUTONS BOOTSTRAP */
+.btn-ok {
+  color: #fff;
+  background-color: #34495E; /* Gris bleu */
+  border-color: #273C51; /* Darken 5% */
+}
+
+.btn-ok:focus, .btn-ok:hover, .btn-ok:active, .open > .dropdown-toggle.btn-ok {
+  color: #fff;
+  background-color: #1B3045; /* Darken 10% */
+  border-color: #0E2338; /* Darken 15% */
+}
+
+.btn-ok:active:hover,
+.open > .dropdown-toggle.btn-ok:hover,
+.btn-ok:active:focus,
+.open > .dropdown-toggle.btn-ok:focus {
+  color: #fff;
+  background-color: #273C51; /* Darken 5% */
+  border-color: #1B3045; /* Darken 10% */
+}
+.btn-ok:active, .open > .dropdown-toggle.btn-ok {background-image: none;}
+
+.btn-ok[disabled] {
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */	
+}
+
+.btn-ok[disabled]:hover,
+.btn-ok[disabled]:focus
 {
-    margin-bottom:10px;
+  background-color: #B9596B; /* Lighten 5% */
+  border-color: #AC4C5E; /* rouge */
 }
 
-/* BLOC CAVABLOG HOMEPAGE */
-.cavablog {
-    margin-top:20px;
+
+.btn-play {
+  color: #fff;
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */
 }
-.jeuhomepage {
-    margin-top:20px;
+
+.btn-play:focus, .btn-play:hover, .btn-play:active, .open > .dropdown-toggle.btn-play {
+  color: #fff;
+  background-color: #933345; /* Darken 10% */
+  border-color: #862638; /* Darken 15% */
 }
-.competitions {
-    margin-top:10px; 
+
+.btn-play:active:hover,
+.open > .dropdown-toggle.btn-play:hover,
+.btn-play:active:focus,
+.open > .dropdown-toggle.btn-play:focus {
+  color: #fff;
+  background-color: #273C51; /* Darken 5% */
+  border-color: #933345; /* Darken 10% */
+}
+.btn-play:active, .open > .dropdown-toggle.btn-play {background-image: none;}
+
+.btn-play[disabled] {
+  background-color: #AC4C5E; /* rouge */
+  border-color: #9F3F51; /* Darken 5% */	
+}
+
+.btn-play[disabled]:hover,
+.btn-play[disabled]:focus
+{
+  background-color: #B9596B; /* Lighten 5% */
+  border-color: #AC4C5E; /* rouge */
 }

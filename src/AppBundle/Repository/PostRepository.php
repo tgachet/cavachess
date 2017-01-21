@@ -23,15 +23,17 @@ class PostRepository extends EntityRepository
                        
         return $qb->getQuery()->getResult();
     }
-    
-//    public function findByAuthor($id)
-//    {
-//        $qb = $this->createQueryBuilder('p');
-//        $qb
-//           ->where('IDENTITY(p.author) = :id')
-////           ->setMaxResults($limit)
-//           ->orderBy('p.id', 'DESC')
-//           ->setParameter('id', $id)
-//        ;
-//    }
+
+    public function findByCategory($category)
+    {
+        $query = $this->createQueryBuilder('p')
+                      ->leftJoin('p.categories', 'c')
+                      ->where('c.id = :c')
+                      ->setParameter('c', $category)
+                      ->getQuery()
+                      ->getResult();
+          
+        return $query;
+    }
+
 }

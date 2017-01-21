@@ -1,43 +1,61 @@
 <article>
-    <h3>
-        {{ post.title }}
-        <small>
-            <a href="{{ path('app_post_display', {"id": post.id}) }}">
-                <i class="glyphicon glyphicon-share"></i>
-            </a>
-        </small>
-    
-    </h3>
-    <div class ="well">{{ post.description }}</div>
-    <p>Dans 
+    <h2>
+        <a href="{{ path('app_post_display', {"id": post.id}) }}">
+            {{ post.title }}
+            <small><i class="glyphicon glyphicon-share"></i></small>
+        </a>
+    </h2>
+    <p class="article-infos">Dans 
         {% for category in post.categories %}
-        <span class="category-tag"> 
-            {{ category }}
-        </span>&nbsp
+            <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}">
+                <span class="category-tag"> {{ category }}</span>,
+            </a>
         {% endfor %} 
         
         {% if app.request.get('_route') != 'app_user_displayinfo' %}
             par 
             <a href="{{ path('app_user_displayinfo', {"id": post.author.id}) }}">
-                {{ post.author.username }}
+                <strong>{{ post.author.username }}</strong>
             </a>
         {% endif %}
     </p>
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-4">
+                {% if post.picture %}
+                    <img src="{{ asset('upload/picture/' ~ post.picture) }}" style="max-height:120px">
+                {% else %} 
+                    <img src="{{ asset('upload/picture/default_picture.jpg') }}" style="max-height:120px;">
+                {% endif %}
+            </div>
+            <div class="col-sm-8">
+                {{ post.description }}
+            </div>
+        </div>
+    </div>
+    <h4 class="article-infos">Commentaires</h4>
     {% for comment in comments %}
         <div class="well well-sm">
-            <h4>
-                {% if comment.user.avatar %}
-                    <img src="{{ asset('upload/' ~ comment.user.avatar) }}" height="30px">
-                {% endif %}
-                {{ comment.user.username }}
-            </h4>
-            <h5>
-                {{ comment.title }}
-                <small>
-                    {{ comment.date | date('d-m-Y H:i:s')}}
-                </small>
-            </h5>
-            <p>{{ comment.content | nl2br }}</p>     
+            <div class="row">
+                <div class="col-sm-1">
+                    {% if comment.user.avatar %}
+                        <img src="{{ asset('upload/avatar/' ~ comment.user.avatar) }}" style="max-height:60px;"/>
+                    {% else %}
+                        <img src="{{ asset('img/default_avatar.png') }}" style="max-height:60px;"/>
+                    {% endif %}
+                </div>
+                <div class="col-sm-11">
+                    <h4>
+                        <a href="{{ path('app_user_displayinfo', {"id": comment.user.id}) }}">
+                            <strong>{{ comment.user.username }}</strong>
+                        <a/>
+                        <small>
+                            {{ comment.date | date('d-m-Y H:i:s')}}
+                        </small>
+                    </h4>
+                    {{ comment.content | nl2br }}
+                </div>
+            </div>
         </div>
         
     {% endfor %}

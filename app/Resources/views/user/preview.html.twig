@@ -1,0 +1,20 @@
+<div>
+        <div class="row well well-sm">
+            <div class="col-sm-4">
+                <h4>
+                {% if user.avatar %}
+                    <img src="{{ asset('upload/avatar/' ~ user.avatar) }}" style="max-height:30px;"/>
+                {% else %}
+                    <img src="{{ asset('img/default_avatar.png') }}" style="max-height:30px;"/>
+                {% endif %}
+                </h4>
+            </div>
+            <div class="col-sm-8">
+                <h4>
+                    <a href="{{ path('app_user_displayinfo', {"id": user.id}) }}">
+                        <strong>{{ user.username }}</strong>
+                    <a/>
+                </h4>
+            </div>
+        </div>
+</div>

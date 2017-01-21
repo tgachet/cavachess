@@ -69,6 +69,13 @@ class Post
      */
     private $categories;
     
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image()
+     */
+    private $picture;
+    
     /***** CONSTRUCT *****/
     public function __construct() {
         $this->categories = new ArrayCollection();
@@ -100,6 +107,11 @@ class Post
     public function getAuthor() {
         return $this->author;
     }
+    
+    public function getPicture() {
+        return $this->picture;
+    }
+
 
     
 //
@@ -128,7 +140,12 @@ class Post
         return $this;
     }
     
-    /**
+    public function setPicture($picture) {
+        $this->picture = $picture;
+        return $this;
+    }
+
+        /**
      * Add Category
      *
      * @param Category $category

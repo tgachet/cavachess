@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+    
+{% block content %}
+    <h1>
+        Liste des articles
+    </h1>
+    <hr>
+        <div class="row">           
+                <div class="col-sm-2 ">
+                    <aside id="categories-list">
+                        <div class="list-group">
+                            <a href="{{ path('app_post_displayall') }}" class="list-group-item active">Toutes les catégories</a>
+                            {% if category != '' %}
+                                <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}" class="list-group-item"> 
+                                    <span class="badge">{{ category.posts|length }}</span>
+                                    {{ category.name }}
+                                </a>
+                            {% else %}        
+                                {% for category in categories %}
+                                    <a href="{{ path('app_post_displaybycategory', {"id": category.id}) }}" class="list-group-item"> 
+                                        <span class="badge">{{ category.posts|length }}</span>
+                                        {{ category.name }}
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </aside>    
+                </div>         
+            <div class="list-post col-sm-10">
+                <section id="posts-list">
+                {% for post in posts %}
+                    {% include 'post/preview.html.twig' with {"post" : post} %}
+                {% else %}
+                    <p> Aucun post pour le moment !</p>
+                {% endfor %}
+                </section>
+            </div>
+        </div>
+
+{% endblock %}
